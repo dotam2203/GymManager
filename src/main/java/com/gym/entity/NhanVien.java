@@ -30,7 +30,7 @@ public class NhanVien {
 	@Column(name = "Email")
 	private String email;
 	
-	@Column(name = "SĐT")
+	@Column(name = "SDT")
 	private String sdt;
 	
 	@Column(name = "GioiTinh")
