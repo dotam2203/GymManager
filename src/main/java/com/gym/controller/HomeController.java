@@ -4,17 +4,24 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gym.entity.LoaiThietBi;
 import com.gym.entity.NhanVien;
 import com.gym.entity.TaiKhoan;
+import com.gym.entity.TinTuc;
 import com.gym.service.NhanVienService;
 import com.gym.service.TaiKhoanService;
+import com.gym.service.TinTucService;
+
 
 @Controller
 public class HomeController {
@@ -22,7 +29,8 @@ public class HomeController {
 	private NhanVienService nhanVienService;
 	@Autowired
 	private TaiKhoanService taiKhoanService;
-	
+	@Autowired
+	private TinTucService tinTucService;
 	
 	@RequestMapping("home")
 	public String Index() {
@@ -39,10 +47,6 @@ public class HomeController {
 	@RequestMapping("about")
 	public String About() {
 		return "introduce/about";
-	}
-	@RequestMapping("blog")
-	public String Blog() {
-		return "introduce/blog";
 	}
 	@RequestMapping(value="login",method=RequestMethod.GET)
 	public String ShowLogin(HttpSession session) {
@@ -84,4 +88,17 @@ public class HomeController {
 		return "introduce/login";
 		
 	}
+	
+	
+	
+	
+	@RequestMapping(value="blog",method = RequestMethod.GET)
+	public String blog(ModelMap model) {
+		
+		List<TinTuc> listTinTuc = tinTucService.listAll();
+		model.addAttribute("listTinTuc", listTinTuc);
+		System.out.println(listTinTuc);
+		return "introduce/blog";
+	}
+	
 }

@@ -23,12 +23,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,12 +43,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.gym.entity.GoiTap;
 import com.gym.entity.HoaDon;
 import com.gym.entity.KhachHang;
+import com.gym.entity.LoaiThietBi;
 import com.gym.entity.LopDV;
 import com.gym.entity.NhanVien;
 import com.gym.entity.PhanQuyen;
 import com.gym.entity.TaiKhoan;
 import com.gym.entity.The;
+import com.gym.entity.ThietBi;
+import com.gym.entity.TinTuc;
 import com.gym.service.KhachHangService;
+import com.gym.service.LoaiThietBiService;
 import com.gym.service.GoiTapService;
 import com.gym.service.HoaDonService;
 import com.gym.service.LopDVService;
@@ -51,6 +60,11 @@ import com.gym.service.NhanVienService;
 import com.gym.service.PhanQuyenService;
 import com.gym.service.TaiKhoanService;
 import com.gym.service.TheService;
+import com.gym.service.ThietBiService;
+import com.gym.service.TinTucService;
+
+
+
 
 @Controller
 @RequestMapping("manager")
@@ -75,7 +89,12 @@ public class MainController {
 	ServletContext servletContext;
 	@Autowired
 	JavaMailSender javaMailSender;
-	
+	@Autowired
+	ThietBiService thietBiService;
+	@Autowired
+	LoaiThietBiService loaiTBService;
+	@Autowired
+	TinTucService tinTucService;
 	/*
 	 * ==================================================== CẤP QUYỀN: Nhân Viên chỉ có quyền Ở mục ĐĂNG KÝ KHÁCH HÀNG, HÓA ĐƠN, KHÁCH HÀNG, Quản Lý thì full quyền
 	 * ===================================================
@@ -698,7 +717,7 @@ public class MainController {
 			            	maxID = Integer.parseInt(khachHangSort.get(i).getMaKH().split("KH")[1]); 
 			            }
 			        }
-				 maKHDV = "KH "+(maxID+1);
+				 maKHDV = "KH"+(maxID+1);
 			}catch(Exception e) {
 				
 				maKHDV = "KH1";
@@ -2177,5 +2196,123 @@ public class MainController {
 	 * =============================================================================
 	 * ============================
 	 */
+		//Loại thiết bị
+//		@ModelAttribute("loai") 
+//		  public List<LoaiThietBi> nhanLoai()
+//		  { 	  
+//			  List<LoaiThietBi> listCategory = loaiTBService.listAll();
+//			return listCategory; 
+//		  } 
 
+		//================= Hiển thị danh sách Thiết Bị file sidebar.jsp trả về file thietbi.jsp
+		@RequestMapping("thietBi")
+		public ModelAndView DanhSachTB( HttpServletResponse response , HttpSession session,ModelMap model) throws IOException {
+			ModelAndView mw = new ModelAndView("admin/thietbi");
+			List<ThietBi> listTB = thietBiService.listAll();
+			List<LoaiThietBi> listCategory = loaiTBService.listAll();
+			mw.addObject("listTB", listTB);
+			mw.addObject("loai", listCategory);
+
+			return mw;
+		}
+		
+		//================== Thêm Thiết Bị khi nhấn onclick them file thietbi.jsp
+		@RequestMapping(value = "themthietbi", method = RequestMethod.POST)
+		public ModelAndView ThemTB(HttpServletResponse response, HttpSession session,@RequestParam("tenTB")String tenTB,@RequestParam("moTa")String moTa,@RequestParam("soLuong")int soLuong,@RequestParam("thuongHieu")String thuongHieu,@RequestParam("tinhTrang")String tinhTrang,@RequestParam("ngayNhap")Date ngayNhap,@RequestParam("loaiThietBi")LoaiThietBi loaiThietBi, @RequestParam("hinhAnh")MultipartFile image) throws IOException {
+			
+			ModelAndView mw = new ModelAndView("admin/thietbi");
+		
+			String tenHinhAnh = image.getOriginalFilename();			
+			String path = servletContext.getRealPath("resources/img/"+image.getOriginalFilename());		
+					ThietBi tb = new ThietBi();
+					List<ThietBi> thietBiSort = thietBiService.selectSortMaTB(); 
+					//============== Tự động lấy mã Thiết bị ============= 
+					String maTB ="";
+					int maxID =0;
+					try {
+						 maxID = Integer.parseInt(thietBiSort.get(0).getMaTB().split("TB")[1]);
+						 for ( int i = 0; i < thietBiSort.size(); i++) {
+					            if (Integer.parseInt(thietBiSort.get(i).getMaTB().split("TB")[1]) > maxID) {  
+					            	maxID = Integer.parseInt(thietBiSort.get(i).getMaTB().split("TB")[1]); 
+					            }
+					        }
+						 maTB = "TB"+(maxID+1);
+					}catch(Exception e) {
+						
+						maTB = "TB1";
+					}    
+//					tb.setMaTB(maTB);
+//					tb.setTenTB(tenTB);
+//					        					tb.setLoaiThietBi(loaiThietBi);
+//					        					image.transferTo(new File(path));	
+//					        					tb.setHinhAnh(tenHinhAnh);
+//					        					tb.setMoTa(moTa);
+//					tb.setNgayNhap(ngayNhap);
+//					tb.setSoLuong(soLuong);
+//					
+					tb.setMaTB("TB3");
+					tb.setTenTB(tenTB);
+					        					tb.setLoaiThietBi(null);
+					        					//image.transferTo("phonggym.jpg");	
+					        					tb.setHinhAnh("phonggym.jpg");
+					        					tb.setMoTa("Đây là mô tả nè");
+					tb.setNgayNhap(new Date());
+					tb.setSoLuong(1);
+					thietBiService.save(tb);
+					List<ThietBi> listTB = thietBiService.listAll();					
+
+					mw.addObject("thongbao", "Thêm thiết bị thành công");//Thêm Nhân Viên thành công
+				
+					
+			
+			mw.addObject("listTB", listTB);
+			
+			return mw;
+		}
+		
+		
+		@RequestMapping(value = "loaiThietBi", method = RequestMethod.GET)
+		public String insert(ModelMap model) {
+			  List<LoaiThietBi> listCategory = loaiTBService.listAll();
+			  model.addAttribute("loai",listCategory);
+			return "admin/loaithietbi";		
+		}
+		@RequestMapping(value = "themloaithietbi",method = RequestMethod.POST)
+		public ModelAndView insert(@RequestParam("tenLoai")String tenLoai) {
+			ModelAndView mw = new ModelAndView("admin/loaithietbi");
+
+			LoaiThietBi loaiThietBi=new LoaiThietBi();
+			loaiThietBi.setTenLoai(tenLoai);
+			loaiTBService.save(loaiThietBi);
+			List<LoaiThietBi> listCategory = loaiTBService.listAll();
+			mw.addObject("loai", listCategory);
+			return mw;	
+			}
+		
+		@RequestMapping(value = "tinTuc", method = RequestMethod.GET)
+		public String insertTT(ModelMap model) {
+			  List<TinTuc> listTinTuc = tinTucService.listAll();
+			  model.addAttribute("listTinTuc",listTinTuc);
+			return "admin/tintuc";		
+		}
+		@RequestMapping(value = "themtintuc",method = RequestMethod.POST)
+		public ModelAndView insertTT(@RequestParam("tieuDe")String tieuDe,@RequestParam("noiDung")String noiDung,@RequestParam("hinhAnh")MultipartFile image) {
+			ModelAndView mw = new ModelAndView("admin/tintuc");
+			String tenHinhAnh = image.getOriginalFilename();			
+			String path = servletContext.getRealPath("resources/img/"+image.getOriginalFilename());		
+			
+			
+			
+			TinTuc tinTuc=new TinTuc();
+			tinTuc.setTieuDe(tieuDe);
+			tinTuc.setNoiDung(noiDung);
+			tinTuc.setHinhAnh(path);
+			tinTuc.setNgayTao(new Date());
+			tinTucService.save(tinTuc);
+			List<TinTuc> listTinTuc = tinTucService.listAll();
+			mw.addObject("listTinTuc", listTinTuc);
+			return mw;	
+			}
 }
+
+
