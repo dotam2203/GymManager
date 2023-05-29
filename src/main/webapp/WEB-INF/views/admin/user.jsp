@@ -212,8 +212,7 @@
 				</div>
 				<!--               ==================nội dung======================= -->
 				<div id="profile" class="card-body tabcontent">
-					<form action="updateuser" method="post" enctype='multipart/form-data'>
-						<c:forEach var="khachhang" items="${khachhangs}">
+					<form action="updateuser" method="post" enctype='multipart/form-data' itemid="${khachhang}">
 							<div class="row">
 								<div class="col-md-5 pr-md-1">
 									<div class="form-group">
@@ -295,7 +294,6 @@
 									</div>
 								</div>
 							</div>
-						</c:forEach>
 						<div class="card-footer">
 						<button type="submit" class="btn btn-fill btn-primary">Save</button>
 					</div>
