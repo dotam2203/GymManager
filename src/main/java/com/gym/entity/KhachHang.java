@@ -47,7 +47,7 @@ public class KhachHang {
 	@Column(name = "Anh")
 	private String anh;
 	
-	@OneToMany(mappedBy = "khachHang",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "khachHang", fetch = FetchType.EAGER)
 	private Collection<The> the;
 
 	public String getMaKH() {

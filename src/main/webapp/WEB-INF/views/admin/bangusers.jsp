@@ -73,7 +73,7 @@ $(document).ready(function(){
                         
                         <th class="text-center">Dịch Vụ</th>
                         <th class="text-center">Chỉnh Sửa</th>
-                        <th class="text-center">Xóa</th>
+                        <th class="text-center">Điểm Danh</th>
                       </tr>
                     </thead>
                     <tbody id="myTable" >
@@ -129,7 +129,10 @@ $(document).ready(function(){
                         <td class="text-center"><a href="dichvu?id=${info.maKH}" class="tim-icons icon-badge"></a></td>
                         <td class="text-center text-success"><a  href="user?id=${info.maKH}" class="tim-icons icon-pencil"></a></td>
                         
-                         <td class="text-center text-danger"><a href="#myModal${info.maKH}" data-toggle="modal"  id="xoa1_${info.maKH}" style="color:red;cursor: pointer;" class="tim-icons icon-simple-remove"></a></td>
+                         <td class="text-center text-danger">
+                         <a href="#myModal${info.maKH}" data-toggle="modal"><div class="card-footer">
+						<button type="submit" class="btn btn-fill btn-primary" id="checkin_${info.maKH}">Check In</button>
+					    </div></a></td>
                          
 							<!-- Modal HTML -->
 							<div id="myModal${info.maKH}" class="modal fade">
@@ -137,15 +140,15 @@ $(document).ready(function(){
 									<div class="modal-content">
 										
 													<br>		
-											<center><h3 style="color: black">Cảnh Báo!!!</h3></center>	
+											<center><h3 style="color: black">Thực hiện Check In</h3></center>	
 							                
 										
 										<div class="modal-body">
-											<center><p> Bạn chắc chắn muốn xóa Khách Hàng <b style="font-weight: bold;">${info.tenKH}</b> ?</p></center>
+											<center><p> Khách hàng <b style="font-weight: bold;">${info.tenKH}</b> xác nhận muốn Check In?</p></center>
 										</div>
 										<div class="modal-footer">
-											<button id="thoat${info.maKH}" style="margin-right: 100px" type="button" class="btn btn-info" data-dismiss="modal">Thoát</button>
-											<button onclick='ajax_xoa_KH("${info.maKH}")' style="margin-left: 100px" type="button" class="btn btn-danger">Xóa</button>
+											<button id="thoat${info.maKH}" style="margin-right: 100px" type="button" class="btn btn-info" data-dismiss="modal">Hủy</button>
+											<button onclick='ajax_checkin_KH("${info.maKH}")' style="margin-left: 100px" type="button" class="btn btn-danger">Đồng ý</button>
 										</div>
 									</div>
 								</div>
@@ -159,7 +162,7 @@ $(document).ready(function(){
                     </c:forEach>
                     
                     <script>
-						function ajax_xoa_KH(maKH){
+						function ajax_checkin_KH(maKH){
 							
 							$.ajax({
 			                    url : "xoakhachhang",
@@ -172,12 +175,12 @@ $(document).ready(function(){
 			                    success : function (result){
 				                    
 			                        if(result=="1"){
-			                        	demo.showNotification('top','right','Xóa thành công!','2');
-			                        	document.getElementById("tr_"+maKH).remove();
-			                        	document.getElementById("thoat"+maKH).click()
+			                        	demo.showNotification('top','right','Checkin thành công!','2');
+			                        	//document.getElementById("tr_"+maKH).remove();
+			                        	//document.getElementById("thoat"+maKH).click()
 			                        	
 			                        	
-				                     }else {demo.showNotification('top','right','Xóa thất bại!','3');}
+				                     }else {demo.showNotification('top','right','Checkin thất bại!','3');}
 			                    	
 			                    }
 			                });

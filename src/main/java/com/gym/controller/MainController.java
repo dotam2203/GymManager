@@ -53,6 +53,7 @@ import com.gym.entity.ThietBi;
 import com.gym.entity.TinTuc;
 import com.gym.service.KhachHangService;
 import com.gym.service.LoaiThietBiService;
+import com.gym.service.DiemDanhService;
 import com.gym.service.GoiTapService;
 import com.gym.service.HoaDonService;
 import com.gym.service.LopDVService;
@@ -95,6 +96,8 @@ public class MainController {
 	LoaiThietBiService loaiTBService;
 	@Autowired
 	TinTucService tinTucService;
+	@Autowired 
+	DiemDanhService diemDanhService;
 	/*
 	 * ==================================================== CẤP QUYỀN: Nhân Viên chỉ có quyền Ở mục ĐĂNG KÝ KHÁCH HÀNG, HÓA ĐƠN, KHÁCH HÀNG, Quản Lý thì full quyền
 	 * ===================================================
