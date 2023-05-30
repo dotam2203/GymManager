@@ -20,13 +20,12 @@ public class Menu1 implements HandlerInterceptor {
 			  HttpServletResponse response, 
 			  Object handler) throws Exception {
 				List<String> menu1s=new ArrayList<String>();
-				//trả về list chức năng trang admin trong file sidebar.jsp
+				//tráº£ vá»� list chá»©c nÄƒng trang admin trong file sidebar.jsp
 				menu1s.add("home");
 				menu1s.add("statistics");
 				menu1s.add("information");
 				request.setAttribute("menu1s", menu1s);
-				return true;
-				
+				return true;				
 			}
 			public void postHandle(
 			  HttpServletRequest request, 
