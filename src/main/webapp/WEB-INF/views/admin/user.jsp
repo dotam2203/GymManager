@@ -212,8 +212,7 @@
 				</div>
 				<!--               ==================nội dung======================= -->
 				<div id="profile" class="card-body tabcontent">
-					<form action="updateuser" method="post" enctype='multipart/form-data'>
-						<c:forEach var="khachhang" items="${khachhangs}">
+					<form action="updateuser" method="post" enctype='multipart/form-data' itemid="${khachhang}">
 							<div class="row">
 								<div class="col-md-5 pr-md-1">
 									<div class="form-group">
@@ -249,7 +248,7 @@
 
 								<div class="col-md-4 pl-md-1">
 									<div>
-									<label>Avatar</label> <input type="file" class="form-control" placeholder="Link ảnh" name="avatar">
+									<label>Ảnh Đại Diện</label> <input type="file" class="form-control" placeholder="Link ảnh" name="avatar">
 									
 								</div>
 								</div>
@@ -295,9 +294,8 @@
 									</div>
 								</div>
 							</div>
-						</c:forEach>
 						<div class="card-footer">
-						<button type="submit" class="btn btn-fill btn-primary">Save</button>
+						<button type="submit" class="btn btn-fill btn-primary">Lưu</button>
 					</div>
 					</form>
 					
@@ -371,23 +369,23 @@
 										<div class="row">
 											<div class="col-md-5 pr-md-1">
 												<div id="thee" class="form-group">
-													<label>Mã thẻ (disabled)</label> <input style="color:white"
+													<label>Mã thẻ</label> <input style="color:white"
 														name="mathe_${the.maThe}" type="text" class="form-control"
-														disabled="" placeholder="ID thẻ" value="${the.maThe}">
+														disabled="disabled" placeholder="ID thẻ" value="${the.maThe}">
 
 												</div>
 											</div>
 											<div class="col-md-3 px-md-1">
 												<div class="form-group">
-													<label>Lớp</label> <input style="color:white" readonly="true" type="text" class="form-control"
+													<label>Lớp</label> <input style="color:white" disabled="disabled" type="text" class="form-control"
 														placeholder="Class" value="${the.goiTap.lopDV.tenLop}">
 												</div>
 											</div>
 											<div class="col-md-4 pl-md-1">
 												<div class="form-group">
-													<label>Thời gian kết thúc</label> <input type="date"
+													<label>Thời gian kết thúc</label> <input type="date" style="color:white"
 														class="form-control" placeholder="date"
-														value="${the.ngayKT}">
+														value="${the.ngayKT}" disabled="disabled">
 												</div>
 											</div>
 										</div>
@@ -473,10 +471,9 @@
                         else document.getElementById("avatarid").src="../resources/assets/img/aerobic.png";
 
                         </script>
-						<p class="description">KHÁCH HÀNG THÀNH VIÊN</p>
+						<p class="description">KHÁCH HÀNG THÀNH VIÊN <br><div class="card-description">"Sống Hết Mình & Tập Hết Khả Năng"</div> </p>
 					</div>
-					</p>
-				<div class="card-description">"Sống Hết Mình & Tập Hết Khả Năng"</div>
+				
 				</div>
 				<div class="card-footer">
 					<div class="button-container">

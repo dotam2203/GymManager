@@ -37,7 +37,7 @@ public class NhanVien {
 	private String gioiTinh;
 	
 
-	@OneToMany(mappedBy="nhanVien",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="nhanVien")
 	private Collection<HoaDon> hoaDons;
 	
 	@OneToOne(cascade = CascadeType.ALL)

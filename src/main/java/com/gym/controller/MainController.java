@@ -53,6 +53,7 @@ import com.gym.entity.ThietBi;
 import com.gym.entity.TinTuc;
 import com.gym.service.KhachHangService;
 import com.gym.service.LoaiThietBiService;
+import com.gym.service.DiemDanhService;
 import com.gym.service.GoiTapService;
 import com.gym.service.HoaDonService;
 import com.gym.service.LopDVService;
@@ -95,6 +96,8 @@ public class MainController {
 	LoaiThietBiService loaiTBService;
 	@Autowired
 	TinTucService tinTucService;
+	@Autowired 
+	DiemDanhService diemDanhService;
 	/*
 	 * ==================================================== CẤP QUYỀN: Nhân Viên chỉ có quyền Ở mục ĐĂNG KÝ KHÁCH HÀNG, HÓA ĐƠN, KHÁCH HÀNG, Quản Lý thì full quyền
 	 * ===================================================
@@ -299,8 +302,8 @@ public class MainController {
         //Lấy 5 khách hàng vip nhất tháng
         try {
 	        for( int id = 0; id < 5; id++) {
-	        	List <KhachHang> KH = khachHangService.selectByMaKH(khachHangs.get(id).split("-")[0]);
-	        	top5KHTiemNang.add(KH.get(0));
+	        	KhachHang KH = khachHangService.selectByMaKH(khachHangs.get(id).split("-")[0]);
+	        	top5KHTiemNang.add(KH);
 	        }
         }
         catch(Exception e) {}
@@ -530,11 +533,11 @@ public class MainController {
 			response.sendRedirect("dangky");
 		}
 
-		List<LopDV> checkMaLop = lopDVService.selectByMaLop(maLop);
-		if (checkMaLop.size() > 0) {
+		LopDV checkMaLop = lopDVService.selectByMaLop(maLop);
+		if (checkMaLop != null) {
 			List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop);
-			List<LopDV> lopDVs = lopDVService.selectByMaLop(maLop);
-			mw.addObject("lopDVs", lopDVs);
+			LopDV lopDV = lopDVService.selectByMaLop(maLop);
+			mw.addObject("lopDVs", lopDV);
 			mw.addObject("goiTapServices", goiTapServices);
 
 			return mw;
@@ -560,13 +563,13 @@ public class MainController {
 
 		String maLop = maLop1.trim();
 		mw.addObject("thongbao", 0);
-		List<LopDV> checkLopDV = lopDVService.selectByMaLop(maLop.trim());
+		LopDV checkLopDV = lopDVService.selectByMaLop(maLop.trim());
 
 		kiemTraLoi: try {
 			float giaGoiTap = Float.parseFloat(gia);
 
 			// kiem tra dịch vụ có tồn tại không
-			if (checkLopDV.size() > 0) {
+			if (checkLopDV != null) {
 				GoiTap goiTap = new GoiTap();
 				int thoiHan = 0;
 
@@ -621,7 +624,7 @@ public class MainController {
 				goiTap.setThoiHan(thoiHan);
 				goiTap.setTrangThai(1);// mặc định trạng thái sẽ bằng 1
 				goiTap.setGia(giaGoiTap);
-				goiTap.setLopDV(checkLopDV.get(0));
+				goiTap.setLopDV(checkLopDV);
 				goiTapService.save(goiTap);
 				mw.addObject("thongbao", 1);// check JS
 			}
@@ -630,8 +633,8 @@ public class MainController {
 		}
 
 		List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop.trim());
-		List<LopDV> lopDVs = lopDVService.selectByMaLop(maLop.trim());
-		mw.addObject("lopDVs", lopDVs);
+		LopDV lopDV = lopDVService.selectByMaLop(maLop.trim());
+		mw.addObject("lopDV", lopDV);
 		mw.addObject("goiTapServices", goiTapServices);
 		return mw;
 	}
@@ -703,8 +706,8 @@ public class MainController {
 			@RequestParam("gioitinh") String gioiTinh,@RequestParam("avatar") MultipartFile file) {
 		
 		// kiểm tra trùng email. mỗi KH có 1 email duy nhất
-		List<KhachHang> emailKH = khachHangService.selectByEmail(email);
-		if(emailKH.isEmpty() && !email.isEmpty() && !hoVaTen.trim().isEmpty()) {
+		KhachHang emailKH = khachHangService.selectByEmail(email);
+		if(emailKH == null && !email.isEmpty() && !hoVaTen.trim().isEmpty()) {
 			List<KhachHang> khachHangSort = khachHangService.selectSortMaKh(); 
 			KhachHang khachHang = new KhachHang();
 			//============== Tự động lấy mã KH ============= 
@@ -791,9 +794,9 @@ public class MainController {
 			for(GoiTap tenGoiTap:checkGoiTap)
 				if(tenGoiTap.getTenGoiTap().equals(goiTap.trim())) flag=1;
 			
-			List<KhachHang> khachHangs = khachHangService.selectByMaKH(maKH.trim());
+			KhachHang khachHangs = khachHangService.selectByMaKH(maKH.trim());
 			
-			if(flag == 1 && khachHangs.size() == 1 ) {
+			if(flag == 1) {
 				List<The> TheSort = theService.selectSortMaThe();
 				//Tự động lấy mã thẻ mới
 				String maTDV = "";
@@ -824,7 +827,7 @@ public class MainController {
 				
 				The the = new The();
 				the.setMaThe(maTDV);
-				the.setKhachHang(khachHangs.get(0));
+				the.setKhachHang(khachHangs);
 				the.setGoiTap(goiTaps.get(0));
 				the.setNgayDK(date);
 				the.setTrangThai("Chưa Thanh Toán");
@@ -1296,12 +1299,12 @@ public class MainController {
 	public ModelAndView SuaKhachHang(@RequestParam("id") String maKH) {
 		ModelAndView mw = new ModelAndView("admin/user");
 		
-		List <KhachHang> khachHangs = khachHangService.selectByMaKH(maKH);
+		KhachHang khachHang = khachHangService.selectByMaKH(maKH);
 		List <The> thes = theService.selectByMaKH(maKH);
 		
-		mw.addObject("khachhangs", khachHangs);
-		mw.addObject("avatar", khachHangs.get(0).getAnh());
-		mw.addObject("tenKH", khachHangs.get(0).getTenKH());
+		mw.addObject("khachhang", khachHang);
+		mw.addObject("avatar", khachHang.getAnh());
+		mw.addObject("tenKH", khachHang.getTenKH());
 		mw.addObject("thes", thes);
 
 		return mw;
@@ -1316,10 +1319,10 @@ public class MainController {
 		
 		// kiểm tra trùng email. mỗi KH có 1 email duy nhất
 		KhachHang khachHang = new KhachHang();
-		List<KhachHang> emailKH = khachHangService.selectByEmail(email);
-		List<KhachHang> khachHangMaKH = khachHangService.selectByMaKH(maKH);
+		KhachHang emailKH = khachHangService.selectByEmail(email);
+		KhachHang khachHangMaKH = khachHangService.selectByMaKH(maKH);
 		
-		if((emailKH.isEmpty()||khachHangMaKH.get(0).getEmail().equals(email) )&& !email.isEmpty()) {
+		if((emailKH == null ||khachHangMaKH.getEmail().equals(email) )&& !email.isEmpty()) {
 			// Cập nhật thông tin
 			try {
 				String sDate1 = ngaySinh.replace("-", "/"); //nhập được ở 2 dạng 
@@ -1369,7 +1372,7 @@ public class MainController {
 				thongbao = "Không phải file ảnh";
 			
 			if(extensionFile.isEmpty()) 
-				khachHang.setAnh(khachHangMaKH.get(0).getAnh());
+				khachHang.setAnh(khachHangMaKH.getAnh());
 			else 
 				khachHang.setAnh(maKH + "."+ extensionFile);
 			

@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface KhachHangRepository  extends CrudRepository<KhachHang, String> {
 	@Query("SELECT c FROM KhachHang c WHERE c.maKH = :makh")
-	public List<KhachHang> findByMaKH(@Param("makh") String maKH);
+	public KhachHang findByMaKH(@Param("makh") String maKH);
 	@Query("SELECT c FROM KhachHang c WHERE c.email = :email")
-	public List<KhachHang> findByEmail(@Param("email") String email);
+	public KhachHang findByEmail(@Param("email") String email);
 	@Query("FROM KhachHang c ORDER BY c.maKH DESC")
 	public List<KhachHang> findAllSortMaKH();
 	

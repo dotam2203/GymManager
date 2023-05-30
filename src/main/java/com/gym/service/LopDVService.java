@@ -31,7 +31,7 @@ public class LopDVService {
 	public List<LopDV> selectByTenLop(String tenLop){
 		return repo.findByTenLop(tenLop);
 	}
-	public List<LopDV> selectByMaLop(String maLop){
+	public LopDV selectByMaLop(String maLop){
 		return repo.findByMaLop(maLop);
 	}
 	

@@ -221,7 +221,7 @@ to {
 											
 											<td><a href="goitap?id=${info.maLop}" class="tim-icons icon-pencil"></a></td>
 											
-											<td ><a href="#myModal${info.maLop}" data-toggle="modal"  id="xoa1_${info.maLop}" style="color:red;cursor: pointer;" class="tim-icons icon-simple-remove"></a></td>
+											<td ><a href="#myModal${info.maLop}" data-toggle="modal"  id="xoa1_${info.maLop}" style="color:red" class="tim-icons icon-simple-remove"></a></td>
 											<!-- Modal HTML -->
 											<div id="myModal${info.maLop}" class="modal fade">
 												<div class="modal-dialog modal-confirm">
@@ -238,9 +238,9 @@ to {
 													</div>
 												</div>
 											</div> 
-											<!-- <script>
+											<script>
                          						if(document.getElementById("td_${info.maLop}").innerHTML.trim()!="KGT") document.getElementById("xoa1_${info.maLop}").remove(); 
-                         					</script>  -->     
+                         					</script>    
 			                      	</tr>
 			                   </c:forEach>
                       

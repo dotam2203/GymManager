@@ -1,5 +1,6 @@
 package com.gym.entity;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,10 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -48,6 +49,17 @@ public class The {
 	@ManyToOne
 	@JoinColumn(name="MaGoiTap")
 	private GoiTap goiTap;
+	
+	public Collection<DiemDanh> getDiemDanhs() {
+		return diemDanhs;
+	}
+
+	public void setDiemDanhs(Collection<DiemDanh> diemDanhs) {
+		this.diemDanhs = diemDanhs;
+	}
+
+	@OneToMany(mappedBy = "theDD")
+	private Collection<DiemDanh> diemDanhs;
 
 	public String getMaThe() {
 		return maThe;

@@ -104,7 +104,6 @@
 							<p>Khách Hàng</p>
 					</a></li>
 
-
 					<li id="nhanVienCheck"><a href="./bangnhanvien"> <i
 							class="tim-icons icon-single-02"></i>
 							<p>Nhân Viên</p>

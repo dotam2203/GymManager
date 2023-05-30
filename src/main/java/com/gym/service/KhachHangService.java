@@ -29,10 +29,10 @@ public class KhachHangService {
 		repo.save(customer);
 	}
 	
-	public List<KhachHang> selectByMaKH(String maKH) {
+	public KhachHang selectByMaKH(String maKH) {
 		return repo.findByMaKH(maKH);
 	}
-	public List<KhachHang> selectByEmail(String email) {
+	public KhachHang selectByEmail(String email) {
 		return repo.findByEmail(email);
 	}
 	

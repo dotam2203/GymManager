@@ -130,22 +130,20 @@ $(document).ready(function(){
               <!-- ========================Nội dung ======================== -->
               <!-- ========================Chỉnh sửa lớp dịch vụ============ -->
               <div id="chinhsua" class="card-body tabcontent">
-					<form>
-						<c:forEach var="info" items="${lopDVs}">
-                  
+					<form itemid="@{lopDV}">
                        <div class="row">
 											<div class="col-md-3 pr-md-1">
 												<div  class="form-group">
 										<label>Mã Dịch Vụ</label> <input style="text-align: center;color:white" type="text"
 											class="form-control" disabled="" placeholder="ID" name="maLop" id="maLop"
-											value=" ${info.maLop}">
+											value=" ${lopDV.maLop}">
 									</div>
 											</div>
 											<div class="col-md-3 pr-md-1">
 												<label>Tên Dịch Vụ</label> 
 												<input type="text" list="ide"
 														class="form-control" placeholder="tenLop" name="tenLop"
-														value="${info.tenLop}">
+														value="${lopDV.tenLop}">
 												<datalist id="ide">
 													<option value="Boxing" label="mặc định" />
 												    <option value="Aerobic" label="mặc định" />
@@ -154,7 +152,6 @@ $(document).ready(function(){
 												</datalist>
 												</div>
 							</div>
-							 </c:forEach> 
 						</form>	 
 					<!-- ================================end lớp dv=============================== -->
 					
@@ -305,7 +302,9 @@ $(document).ready(function(){
                         
                         </td>
                         
-                         <td  class="text-center text-danger"><a href="#myModal${info.maGoiTap}" data-toggle="modal"  id="xoa1_${info.maGoiTap}" style="color:red;cursor: pointer;" class="tim-icons icon-simple-remove"></a></td>
+                         <td  class="text-center text-danger"><a href="#myModal${info.maGoiTap}" data-toggle="modal"  id="xoa1_${info.maGoiTap}" style="color:red" class="tim-icons icon-simple-remove"></a></td>
+                      	 
+                    
                       	 <!-- Modal HTML -->
 							<div id="myModal${info.maGoiTap}" class="modal fade">
 								<div class="modal-dialog modal-confirm">
@@ -319,25 +318,18 @@ $(document).ready(function(){
 											<center><p> BẠN chắc chắn muốn xóa gói tập <b style="font-weight: bold;">${info.tenGoiTap}</b> ?</p></center>
 										</div>
 										<div class="modal-footer">
-											<button id="thoat${info.maGoiTap}" style="margin-left: 100px" type="button" class="btn btn-info" data-dismiss="modal">Thoát</button>
-											<button onclick='ajax_xoa_GT("${info.maGoiTap}")' style="margin-right: 100px" type="button" class="btn btn-danger">Xóa</button>
+										<button id="thoat${info.maGoiTap}" style="margin-right: 100px" type="button" class="btn btn-info" data-dismiss="modal">Hủy</button>
+											<button onclick='ajax_xoa_GT("${info.maGoiTap}")' style="margin-left: 100px" type="button" class="btn btn-danger">Xóa</button>
 										</div>
 									</div>
 								</div>
-							</div>     
-                      </tr>
+							</div> 
                       <script>
                          if(document.getElementById("td_${info.maGoiTap}").innerHTML.trim()!="KDK") document.getElementById("xoa1_${info.maGoiTap}").remove(); 
-					 </script>
+					 </script>    
+                      </tr>
                       </c:forEach>
-                    </tbody>
-                  </table>
-            </div>
-          </div>
-   </div>
- </div>       
- 
- 					<script>
+                      <script>
 						
 						function ajax_xoa_GT(maGT){
 							$.ajax({
@@ -351,7 +343,7 @@ $(document).ready(function(){
 			                    success : function (result){
 				                    
 			                        if(result=="1"){
-			                        	document.getElementById("tr_"+maGT).remove();
+			                        	//document.getElementById("tr_"+maGT).remove();
 			                        	document.getElementById("thoat"+maGT).click()
 			                        	demo.showNotification('top','right','Xóa Gói Tập thành công!','2');
 			                        	
@@ -365,10 +357,12 @@ $(document).ready(function(){
 						}
 
                     </script>
- 
- 
- 
- 
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+   </div>
+ </div>       
            <!-- =================================end==================================================== -->
 
         </div>
