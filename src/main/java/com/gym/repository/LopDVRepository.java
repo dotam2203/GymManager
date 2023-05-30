@@ -16,7 +16,7 @@ public interface LopDVRepository extends CrudRepository<LopDV, String> {
 	@Query("SELECT c FROM LopDV c WHERE c.tenLop = :tenLop")
 	public List<LopDV> findByTenLop(@Param("tenLop") String tenLop);
 	@Query("SELECT c FROM LopDV c WHERE c.maLop = :maLop")
-	public List<LopDV> findByMaLop(@Param("maLop") String maLop);
+	public LopDV findByMaLop(@Param("maLop") String maLop);
 	
 	@Transactional
 	@Modifying

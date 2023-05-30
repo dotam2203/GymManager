@@ -533,11 +533,11 @@ public class MainController {
 			response.sendRedirect("dangky");
 		}
 
-		List<LopDV> checkMaLop = lopDVService.selectByMaLop(maLop);
-		if (checkMaLop.size() > 0) {
+		LopDV checkMaLop = lopDVService.selectByMaLop(maLop);
+		if (checkMaLop != null) {
 			List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop);
-			List<LopDV> lopDVs = lopDVService.selectByMaLop(maLop);
-			mw.addObject("lopDVs", lopDVs);
+			LopDV lopDV = lopDVService.selectByMaLop(maLop);
+			mw.addObject("lopDVs", lopDV);
 			mw.addObject("goiTapServices", goiTapServices);
 
 			return mw;
@@ -563,13 +563,13 @@ public class MainController {
 
 		String maLop = maLop1.trim();
 		mw.addObject("thongbao", 0);
-		List<LopDV> checkLopDV = lopDVService.selectByMaLop(maLop.trim());
+		LopDV checkLopDV = lopDVService.selectByMaLop(maLop.trim());
 
 		kiemTraLoi: try {
 			float giaGoiTap = Float.parseFloat(gia);
 
 			// kiem tra dịch vụ có tồn tại không
-			if (checkLopDV.size() > 0) {
+			if (checkLopDV != null) {
 				GoiTap goiTap = new GoiTap();
 				int thoiHan = 0;
 
@@ -624,7 +624,7 @@ public class MainController {
 				goiTap.setThoiHan(thoiHan);
 				goiTap.setTrangThai(1);// mặc định trạng thái sẽ bằng 1
 				goiTap.setGia(giaGoiTap);
-				goiTap.setLopDV(checkLopDV.get(0));
+				goiTap.setLopDV(checkLopDV);
 				goiTapService.save(goiTap);
 				mw.addObject("thongbao", 1);// check JS
 			}
@@ -633,8 +633,8 @@ public class MainController {
 		}
 
 		List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop.trim());
-		List<LopDV> lopDVs = lopDVService.selectByMaLop(maLop.trim());
-		mw.addObject("lopDVs", lopDVs);
+		LopDV lopDV = lopDVService.selectByMaLop(maLop.trim());
+		mw.addObject("lopDV", lopDV);
 		mw.addObject("goiTapServices", goiTapServices);
 		return mw;
 	}
