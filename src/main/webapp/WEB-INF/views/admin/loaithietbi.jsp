@@ -365,9 +365,9 @@ $(document).ready(function(){
 
 						<!-- =============================== Form Lớp DV========================= -->
 
-							<div id="nhanvien" class="card-body tabcontent"
+							<div id="loaithietbi" class="card-body tabcontent"
 								style="display: block;">
-								<form action="themloaithietbi" method="POST">
+								<form action="loaiThietBi" method="POST">
 									<input name="maLoai" style="display: none" />
 
 									<div class="row">
@@ -412,7 +412,7 @@ $(document).ready(function(){
 											href="loaithietbi?id=${info.maLoai}"
 											class="tim-icons icon-pencil"></a></td>
 										<td class="text-center text-success"><a
-											href="loaithietbi?id=${info.maLoai}"
+											href="delloaithietbi?id=${info.maLoai}"
 											class="tim-icons icon-simple-remove"></a></td>
 
 

@@ -27,7 +27,7 @@
 								</div>
 								<div class="blog-text">
 									<p>${blog.noiDung} </p>
-									<a class="btn" href="">Read More</a>
+									<a class="btn" href="blog?id=${blog.maTinTuc}">Read More</a>
 								</div>
 							</div>
 						</div>

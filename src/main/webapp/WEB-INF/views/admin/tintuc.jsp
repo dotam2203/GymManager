@@ -999,10 +999,10 @@ rotate
 
 
 						<!-- =============================== Form Lớp DV========================= -->
-						<div id="nhanvien" class="card-body tabcontent">
+						<div id="tintuc" class="card-body tabcontent">
 							<div id="profile" class="card-body tabcontent"
 								style="display: block;">
-								<form action="dangkynhanvien" method="POST">
+								<form action="tinTuc" method="POST">
 									<div class="row">
 										<div class="col-md-6 pr-md-1">
 											<div class="form-group">
@@ -1076,7 +1076,7 @@ rotate
 											class="tim-icons icon-pencil"></a></td>
 
 										<td class="text-center text-success"><a
-											href="tintuc?id=${info.maTinTuc}"
+											href="delTinTuc?id=${info.maTinTuc}"
 											class="tim-icons icon-simple-remove"></a></td>
 
 

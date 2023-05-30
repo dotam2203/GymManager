@@ -2215,7 +2215,14 @@ public class MainController {
 
 			return mw;
 		}
-		
+		@RequestMapping(value = "delthietbi", params = {"id"}, method = RequestMethod.GET)
+		public ModelAndView XoaThietBi( HttpSession session, HttpServletResponse response, @RequestParam("id") String maTB) throws IOException {
+			ModelAndView mw =new ModelAndView("admin/loaithietbi");
+			thietBiService.delete(maTB);
+			List<ThietBi> listTB = thietBiService.listAll();
+			mw.addObject("listTB", listTB);
+			return mw;
+		}
 		//================== Thêm Thiết Bị khi nhấn onclick them file thietbi.jsp
 		@RequestMapping(value = "themthietbi", method = RequestMethod.POST)
 		public ModelAndView ThemTB(HttpServletResponse response, HttpSession session,@RequestParam("tenTB")String tenTB,@RequestParam("moTa")String moTa,@RequestParam("soLuong")int soLuong,@RequestParam("thuongHieu")String thuongHieu,@RequestParam("tinhTrang")String tinhTrang,@RequestParam("ngayNhap")Date ngayNhap,@RequestParam("loaiThietBi")LoaiThietBi loaiThietBi, @RequestParam("hinhAnh")MultipartFile image) throws IOException {
@@ -2277,7 +2284,7 @@ public class MainController {
 			  model.addAttribute("loai",listCategory);
 			return "admin/loaithietbi";		
 		}
-		@RequestMapping(value = "themloaithietbi",method = RequestMethod.POST)
+		@RequestMapping(value = "loaiThietBi",method = RequestMethod.POST)
 		public ModelAndView insert(@RequestParam("tenLoai")String tenLoai) {
 			ModelAndView mw = new ModelAndView("admin/loaithietbi");
 
@@ -2288,21 +2295,33 @@ public class MainController {
 			mw.addObject("loai", listCategory);
 			return mw;	
 			}
-		
+		@RequestMapping(value = "delloaithietbi", params = {"id"}, method = RequestMethod.GET)
+		public ModelAndView XoaLoaiThietBi( HttpSession session, HttpServletResponse response, @RequestParam("id") String maLoai) throws IOException {
+			ModelAndView mw =new ModelAndView("admin/loaithietbi");
+			loaiTBService.delete(maLoai);
+			List<LoaiThietBi> loai = loaiTBService.listAll();
+			mw.addObject("listTinTuc", loai);
+			return mw;
+		}
 		@RequestMapping(value = "tinTuc", method = RequestMethod.GET)
 		public String insertTT(ModelMap model) {
 			  List<TinTuc> listTinTuc = tinTucService.listAll();
 			  model.addAttribute("listTinTuc",listTinTuc);
 			return "admin/tintuc";		
 		}
-		@RequestMapping(value = "themtintuc",method = RequestMethod.POST)
-		public ModelAndView insertTT(@RequestParam("tieuDe")String tieuDe,@RequestParam("noiDung")String noiDung,@RequestParam("hinhAnh")MultipartFile image) {
+		@RequestMapping(value = "delTinTuc", params = {"id"}, method = RequestMethod.GET)
+		public ModelAndView XoaTinTuc( HttpSession session, HttpServletResponse response, @RequestParam("id") String maTinTuc) throws IOException {
+			ModelAndView mw =new ModelAndView("admin/tintuc");
+			tinTucService.delete(maTinTuc);
+			List<TinTuc> listTinTuc = tinTucService.listAll();
+			mw.addObject("listTinTuc", listTinTuc);
+			return mw;
+		}
+		@RequestMapping(value = "tinTuc",method = RequestMethod.POST)
+		public ModelAndView insertTT(@RequestParam("tieuDe")String tieuDe,@RequestParam("noiDung")String noiDung,@RequestParam("hinhAnh")MultipartFile image)  throws IOException {
 			ModelAndView mw = new ModelAndView("admin/tintuc");
 			String tenHinhAnh = image.getOriginalFilename();			
 			String path = servletContext.getRealPath("resources/img/"+image.getOriginalFilename());		
-			
-			
-			
 			TinTuc tinTuc=new TinTuc();
 			tinTuc.setTieuDe(tieuDe);
 			tinTuc.setNoiDung(noiDung);

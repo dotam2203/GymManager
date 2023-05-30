@@ -490,7 +490,7 @@
                               <td class="text-center text-success"><a
                                  href="thietbi?id=${info.maTB}" class="tim-icons icon-pencil"></a></td>
                                  <td class="text-center text-success"><a
-											href="thietbi?id=${info.maTB}"
+											href="delthietbi?id=${info.maTB}"
 											class="tim-icons icon-simple-remove"></a></td>
                                  
                               <%-- <td id="switch_${info.maTB}" class="text-center"><label

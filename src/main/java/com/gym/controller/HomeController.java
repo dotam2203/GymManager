@@ -1,7 +1,9 @@
 package com.gym.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gym.entity.LoaiThietBi;
 import com.gym.entity.NhanVien;
@@ -99,6 +102,14 @@ public class HomeController {
 		model.addAttribute("listTinTuc", listTinTuc);
 		System.out.println(listTinTuc);
 		return "introduce/blog";
+	}
+	//==================Xem chi tiết tin tức
+	@RequestMapping(value = "blog", params = {"id"}, method = RequestMethod.GET)
+	public ModelAndView ChiTietTinTuc( HttpSession session, HttpServletResponse response, @RequestParam("id") String maTinTuc) throws IOException {
+		ModelAndView mw =new ModelAndView("introduce/chitietblog");
+		TinTuc tinTuc = tinTucService.selectByMaKH(maTinTuc);
+		mw.addObject("tinTuc", tinTuc);
+		return mw;
 	}
 	
 }
