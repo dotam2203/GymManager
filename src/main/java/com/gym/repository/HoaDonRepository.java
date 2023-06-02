@@ -14,4 +14,6 @@ public interface HoaDonRepository extends CrudRepository<HoaDon, String> {
 	public List<HoaDon> findByYear(@Param("nam") String nam);
 	@Query("SELECT c FROM  HoaDon c WHERE  c.ngayHD LIKE CONCAT(:nam,'%') ORDER BY c.thehd.goiTap.gia desc ")//
 	public List<HoaDon> findBetweenNamSortGiaTien(@Param("nam") String nam);
+	@Query("SELECT c FROM HoaDon c ORDER BY c.ngayHD desc")
+	public List<HoaDon> findBySortDateDesc();
 }

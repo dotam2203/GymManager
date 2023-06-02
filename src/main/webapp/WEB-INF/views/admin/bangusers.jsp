@@ -152,16 +152,16 @@ $(document).ready(function(){
 										</div>
 									</div>
 								</div>
-							</div>     
-                         
-                         
-                         <script>
-                         	if(document.getElementById("td_${info.maKH}").innerHTML.trim()!="CDK") document.getElementById("xoa1_${info.maKH}").remove(); 
-                         </script>                      
+							</div>  
                       </tr>
                     </c:forEach>
                     
                     <script>
+                  //var displayCheckin = document.getElementById("checkin_${info.maKH}");
+                 	//if(document.getElementById("td_${info.maKH}").innerHTML.trim()!="CDK") document.getElementById("xoa1_${info.maKH}").remove(); 
+                 	if(document.getElementById("td_${info.maKH}").innerHTML.trim()=="HD") document.getElementById("checkin_${info.maKH}").style.display = "block";
+                 	//else if(document.getElementById("td_${info.maKH}").innerHTML.trim()=="HD") document.getElementById("checkin_${info.maKH}").style.display = "block";
+                 
 						function ajax_checkin_KH(maKH){
 							
 							$.ajax({
