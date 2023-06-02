@@ -368,7 +368,7 @@
                   <!-- =============================== Form Lớp DV========================= -->
                      <div id="profile" class="card-body tabcontent"
                         style="display: block;">
-                        <form action="themthietbi" method="POST"
+                        <form action="thietbi" method="post"
                            enctype="multipart/form-data">
                            <div class="row">
                               <div class="col-md-6 pr-md-1">
@@ -400,12 +400,12 @@
                                     <select
                                        onchange="layloaithietbi()" id="loaithietbis"
                                        style="background: #27293d"
-                                       class="form-control form-select" name="loaiThietBi">
+                                       class="form-control form-select" name="loaithietbi">
                                        <option selected="selected" hidden>Vui lòng chọn
                                           Loại Thiết Bị
                                        </option>
                                        <c:forEach var="loaiThietBi" items="${loai}">
-                                          <option value="${loaiThietBi}">${loaiThietBi.tenLoai}</option>
+                                          <option value="${loaiThietBi.tenLoai}">${loaiThietBi.tenLoai}</option>
                                        </c:forEach>
                                     </select>
                                  </div>
@@ -421,7 +421,7 @@
                               <div class="col-md-6 pl-md-1">
                                  <div class="form-group">
                                     <label>Ngày nhập thiết bị</label> <input type="date"
-                                       class="form-control" placeholder="Ngày nhập"
+                                       class="form-control" placeholder="Ngày nhập" 
                                        value="${ngayNhap}" id="userdate" onchange="TDate()"
                                        name="ngaynhap" />
                                  </div>
@@ -591,7 +591,7 @@
 </div>
 </div>
 </div>
-<!-- <script>
+<script>
    function sortTable() {
    	var table, rows, switching, i, x, y, shouldSwitch;
    	table = document.getElementById("myTable1");
@@ -632,7 +632,7 @@
    	}
    }
    sortTable();
-   </script> -->
+   </script>
 <%@include file="/resources/include/endsidebar.jsp"%>
 </body>
 </html>

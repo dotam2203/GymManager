@@ -39,4 +39,7 @@ public class LoaiThietBiService {
 	public List<LoaiThietBi> selectSortMaLoai() {
 		return repo.findAllSortMaLoai();
 	}
+	public LoaiThietBi selectLoaiByTenLoaiTB(String tenLoai) {
+		return repo.findLoaiByTenLoaiTB(tenLoai);
+	}
 }

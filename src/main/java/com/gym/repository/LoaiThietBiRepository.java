@@ -20,5 +20,6 @@ public interface LoaiThietBiRepository  extends JpaRepository<LoaiThietBi, Integ
 	public List<LoaiThietBi> findByTenLoai(@Param("tenLoai") String tenLoai);
 	@Query("SELECT c FROM LoaiThietBi c ORDER BY c.maLoai DESC")
 	public List<LoaiThietBi> findAllSortMaLoai();
-	
+	@Query("SELECT c FROM LoaiThietBi c WHERE c.tenLoai = :tenLoai")
+	public LoaiThietBi findLoaiByTenLoaiTB(@Param("tenLoai") String tenLoai);
 }

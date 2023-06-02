@@ -1930,12 +1930,12 @@ public class MainController {
 	}
 
 	// ================== Thêm Thiết Bị khi nhấn onclick them file thietbi.jsp
-	@RequestMapping(value = "themthietbi", method = RequestMethod.POST)
+	@RequestMapping(value = "thietbi", method = RequestMethod.POST)
 	public ModelAndView ThemTB(HttpServletResponse response, HttpSession session, @RequestParam("tentb") String tenTB,
 			@RequestParam("mota") String moTa, @RequestParam("soluong") int soLuong,
-			@RequestParam("thuonghieu") String thuongHieu, @RequestParam("tinhtrang") String tinhTrang,
-			@RequestParam("ngaynhap") String ngayNhap, @RequestParam("loaithietbi") LoaiThietBi loaiThietBi,
-			@RequestParam("hinhanh") MultipartFile image) throws IOException,ParseException {
+			@RequestParam("xuatxu") String thuongHieu, @RequestParam("tinhtrang") String tinhTrang,
+			@RequestParam("ngaynhap") String ngayNhap, @RequestParam("loaithietbi") String loaiThietBi,
+			@RequestParam("hinhanh") MultipartFile image) throws IOException {
 
 		ModelAndView mw = new ModelAndView("admin/thietbi");
 
@@ -1958,36 +1958,28 @@ public class MainController {
 
 			maTB = "TB1";
 		}
-		SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy/MM/dd"); 
-		//format date save db:
-        ngayNhap = ngayNhap.replaceAll("(\\d{2})\\/(\\d{2})\\/(\\d{4})","$3-$2-$1");
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");	
+		SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		Date newDate = new Date();
-		if(ngayNhap.trim() != "") {
+		try {
 			newDate = inputDateFormat.parse(ngayNhap);
-			
+			System.out.println("Ngay nhap vao: "+newDate);
 			tb.setNgayNhap(newDate);
+		} catch (ParseException e) {
+			Date currentDate = new Date();
+			System.out.println("Ngay hien tai: "+currentDate);
+			tb.setNgayNhap(currentDate);
 		}
-		else {
-			tb.setNgayNhap(newDate);
-		}
+		//get id loai tb:
+		LoaiThietBi loaiTB = loaiTBService.selectLoaiByTenLoaiTB(loaiThietBi.trim());
 		
 		tb.setMaTB(maTB);
 		tb.setTenTB(tenTB);
-		tb.setLoaiThietBi(loaiThietBi);
+		tb.setLoaiThietBi(loaiTB);
 		image.transferTo(new File(path));
 		tb.setHinhAnh(tenHinhAnh);
+		tb.setThuongHieu(thuongHieu);
 		tb.setMoTa(moTa);
 		tb.setSoLuong(soLuong);
-//					
-//		tb.setMaTB("TB3");
-//		tb.setTenTB(tenTB);
-//		tb.setLoaiThietBi(null);
-//		// image.transferTo("phonggym.jpg");
-//		tb.setHinhAnh("phonggym.jpg");
-//		tb.setMoTa("Đây là mô tả nè");
-//		tb.setNgayNhap(new Date());
-//		tb.setSoLuong(1);
 		try {
 			thietBiService.save(tb);
 			mw.addObject("thongbao", "1");// Thêm tb thành công
