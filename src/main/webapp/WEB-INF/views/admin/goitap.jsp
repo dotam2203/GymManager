@@ -164,7 +164,7 @@ $(document).ready(function(){
 												<div class="form-group">
 													<label>Loại Gói Tập</label>
 													<select id="loaigoitap"  onchange="chonloaigoitap()" placeholder="Hãy chọn loại gói tập" style="background: #27293d" class="form-control form-select">
-														<option hidden checked="" "></option>
+														<option hidden checked="" ></option>
 														<option>Ngày</option>
 														<option>Tuần</option>
 														<option>Tháng</option>

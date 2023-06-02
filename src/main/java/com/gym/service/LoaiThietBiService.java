@@ -17,11 +17,11 @@ public class LoaiThietBiService {
 		return (List<LoaiThietBi>) repo.findAll();
 	}
 
-	public void delete(String id) {
+	public void delete(Integer id) {
 		repo.deleteById(id);
 	}
 
-	public Optional<LoaiThietBi> get(String id) {
+	public Optional<LoaiThietBi> get(Integer id) {
 		return repo.findById(id);
 	}
 
@@ -29,7 +29,7 @@ public class LoaiThietBiService {
 		repo.save(loaiTB);
 	}
 	
-	public LoaiThietBi selectByMaKH(String maLoai) {
+	public LoaiThietBi selectByMaKH(Integer maLoai) {
 		return repo.findByMaLoai(maLoai);
 	}
 	public List<LoaiThietBi> selectByTenLoai(String tenLoai) {
@@ -38,5 +38,8 @@ public class LoaiThietBiService {
 	
 	public List<LoaiThietBi> selectSortMaLoai() {
 		return repo.findAllSortMaLoai();
+	}
+	public LoaiThietBi selectLoaiByTenLoaiTB(String tenLoai) {
+		return repo.findLoaiByTenLoaiTB(tenLoai);
 	}
 }
