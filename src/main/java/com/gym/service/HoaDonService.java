@@ -37,4 +37,7 @@ public class HoaDonService {
 	public List<HoaDon> findBetweenNamSortGiaTien(String nam){
 		return repo.findBetweenNamSortGiaTien(nam);
 	}
+	public List<HoaDon> selectSortDate(){
+		return repo.findBySortDateDesc();
+	}
 }

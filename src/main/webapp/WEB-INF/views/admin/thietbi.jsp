@@ -305,7 +305,7 @@
    }
    }
 </style>
-<!-- <script>
+<script>
    $(document).ready(
    		function() {
    			$("#myInput").on(
@@ -320,7 +320,7 @@
    								});
    					});
    		});
-   </script> -->
+   </script>
 <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
 <script type="text/javascript">
    bkLib.onDomLoaded(function() {
@@ -375,14 +375,14 @@
                                  <div class="form-group">
                                     <label>Tên thiết bị</label> <input type="text"
                                        class="form-control" placeholder="Tên thiết bị" required
-                                       pattern="\S+.*"  name="tenTB" />
+                                       pattern="\S+.*"  name="tentb" />
                                  </div>
                               </div>
                               <div class="col-md-6 pl-md-1">
                                  <div class="form-group">
-                                    <label>Thương hiệu</label> <input type="text"
-                                       class="form-control" placeholder="Tên thương hiệu"
-                                       name="thuongHieu" />
+                                    <label>Xuất xứ</label> <input type="text"
+                                       class="form-control" placeholder="Xuất xứ"
+                                       name="xuatxu" />
                                  </div>
                               </div>
                            </div>
@@ -391,7 +391,7 @@
                                  <div class="form-group">
                                     <label>Tình trạng</label> <input type="text"
                                        class="form-control" placeholder="Tình trạng thiết bị"
-                                      name="tinhTrang" />
+                                      name="tinhtrang" />
                                  </div>
                               </div>
                               <div class="col-md-6 pl-md-1">
@@ -415,15 +415,15 @@
                               <div class="col-md-6 pr-md-1">
                                  <div>
                                     <label>Hình Ảnh</label> <input type="file" id="myFile"
-                                       name="hinhAnh" class="form-control" />
+                                       name="hinhanh" class="form-control" />
                                  </div>
                               </div>
                               <div class="col-md-6 pl-md-1">
                                  <div class="form-group">
                                     <label>Ngày nhập thiết bị</label> <input type="date"
                                        class="form-control" placeholder="Ngày nhập"
-                                       value="${ngayNhap}" id="userdate" 
-                                       name="ngayNhap" />
+                                       value="${ngayNhap}" id="userdate" onchange="TDate()"
+                                       name="ngaynhap" />
                                  </div>
                               </div>
                            </div>
@@ -433,7 +433,7 @@
                                     <label>Số lượng thiết bị</label> <input type="number"
                                        class="form-control"
                                        placeholder="Số lượng thiết bị của phòng gym" value=0
-                                       name="soLuong" />
+                                       name="soluong" />
                                  </div>
                               </div>
                            </div>
@@ -441,7 +441,7 @@
                               <div class="col-md-12">
                                  <div class="form-group" id="myArea">
                                     <label>Mô tả</label>
-                                    <textarea class="form-control" name="moTa"></textarea>
+                                    <textarea style="width: 100%;" class="form-control" name="mota"></textarea>
                                  </div>
                               </div>
                            </div>
@@ -466,7 +466,7 @@
                            <th class="text-center">Hình Ảnh</th>
                            <th class="text-center">Loại Thiết Bị</th>
                            <th>Số Lượng</th>
-                           <th class="text-center">Thương Hiệu</th>
+                           <th class="text-center">Xuất Xứ</th>
                            <th class="text-center">Tình Trạng</th>
                            <th class="text-center">Ngày Nhập</th>
                            <th class="text-center">Chỉnh Sửa</th>
@@ -529,11 +529,11 @@
                            </tr>
                         </c:forEach>
                         <script>
-                           if ("${thongbao}".trim() == "0")
-                           	demo.showNotification('top', 'right',
-                           			'Thêm Thiết Bị thành công!',
-                           			'2');
-                           else if ("${thongbao}".trim() == "1")
+                           if ("${thongbao}".trim() == "1")
+                           	   demo.showNotification('top', 'right','Thêm Thiết Bị thành công!','2');
+                           else if("${thongbao}".trim() == "1")
+                        	   demo.showNotification('top', 'right','Thêm Thiết Bị thất bại!','3');
+                           /* else if ("${thongbao}".trim() == "1")
                            	demo
                            			.showNotification(
                            					'top',
@@ -546,9 +546,18 @@
                            					'top',
                            					'right',
                            					'Password và Xác nhận Password không đúng!',
-                           					'3');
+                           					'3'); */
                            
-                           
+											function TDate() {
+        									    var UserDate = document.getElementById("userdate").value;
+        									    var ToDate = new Date();
+
+        									    if (new Date(UserDate).getTime() > ToDate.getTime()) {
+        									    	demo.showNotification('top','right','Ngày nhập bé hơn ngày hiện tại!','3');
+        									        document.getElementById("userdate").value="";
+        									     }
+        									    return true;
+        									}
                         </script>
                      </tbody>
                   </table>
