@@ -30,11 +30,11 @@ public class TinTucService {
 		repo.save(tinTuc);
 	}
 
-	public TinTuc selectByMaKH(String maTinTuc) {
+	public TinTuc selectByMaTT(int maTinTuc) {
 		return repo.findByMaTin(maTinTuc);
 	}
 
-	public List<TinTuc> selectSortNgayTao() {
-		return repo.findAllSortNgayTao();
+	public List<TinTuc> selectSortMaTinTuc() {
+		return repo.findAllSortMaTinTuc();
 	}
 }

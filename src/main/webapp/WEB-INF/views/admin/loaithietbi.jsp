@@ -372,7 +372,7 @@ $(document).ready(function(){
 
 									<div class="row">
 										<div class="form-group">
-											<label>Tên Loại Thiết Bị</label> <input type="text" list="ide"
+											<label>Tên Loại Thiết Bị</label> <input type="text" 
 												class="form-control" placeholder="Tên Loại Thiết Bị"
 												required pattern="\S+.*" value="" name="tenloai" />
 										</div>
@@ -390,6 +390,7 @@ $(document).ready(function(){
 
 					</div>
 				</div>
+				
 				<!-- ========================= end them ========================== -->
 				<div id="loaithietbi" class="card-body">
 					<div class="table-responsive">
@@ -412,7 +413,7 @@ $(document).ready(function(){
 											href="loaithietbi?id=${info.maLoai}"
 											class="tim-icons icon-pencil"></a></td>
 										<td class="text-center text-success"><a
-											href="delloaithietbi?id=${info.maLoai}"
+											href="delloaithietbi?id=${info.maLoai}"  onclick="if (!confirm('Bạn có muốn xóa loại thiết bị này?')) { return false }"
 											class="tim-icons icon-simple-remove"></a></td>
 
 
@@ -423,7 +424,10 @@ $(document).ready(function(){
 								<script>
 						if("${thongbao}".trim()=="1") demo.showNotification('top','right','Thêm thiết bị thành công!','2');
 						else if ("${thongbao}".trim()=="0") {
-							demo.showNotification('top','right','Thêm thiết bị thất bại(tên loại thiết bị không được trùng)!','3');
+							demo.showNotification('top','right','Thêm thiết bị thất bại','3');
+						}else if("${thongbao}".trim()=="2"){
+							demo.showNotification('top','right','Thêm thiết bị thất bại(tên loại thiết bị không được trùng)!','4');
+
 						}
 						//else if("${thongbao}".trim()=="1")demo.showNotification('top','right','Username hoặc Email trùng nhau!','3');
 						//else if("${thongbao}".trim()=="2")demo.showNotification('top','right','Password và Xác nhận Password không đúng!','3');
