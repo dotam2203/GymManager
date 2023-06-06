@@ -49,6 +49,18 @@ public class KhachHang {
 	
 	@OneToMany(mappedBy = "khachHang", fetch = FetchType.EAGER)
 	private Collection<The> the;
+	
+	@OneToMany(mappedBy = "khachHangDD")
+	private Collection<DiemDanh> diemDanhs;
+	
+
+	public Collection<DiemDanh> getDiemDanhs() {
+		return diemDanhs;
+	}
+
+	public void setDiemDanhs(Collection<DiemDanh> diemDanhs) {
+		this.diemDanhs = diemDanhs;
+	}
 
 	public String getMaKH() {
 		return maKH;
