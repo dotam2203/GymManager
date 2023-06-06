@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gym.entity.DiemDanh;
 import com.gym.entity.GoiTap;
 import com.gym.entity.HoaDon;
 import com.gym.entity.KhachHang;
@@ -1103,9 +1104,24 @@ public class MainController {
 	@RequestMapping("bangusers")
 	public ModelAndView BangKhachHang() {
 		ModelAndView mw = new ModelAndView("admin/bangusers");
-
 		List<KhachHang> khachHangServices = khachHangService.listAll();
+		List<KhachHang> khachHangs = new ArrayList<KhachHang>();
+		int flag = 0;
+		for(KhachHang kh: khachHangServices) {
+			List<The> thes = theService.selectByMaThe(kh.getMaKH());
+		    for(The the: thes) {
+		    	if(the.getTrangThai() == "Hoạt Động") {
+		    		flag = 1;
+		    		break;
+		    	}
+		    }
+		    if(flag == 1) {
+		    	khachHangs.add(kh);
+		    }
+		}
 		mw.addObject("khachHangServices", khachHangServices);
+		mw.addObject("khCheckinServices",khachHangs);
+		System.out.print("thẻ KH:"+(khachHangs.size()));
 		return mw;
 	}
 
@@ -1113,6 +1129,7 @@ public class MainController {
 	@RequestMapping(value = "dichvu", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView ChinhSuaDVKH(@RequestParam("id") String maKH) {
 		List<The> TheSort = theService.selectSortMaThe();
+		List<The> thes = theService.selectByMaKH(maKH);
 		List<GoiTap> goiTaps = goiTapService.listAll();
 		List<LopDV> lopDVs = lopDVService.listAll();
 
@@ -1139,6 +1156,7 @@ public class MainController {
 		mw.addObject("maKH", maKH);
 		mw.addObject("lopDVs", lopDVs);
 		mw.addObject("localDate", localDate);
+		mw.addObject("thes", thes);
 
 		return mw;
 	}
@@ -1154,7 +1172,6 @@ public class MainController {
 		mw.addObject("khachhang", khachHang);
 		mw.addObject("avatar", khachHang.getAnh());
 		mw.addObject("tenKH", khachHang.getTenKH());
-		mw.addObject("thes", thes);
 
 		return mw;
 	}
@@ -1238,35 +1255,40 @@ public class MainController {
 
 	}
 
-	// ================= Xóa Thông tin khách hàng file banguser.jsp => thẻ tập xóa
+	// =================khách hàng checkin file banguser.jsp by tt thẻ tập
 	// => trả về user.jsp
-	// ================= Xóa Khách Hàng use JS và api file banguser.jsp
-	@RequestMapping(value = "xoakhachhang", method = RequestMethod.POST)
-	public ModelAndView XoaKhachHang(@RequestParam("maKH") String maKH) {
-		ModelAndView mw = new ModelAndView("apixoakhachhang");// trả về kết quả thongbaoxoa = mw
-
-		List<The> theKH = theService.selectByMaKHNotSort(maKH);
-
-		// Nếu khách hàng chưa đăng kí thẻ tập thì xóa
-		if (theKH.isEmpty()) {
-			// Xóa avatar trước nếu có
-			File avatar = new File(servletContext.getRealPath("resources/images/" + maKH + ".jpg"));
-			if (avatar.exists())
-				avatar.delete();
-
-			else {
-				avatar = new File(servletContext.getRealPath("resources/images/" + maKH + ".png"));
-				avatar.delete();
-			}
-
-			khachHangService.delete(maKH);
-			mw.addObject("thongbaoxoa", "1");
-
-		} else
-			mw.addObject("thongbaoxoa", "0");
+	// ================= Khách Hàng checkin use JS và api file banguser.jsp
+	@RequestMapping(value = "usercheckin", method = RequestMethod.POST)
+	public ModelAndView CheckinKhachHang(@RequestParam("maKH") String maKH){
+		ModelAndView mw = new ModelAndView("apikhachhangcheckin");// trả về kết quả thongbao = mw
+		DiemDanh diemDanh = new DiemDanh();
+		KhachHang khachHang = khachHangService.selectByMaKH(maKH);
+		System.out.println("MÃ KH: " + maKH);
+		The the = new The();
+		List<DiemDanh> diemDanhss = diemDanhService.selectByIdDesc();
+		List<DiemDanh> diemDanhs = new ArrayList<>();
+		Date date = new Date();
+		diemDanhs = diemDanhss;
+		int flag = 0;
+		diemDanh.setId(1);
+		diemDanh.setThoiGian(date);
+		diemDanh.setSoLan(diemDanhs.size() + 1);
+		diemDanh.setKhachHangDD(khachHang);
+		try {
+			System.out.println("Ngày: " + date);
+			System.out.println("Số Lần checkin: " + (diemDanhs.size() + 1));
+			System.out.println("Khách Hàng: " + khachHang);
+			diemDanhService.save(diemDanh);
+			mw.addObject("notification", "1");
+		} catch (Exception e) {
+			System.out.println("NgàyFail: " + date);
+			System.out.println("Số Lần checkin: " + (diemDanhs.size() + 1));
+			System.out.println("Khách Hàng: " + khachHang);
+			diemDanhService.save(diemDanh);
+			mw.addObject("notification", "0");
+		}
 		return mw;
 	}
-
 	/*
 	 * =============================================================================
 	 * ============================
@@ -1958,20 +1980,20 @@ public class MainController {
 
 			maTB = "TB1";
 		}
-		SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date newDate = new Date();
 		try {
 			newDate = inputDateFormat.parse(ngayNhap);
-			System.out.println("Ngay nhap vao: "+newDate);
+			System.out.println("Ngay nhap vao: " + newDate);
 			tb.setNgayNhap(newDate);
 		} catch (ParseException e) {
 			Date currentDate = new Date();
-			System.out.println("Ngay hien tai: "+currentDate);
+			System.out.println("Ngay hien tai: " + currentDate);
 			tb.setNgayNhap(currentDate);
 		}
-		//get id loai tb:
+		// get id loai tb:
 		LoaiThietBi loaiTB = loaiTBService.selectLoaiByTenLoaiTB(loaiThietBi.trim());
-		
+
 		tb.setMaTB(maTB);
 		tb.setTenTB(tenTB);
 		tb.setLoaiThietBi(loaiTB);

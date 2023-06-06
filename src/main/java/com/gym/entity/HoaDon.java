@@ -27,10 +27,6 @@ public class HoaDon {
 	@Column(name = "NgayHD")
 	private Date ngayHD;
 	
-	
-	
-	
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="maThe")
 	private The thehd;
