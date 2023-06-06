@@ -105,9 +105,9 @@ public class HomeController {
 	}
 	//==================Xem chi tiết tin tức
 	@RequestMapping(value = "blog", params = {"id"}, method = RequestMethod.GET)
-	public ModelAndView ChiTietTinTuc( HttpSession session, HttpServletResponse response, @RequestParam("id") String maTinTuc) throws IOException {
+	public ModelAndView ChiTietTinTuc( HttpSession session, HttpServletResponse response, @RequestParam("id") int maTinTuc) throws IOException {
 		ModelAndView mw =new ModelAndView("introduce/chitietblog");
-		TinTuc tinTuc = tinTucService.selectByMaKH(maTinTuc);
+		TinTuc tinTuc = tinTucService.selectByMaTT(maTinTuc);
 		mw.addObject("tinTuc", tinTuc);
 		return mw;
 	}

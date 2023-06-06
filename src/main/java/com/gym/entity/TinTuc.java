@@ -18,9 +18,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "TINTUC")
 public class TinTuc {
 	@Id
-	@GeneratedValue
 	@Column(name = "MaTinTuc")
-	private String maTinTuc;
+	private int maTinTuc;
 
 	@Column(name = "TieuDe")
 	private String tieuDe;
@@ -40,11 +39,11 @@ public class TinTuc {
 	@JoinColumn(name = "MaNV")
 	private NhanVien nhanVien;
 
-	public String getMaTinTuc() {
+	public int getMaTinTuc() {
 		return maTinTuc;
 	}
 
-	public void setMaTinTuc(String maTinTuc) {
+	public void setMaTinTuc(int maTinTuc) {
 		this.maTinTuc = maTinTuc;
 	}
 

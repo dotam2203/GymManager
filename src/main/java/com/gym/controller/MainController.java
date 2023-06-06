@@ -36,6 +36,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1922,7 +1923,7 @@ public class MainController {
 	@RequestMapping(value = "delthietbi", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView XoaThietBi(HttpSession session, HttpServletResponse response, @RequestParam("id") String maTB)
 			throws IOException {
-		ModelAndView mw = new ModelAndView("admin/loaithietbi");
+		ModelAndView mw = new ModelAndView("admin/thietbi");
 		thietBiService.delete(maTB);
 		List<ThietBi> listTB = thietBiService.listAll();
 		mw.addObject("listTB", listTB);
@@ -1935,8 +1936,7 @@ public class MainController {
 			@RequestParam("mota") String moTa, @RequestParam("soluong") int soLuong,
 			@RequestParam("xuatxu") String thuongHieu, @RequestParam("tinhtrang") String tinhTrang,
 			@RequestParam("ngaynhap") String ngayNhap, @RequestParam("loaithietbi") String loaiThietBi,
-			@RequestParam("hinhanh") MultipartFile image) throws IOException {
-
+			@RequestParam("hinhanh") MultipartFile image) throws IOException, InterruptedException {
 		ModelAndView mw = new ModelAndView("admin/thietbi");
 
 		String tenHinhAnh = image.getOriginalFilename();
@@ -1958,25 +1958,26 @@ public class MainController {
 
 			maTB = "TB1";
 		}
-		SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date newDate = new Date();
 		try {
 			newDate = inputDateFormat.parse(ngayNhap);
-			System.out.println("Ngay nhap vao: "+newDate);
+			System.out.println("Ngay nhap vao: " + newDate);
 			tb.setNgayNhap(newDate);
 		} catch (ParseException e) {
 			Date currentDate = new Date();
-			System.out.println("Ngay hien tai: "+currentDate);
+			System.out.println("Ngay hien tai: " + currentDate);
 			tb.setNgayNhap(currentDate);
 		}
-		//get id loai tb:
+		// get id loai tb:
 		LoaiThietBi loaiTB = loaiTBService.selectLoaiByTenLoaiTB(loaiThietBi.trim());
-		
+
 		tb.setMaTB(maTB);
 		tb.setTenTB(tenTB);
 		tb.setLoaiThietBi(loaiTB);
 		image.transferTo(new File(path));
 		tb.setHinhAnh(tenHinhAnh);
+		tb.setTinhTrang(tinhTrang);
 		tb.setThuongHieu(thuongHieu);
 		tb.setMoTa(moTa);
 		tb.setSoLuong(soLuong);
@@ -1986,18 +1987,73 @@ public class MainController {
 		} catch (Exception e) {
 			mw.addObject("thongbao", "0");// Thêm tb thất bại
 		}
+		Thread.sleep(5000);
 		List<ThietBi> listTB = thietBiService.listAll();
 		mw.addObject("listTB", listTB);
-
 		return mw;
 	}
 
-//		@RequestMapping(value = "loaiThietBi", method = RequestMethod.GET)
-//		public String insert(ModelMap model) {
-//			  List<LoaiThietBi> listCategory = loaiTBService.listAll();
-//			  model.addAttribute("loai",listCategory);
-//			return "admin/loaithietbi";		
-//		}
+	// ================== Chỉnh Sửa thông tin Thiết Bị theo maTB khi nhấn
+	// thietbi?id=maTB file thietbi.jsp
+	@RequestMapping(value = "thietbi", params = { "id" }, method = RequestMethod.GET)
+	public ModelAndView ChinhSuaTB(HttpSession session, HttpServletResponse response, @RequestParam("id") String maTB)
+			throws IOException {
+		ModelAndView mw = new ModelAndView("admin/chitietthietbi");
+		List<LoaiThietBi> listCategory = loaiTBService.listAll();
+		ThietBi tb = thietBiService.selectByMaTB(maTB);
+		mw.addObject("thietBi", tb);
+		mw.addObject("hinhanh", tb.getHinhAnh());
+		mw.addObject("loai", listCategory);
+		return mw;
+	}
+
+	// ================= Update thông tin Thiết Bị file chitietthietbi.jsp khi
+	// nhấn btn Cập nhật
+	@RequestMapping(value = "updatethietbi", method = RequestMethod.POST)
+	public ModelAndView UpdateTB(Model model, @RequestParam("matb") String maTB, @RequestParam("tentb") String tenTB,
+			@RequestParam("soluong") int soLuong, @RequestParam("tinhtrang") String tinhTrang,
+			@RequestParam("xuatxu") String thuongHieu, @RequestParam("mota") String moTa,
+			@RequestParam("loaithietbi") String loaiThietBi, @RequestParam("hinhanh") MultipartFile image)
+			throws ParseException, IllegalStateException, IOException {
+
+		ModelAndView mw = new ModelAndView("redirect:thietbi?id=" + maTB);// thành công trả về thongbao JS trong file
+		mw.addObject("thongbao", "0");// gán là fail
+		ThietBi tb = thietBiService.selectByMaTB(maTB);
+		String tenHinhAnh = image.getOriginalFilename();
+		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
+		// get id loai tb:
+		LoaiThietBi loaiTB = loaiTBService.selectLoaiByTenLoaiTB(loaiThietBi.trim());
+
+		tb.setMaTB(maTB);
+		tb.setTenTB(tenTB);
+		tb.setLoaiThietBi(loaiTB);
+
+		if (!image.isEmpty()) {
+			File f = new File(servletContext.getRealPath("resources/img/" + tb.getHinhAnh()));
+			f.delete();
+			image.transferTo(new File(path));
+			tb.setHinhAnh(tenHinhAnh);
+		}
+//		image.transferTo(new File(path));
+//		tb.setHinhAnh(tenHinhAnh);
+		tb.setThuongHieu(thuongHieu);
+		tb.setMoTa(moTa);
+		tb.setTinhTrang(tinhTrang);
+		tb.setSoLuong(soLuong);
+//		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//		tb.setNgayNhap(inputDateFormat.parse(ngayNhap));
+		try {
+			thietBiService.save(tb);
+
+			mw.addObject("thongbao", "1");// thêm thành công
+		} catch (Exception e) {
+			mw.addObject("thongbao", "0");// thêm thất bại
+			e.printStackTrace();
+		}
+		// mw = new ModelAndView("redirect:user?id=" + maKH);
+		return mw;
+	}
+
 	@RequestMapping(value = "loaithietbi")
 	public ModelAndView show(HttpServletResponse response, HttpSession session) throws IOException {
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
@@ -2021,25 +2077,67 @@ public class MainController {
 		List<LoaiThietBi> loaiTBs = new ArrayList<>();
 		List<LoaiThietBi> loaiTBServicess = loaiTBService.selectSortMaLoai();
 		loaiTBs = loaiTBServicess;
-
+		LoaiThietBi loaiTB = loaiTBService.selectLoaiByTenLoaiTB(tenLoai);
 		LoaiThietBi loaiThietBi = new LoaiThietBi();
-		if (!loaiTBs.isEmpty()) {
-			loaiThietBi.setMaLoai(loaiTBs.get(0).maLoai + 1);
+		if (loaiTB == null) {
+			if (!loaiTBs.isEmpty()) {
+				loaiThietBi.setMaLoai(loaiTBs.get(0).maLoai + 1);
+			} else {
+				loaiThietBi.setMaLoai(1);
+			}
+			loaiThietBi.setTenLoai(tenLoai);
+			try {
+				loaiTBService.save(loaiThietBi);
+				mw.addObject("thongbao", "1");// thêm thành công
+			} catch (Exception e) {
+				mw.addObject("thongbao", "0");// thêm thất bại
+				e.printStackTrace();
+			}
 		} else {
-			loaiThietBi.setMaLoai(1);
+			mw.addObject("thongbao", "2");// thêm thất bại
 		}
-		loaiThietBi.setTenLoai(tenLoai);
+
+		// load lại data
+		List<LoaiThietBi> loaiTBServices = loaiTBService.selectSortMaLoai();
+		loaiTBs = loaiTBServices;
+		mw.addObject("loaiTBs", loaiTBs);
+		return mw;
+	}
+
+	// ================== Chỉnh Sửa thông tin Loại Thiết Bị theo maTB khi nhấn
+	// thietbi?id=maTB file thietbi.jsp
+	@RequestMapping(value = "loaithietbi", params = { "id" }, method = RequestMethod.GET)
+	public ModelAndView ChinhSuaLTB(HttpSession session, HttpServletResponse response, @RequestParam("id") int maLoai)
+			throws IOException {
+		ModelAndView mw = new ModelAndView("admin/chitietloaithietbi");
+		LoaiThietBi ltb = loaiTBService.selectByMaKH(maLoai);
+		mw.addObject("loaiThietBi", ltb);
+		return mw;
+	}
+
+	// ================= Update thông tin Thiết Bị file chitietthietbi.jsp khi
+	// nhấn btn Cập nhật
+	@RequestMapping(value = "updateloaithietbi", method = RequestMethod.POST)
+	public ModelAndView UpdateLTB(Model model, @RequestParam("maloai") int maLoai,
+			@RequestParam("tenloai") String tenLoai) throws IOException {
+
+		ModelAndView mw = new ModelAndView("redirect:loaithietbi?id=" + maLoai);// thành công trả về thongbao JS trong
+																				// file
+		mw.addObject("thongbao", "0");// gán là fail
+		LoaiThietBi ltb = loaiTBService.selectByMaKH(maLoai);
+
+		ltb.setMaLoai(maLoai);
+		ltb.setTenLoai(tenLoai);
+
 		try {
-			loaiTBService.save(loaiThietBi);
+			loaiTBService.save(ltb);
+
 			mw.addObject("thongbao", "1");// thêm thành công
 		} catch (Exception e) {
 			mw.addObject("thongbao", "0");// thêm thất bại
 			e.printStackTrace();
 		}
-		// load lại data
-		List<LoaiThietBi> loaiTBServices = loaiTBService.selectSortMaLoai();
-		loaiTBs = loaiTBServices;
-		mw.addObject("loaiTBs", loaiTBs);
+		// mw = new ModelAndView("redirect:user?id=" + maKH);
 		return mw;
 	}
 
@@ -2049,12 +2147,12 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/loaithietbi");
 		loaiTBService.delete(maLoai);
 		List<LoaiThietBi> loai = loaiTBService.listAll();
-		mw.addObject("listTinTuc", loai);
+		mw.addObject("loaiTBs", loai);
 		return mw;
 	}
 
-	@RequestMapping(value = "tinTuc", method = RequestMethod.GET)
-	public String insertTT(ModelMap model) {
+	@RequestMapping(value = "tintuc", method = RequestMethod.GET)
+	public String showTinTuc(ModelMap model) {
 		List<TinTuc> listTinTuc = tinTucService.listAll();
 		model.addAttribute("listTinTuc", listTinTuc);
 		return "admin/tintuc";
@@ -2070,20 +2168,96 @@ public class MainController {
 		return mw;
 	}
 
-	@RequestMapping(value = "tinTuc", method = RequestMethod.POST)
+	@RequestMapping(value = "tintuc", method = RequestMethod.POST)
 	public ModelAndView insertTT(@RequestParam("tieuDe") String tieuDe, @RequestParam("noiDung") String noiDung,
 			@RequestParam("hinhAnh") MultipartFile image) throws IOException {
 		ModelAndView mw = new ModelAndView("admin/tintuc");
 		String tenHinhAnh = image.getOriginalFilename();
 		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
+		// auto create id
+		List<TinTuc> listTinTuc = new ArrayList<>();
+		List<TinTuc> listTT = tinTucService.selectSortMaTinTuc();
+		listTinTuc = listTT;
 		TinTuc tinTuc = new TinTuc();
+		if (!listTinTuc.isEmpty()) {
+			tinTuc.setMaTinTuc(listTinTuc.get(0).getMaTinTuc() + 1);
+		} else {
+			tinTuc.setMaTinTuc(1);
+		}
 		tinTuc.setTieuDe(tieuDe);
 		tinTuc.setNoiDung(noiDung);
-		tinTuc.setHinhAnh(path);
+		image.transferTo(new File(path));
+		tinTuc.setHinhAnh(tenHinhAnh);
 		tinTuc.setNgayTao(new Date());
-		tinTucService.save(tinTuc);
-		List<TinTuc> listTinTuc = tinTucService.listAll();
+		try {
+			tinTucService.save(tinTuc);
+			mw.addObject("thongbao", "1");// thêm thành công
+		} catch (Exception e) {
+			mw.addObject("thongbao", "0");// thêm thất bại
+			e.printStackTrace();
+		}
+
+		// load lại data
+		List<TinTuc> listTin = tinTucService.selectSortMaTinTuc();
+		listTinTuc = listTin;
 		mw.addObject("listTinTuc", listTinTuc);
+		return mw;
+//		tinTuc.setTieuDe(tieuDe);
+//		tinTuc.setNoiDung(noiDung);
+//		image.transferTo(new File(path));
+//		tinTuc.setHinhAnh(tenHinhAnh);
+//		tinTuc.setNgayTao(new Date());
+//		tinTucService.save(tinTuc);
+//		List<TinTuc> listTinTuc = tinTucService.listAll();
+//		mw.addObject("listTinTuc", listTinTuc);
+	}
+
+	// ================== Chỉnh Sửa thông tin TinTuc theo maTB khi nhấn
+	// thietbi?id=maTB file thietbi.jsp
+	@RequestMapping(value = "tintuc", params = { "id" }, method = RequestMethod.GET)
+	public ModelAndView ChinhSuaTT(HttpSession session, HttpServletResponse response, @RequestParam("id") int maTinTuc)
+			throws IOException {
+		ModelAndView mw = new ModelAndView("admin/chitietttintuc");
+		TinTuc tt = tinTucService.selectByMaTT(maTinTuc);
+		mw.addObject("tinTuc", tt);
+		mw.addObject("hinhanh", tt.getHinhAnh());
+		return mw;
+	}
+
+	// ================= Update thông tin Tin Tức file chitiettintuc.jsp khi
+	// nhấn btn Cập nhật
+	@RequestMapping(value = "updatetintuc", method = RequestMethod.POST)
+	public ModelAndView UpdateTB(Model model, @RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
+			@RequestParam("noidung") String noiDung,@RequestParam("ngaytao") String ngayTao, @RequestParam("hinhanh") MultipartFile image)
+			throws ParseException, IllegalStateException, IOException {
+
+		ModelAndView mw = new ModelAndView("redirect:tintuc?id=" + maTinTuc);// thành công trả về thongbao JS trong file
+		mw.addObject("thongbao", "0");// gán là fail
+		TinTuc tt = tinTucService.selectByMaTT(maTinTuc);
+		String tenHinhAnh = image.getOriginalFilename();
+		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
+
+		tt.setMaTinTuc(maTinTuc);
+		tt.setNoiDung(noiDung);
+		tt.setTieuDe(tieuDe);
+		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		tt.setNgayTao(inputDateFormat.parse(ngayTao));
+		if (!image.isEmpty()) {
+			File f = new File(servletContext.getRealPath("resources/img/" + tt.getHinhAnh()));
+			f.delete();
+			image.transferTo(new File(path));
+			tt.setHinhAnh(tenHinhAnh);
+		}
+
+		try {
+			tinTucService.save(tt);
+
+			mw.addObject("thongbao", "1");// thêm thành công
+		} catch (Exception e) {
+			mw.addObject("thongbao", "0");// thêm thất bại
+			e.printStackTrace();
+		}
+		// mw = new ModelAndView("redirect:user?id=" + maKH);
 		return mw;
 	}
 }
