@@ -35,6 +35,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -1346,7 +1347,7 @@ public class MainController {
 					phanQuyen = phanQuyenService.selectByMaQuyen(1);
 
 				taiKhoan.setUserName(userName);
-				taiKhoan.setPassWord(password);
+				taiKhoan.setPassWord(encoderPass(password));
 				taiKhoan.setTrangThai(1);// nhân viên
 				taiKhoan.setPhanQuyen(phanQuyen.get(0));
 				taiKhoanService.save(taiKhoan);
@@ -1434,7 +1435,7 @@ public class MainController {
 		if (nhanViens.get(0).getHoaDons().size() == 0 && nhanViens.size() > 0
 				&& (nhanViens.get(0).getEmail().equals(email.trim()) || ktEmail.size() == 0)) {
 			NhanVien nhanVien = new NhanVien();
-			nhanVien.setMaNV(maNV);
+			//nhanVien.setMaNV(maNV);
 			nhanVien.setDiaChi(diaChi);
 			nhanVien.setEmail(email);
 			nhanVien.setGioiTinh(gioiTinh);
@@ -1523,7 +1524,7 @@ public class MainController {
 			// ================================== Check Tài Khoản=================
 			taiKhoan.setUserName(userName);
 			if (passWord.trim().length() > 5) {
-				taiKhoan.setPassWord(passWord);
+				taiKhoan.setPassWord(encoderPass(passWord));
 				mw.addObject("thongbaopass", "1");// 1: change pass success
 			} else {
 				taiKhoan.setPassWord(nhanViens.get(0).getTaiKhoan().getPassWord());
@@ -2282,4 +2283,20 @@ public class MainController {
 		// mw = new ModelAndView("redirect:user?id=" + maKH);
 		return mw;
 	}
+	//===========================================================================
+	//===============================Mã hóa pass nhân viên login=================
+	public String encoderPass(String encoderPass) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String password = encoder.encode(encoderPass);
+		return password;
+	}
+	public boolean checkPass(String pass, String encoderPass) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		boolean isCheck = encoder.matches(pass, encoderPass);
+		if(!isCheck)
+		 return false;
+		return true;
+		
+	}
+	//===========================================================================
 }
