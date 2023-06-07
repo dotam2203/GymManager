@@ -240,7 +240,7 @@ to {
 							</div>
 							<div class="col-md-4 px-md-1">
 								<div class="form-group">
-									<label>Ngày Tạo</label> <input type="text"
+									<label>Ngày Tạo</label> <input type="text" readonly="readonly"
 										class="form-control" placeholder="Ngày tạo"
 										value="${tinTuc.ngayTao}">
 								</div>

@@ -2240,11 +2240,8 @@ public class MainController {
 		String tenHinhAnh = image.getOriginalFilename();
 		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
 
-		//tt.setMaTinTuc(maTinTuc);
 		tt.setNoiDung(noiDung);
 		tt.setTieuDe(tieuDe);
-//		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//		tt.setNgayTao(inputDateFormat.parse(ngayTao));
 		if (!image.isEmpty()) {
 			File f = new File(servletContext.getRealPath("resources/img/" + tt.getHinhAnh()));
 			f.delete();
