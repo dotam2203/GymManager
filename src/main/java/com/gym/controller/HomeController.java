@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -74,7 +75,7 @@ public class HomeController {
 		List<TaiKhoan> taiKhoans = taiKhoanService.listAll();
 		for(TaiKhoan item:taiKhoans){
 	        //System.out.println(item.getUserName()+"---"+item.getPassWord()+"\n");
-			if(username.equalsIgnoreCase(item.getUserName()) && password.equalsIgnoreCase(item.getPassWord()) && item.getTrangThai()==1 ) {
+			if(username.equalsIgnoreCase(item.getUserName()) && checkPass(password, item.getPassWord()) && item.getTrangThai()==1 ) {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
 				
@@ -114,5 +115,12 @@ public class HomeController {
 		mw.addObject("tinTuc", tinTuc);
 		return mw;
 	}
-	
+	public boolean checkPass(String pass, String encoderPass) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		boolean isCheck = encoder.matches(pass, encoderPass);
+		if(!isCheck)
+		 return false;
+		return true;
+		
+	}
 }

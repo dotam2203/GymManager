@@ -50,17 +50,6 @@ public class The {
 	@JoinColumn(name="MaGoiTap")
 	private GoiTap goiTap;
 	
-	public Collection<DiemDanh> getDiemDanhs() {
-		return diemDanhs;
-	}
-
-	public void setDiemDanhs(Collection<DiemDanh> diemDanhs) {
-		this.diemDanhs = diemDanhs;
-	}
-
-	@OneToMany(mappedBy = "theDD")
-	private Collection<DiemDanh> diemDanhs;
-
 	public String getMaThe() {
 		return maThe;
 	}
