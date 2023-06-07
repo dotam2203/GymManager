@@ -17,7 +17,7 @@
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
                         <label>Mã Nhân Viên</label>
-                        <input type="text" class="form-control" placeholder="MaNV" name="manv" value="${info.maNV}">
+                        <input type="text" class="form-control" placeholder="MaNV" name="manv" disabled="disabled" value="${info.maNV}">
                       </div>
                     </div>
                     <div class="col-md-5 px-md-1">
@@ -97,7 +97,7 @@
                     <div class="col-md-6 px-md-1">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" name="password" class="form-control" placeholder="******" value="">
+                        <input type="password" name="password" class="form-control" placeholder="******" value="${info.taiKhoan.passWord}">
                       </div>
                     </div>
                     
