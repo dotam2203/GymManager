@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,9 @@ public class HomeController {
 	private TinTucService tinTucService;
 	
 	@RequestMapping("home")
-	public String Index() {
+	public String Index(Model model) {
+		List<TinTuc> listTinTuc = tinTucService.listAll();
+		model.addAttribute("listTinTuc", listTinTuc);
 		return "introduce/index";
 	}
 	@RequestMapping("index")

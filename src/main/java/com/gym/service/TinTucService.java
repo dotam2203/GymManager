@@ -18,11 +18,11 @@ public class TinTucService {
 		return (List<TinTuc>) repo.findAll();
 	}
 
-	public void delete(String id) {
+	public void delete(Integer id) {
 		repo.deleteById(id);
 	}
 
-	public Optional<TinTuc> get(String id) {
+	public Optional<TinTuc> get(Integer id) {
 		return repo.findById(id);
 	}
 
@@ -30,7 +30,7 @@ public class TinTucService {
 		repo.save(tinTuc);
 	}
 
-	public TinTuc selectByMaTT(int maTinTuc) {
+	public TinTuc selectByMaTT(Integer maTinTuc) {
 		return repo.findByMaTin(maTinTuc);
 	}
 

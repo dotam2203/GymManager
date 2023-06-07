@@ -2160,7 +2160,7 @@ public class MainController {
 
 	@RequestMapping(value = "delTinTuc", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView XoaTinTuc(HttpSession session, HttpServletResponse response,
-			@RequestParam("id") String maTinTuc) throws IOException {
+			@RequestParam("id") Integer maTinTuc) throws IOException {
 		ModelAndView mw = new ModelAndView("admin/tintuc");
 		tinTucService.delete(maTinTuc);
 		List<TinTuc> listTinTuc = tinTucService.listAll();
@@ -2169,21 +2169,24 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "tintuc", method = RequestMethod.POST)
-	public ModelAndView insertTT(@RequestParam("tieuDe") String tieuDe, @RequestParam("noiDung") String noiDung,
+	public ModelAndView insertTT(HttpSession session,@RequestParam("tieuDe") String tieuDe, @RequestParam("noiDung") String noiDung,
 			@RequestParam("hinhAnh") MultipartFile image) throws IOException {
 		ModelAndView mw = new ModelAndView("admin/tintuc");
 		String tenHinhAnh = image.getOriginalFilename();
 		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
+		String manv= (String) session.getAttribute("manv");
+		List<NhanVien> nv= (List<NhanVien>) nhanVienService.selectByMaNV(manv);
 		// auto create id
 		List<TinTuc> listTinTuc = new ArrayList<>();
 		List<TinTuc> listTT = tinTucService.selectSortMaTinTuc();
 		listTinTuc = listTT;
 		TinTuc tinTuc = new TinTuc();
 		if (!listTinTuc.isEmpty()) {
-			tinTuc.setMaTinTuc(listTinTuc.get(0).getMaTinTuc() + 1);
+			tinTuc.setMaTinTuc(listTinTuc.get(0).maTinTuc + 1);
 		} else {
 			tinTuc.setMaTinTuc(1);
 		}
+		tinTuc.setNhanVien(nv.get(0));
 		tinTuc.setTieuDe(tieuDe);
 		tinTuc.setNoiDung(noiDung);
 		image.transferTo(new File(path));
@@ -2227,8 +2230,8 @@ public class MainController {
 	// ================= Update thông tin Tin Tức file chitiettintuc.jsp khi
 	// nhấn btn Cập nhật
 	@RequestMapping(value = "updatetintuc", method = RequestMethod.POST)
-	public ModelAndView UpdateTB(Model model, @RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
-			@RequestParam("noidung") String noiDung,@RequestParam("ngaytao") String ngayTao, @RequestParam("hinhanh") MultipartFile image)
+	public ModelAndView UpdateTT(@RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
+			@RequestParam("noidung") String noiDung, @RequestParam("hinhanh") MultipartFile image)
 			throws ParseException, IllegalStateException, IOException {
 
 		ModelAndView mw = new ModelAndView("redirect:tintuc?id=" + maTinTuc);// thành công trả về thongbao JS trong file
@@ -2237,11 +2240,11 @@ public class MainController {
 		String tenHinhAnh = image.getOriginalFilename();
 		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
 
-		tt.setMaTinTuc(maTinTuc);
+		//tt.setMaTinTuc(maTinTuc);
 		tt.setNoiDung(noiDung);
 		tt.setTieuDe(tieuDe);
-		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		tt.setNgayTao(inputDateFormat.parse(ngayTao));
+//		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//		tt.setNgayTao(inputDateFormat.parse(ngayTao));
 		if (!image.isEmpty()) {
 			File f = new File(servletContext.getRealPath("resources/img/" + tt.getHinhAnh()));
 			f.delete();
