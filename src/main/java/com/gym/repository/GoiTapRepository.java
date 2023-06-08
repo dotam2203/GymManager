@@ -22,7 +22,7 @@ public interface GoiTapRepository extends CrudRepository<GoiTap, String> {
 	public List<GoiTap> findByTenLopTrangThai(@Param("tenlop") String tenLop);
 	
 	@Query("SELECT c FROM GoiTap c WHERE c.maGoiTap = :maGT")
-	public List<GoiTap> findByMaGT(@Param("maGT") String maGT);
+	public GoiTap findByMaGT(@Param("maGT") String maGT);
 	
 	
 	@Query("SELECT c FROM GoiTap c WHERE c.lopDV.maLop = :malop AND c.tenGoiTap = :tenGoiTap")

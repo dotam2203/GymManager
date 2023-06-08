@@ -315,7 +315,7 @@ public class MainController {
 		} catch (Exception e) {
 		}
 		// ============================ Lấy dữ liệu vào file trangchu.jsp
-		mw.addObject("thes_wtt", thes);
+		mw.addObject("thes_ctt", thes);
 		mw.addObject("danhThuN", Arrays.toString(danhThuT));
 		mw.addObject("doanhThuTCN", Arrays.toString(doanhThuTCN));
 		mw.addObject("fieldBDNCN", Arrays.toString(fieldBDNCN));
@@ -612,8 +612,9 @@ public class MainController {
 				}
 
 				// check trùng gói tập trong dv
-				List<GoiTap> checkGoiTap = goiTapService.selectByMaGT(maGT);
-				if (checkGoiTap.size() > 0)
+				GoiTap checkGoiTap = new GoiTap();
+				checkGoiTap = goiTapService.selectByMaGT(maGT);
+				if (checkGoiTap == null)
 					break kiemTraLoi;
 
 				// nếu trùng thì nhập lại
