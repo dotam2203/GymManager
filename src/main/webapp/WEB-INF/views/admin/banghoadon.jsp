@@ -1,4 +1,4 @@
-   <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/resources/include/sidebar.jsp" %>
     <%@ page contentType="text/html" pageEncoding="UTF-8" %>  
       <%@ include file="/resources/include/navbarmn.jsp" %>

@@ -17,18 +17,18 @@ public class PhanQuyenService {
 		return (List<PhanQuyen>) repo.findAll();
 	}
 	
-	public void delete(String id) {
-		repo.deleteById(id);
+	public void delete(int maQuyen) {
+		repo.deleteById(maQuyen);
 	}
 
-	public Optional<PhanQuyen> get(String id) {
-		return repo.findById(id);
+	public Optional<PhanQuyen> get(int maQuyen) {
+		return repo.findById(maQuyen);
 	}
 
 	public void save(PhanQuyen phanQuyen) {
 		repo.save(phanQuyen);
 	}
-	public List<PhanQuyen> selectByMaQuyen(int maQuyen){
+	public PhanQuyen selectByMaQuyen(int maQuyen){
 		return repo.findByMaQuyen(maQuyen);
 	}
 }

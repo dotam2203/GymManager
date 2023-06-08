@@ -36,7 +36,7 @@ public class TheService {
 		return repo.findByMaKH(maKH);
 	}
 	
-	public List<The> selectByMaThe(String maThe){
+	public The selectByMaThe(String maThe){
 		return repo.findByMaThe(maThe);
 	}
 	public List<The> selectByMaGT(String maGT){
@@ -46,14 +46,14 @@ public class TheService {
 	public List<The> selectByTrangThai(String trangThai){
 		return repo.findByTrangThai(trangThai);
 	}
-	public int updateByMaThe(String trangThai,String maThe) {
-		return repo.updateByMaThe(trangThai, maThe);
+	public boolean updateByMaThe(String trangThai,String maThe) {
+		return repo.updateByMaThe(trangThai, maThe)>0;
 	}
-	public int updateNgayBDByMaThe(Date ngayBD,String maThe) {
-		return repo.updateNgayBDByMaThe(ngayBD, maThe);
+	public boolean updateNgayBDByMaThe(Date ngayBD,String maThe) {
+		return repo.updateNgayBDByMaThe(ngayBD, maThe)>0;
 	}
-	public int updateNgayByMaThe(Date ngayBD,Date ngayKT,String maThe) {
-		return repo.updateNgayByMaThe(ngayBD, ngayKT, maThe);
+	public boolean updateNgayByMaThe(Date ngayBD,Date ngayKT,String maThe) {
+		return repo.updateNgayByMaThe(ngayBD, ngayKT, maThe)>0;
 	}
 	public List<The> selectSortMaThe() {
 		return repo.findAllSortMaThe();

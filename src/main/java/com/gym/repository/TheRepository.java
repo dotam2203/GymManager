@@ -35,7 +35,8 @@ public interface TheRepository extends CrudRepository<The, String> {
 	public List<The> checkByNgayKT(@Param("ngayHT") Date ngayHT);
 	
 	@Query("SELECT c FROM The c WHERE c.maThe = :mathe")
-	public List<The> findByMaThe(@Param("mathe") String maThe);
+	public The findByMaThe(@Param("mathe") String maThe);
+	
 	@Query("SELECT c FROM The c WHERE c.goiTap.maGoiTap = :maGT")
 	public List<The> findByMaGT(@Param("maGT") String maGT);
 	
@@ -54,8 +55,5 @@ public interface TheRepository extends CrudRepository<The, String> {
 	public int updateNgayByMaThe( @Param("ngayBD") Date ngayBD , @Param("ngayKT") Date ngayKT ,@Param("mathe") String maThe ) ;
 	@Query("SELECT c FROM  The c WHERE  c.ngayDK LIKE CONCAT(:nam,'%') ORDER BY c.goiTap.gia DESC ")//
 	public List<The> findBetweenNamSortGiaTien(@Param("nam") String nam);
-	
-	
-//	@Query("SELECT c FROM The c order by c. DESC")
-//	public List<The> sortByData();
+
 }

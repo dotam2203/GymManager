@@ -3,8 +3,6 @@
 <%@ include file="/resources/include/navbarmn.jsp"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 
-<c:forEach var="the" items="${thes}">
-
 <div class="content">
 	<div class="row">
 		<div class="col-md-10">
@@ -96,8 +94,12 @@
 							if ("Hoạt Động" == "${the.trangThai}"||"Hết Hạn" == "${the.trangThai}"){
 								document.getElementById("button").innerHTML = "Đã Thanh Toán";
 								document.getElementById("button").setAttribute("disabled", " ");
-								if("1" == "${updateTT}" ){
+								if("true" == "${updateTT}" ){
 									demo.showNotification('top','right','Thanh Toán Thành Công','2');	
+									
+								}
+								else if("false" == "${updateTT}" ){
+									demo.showNotification('top','right','Thanh Toán Thất Bại','3');	
 									
 								}
 							}
@@ -114,10 +116,6 @@
 		</div>
 
 	</div>
-</div>
-</c:forEach>
-
-</div>
 </div>
 <%@include file="/resources/include/endsidebar.jsp" %>
 </body>
