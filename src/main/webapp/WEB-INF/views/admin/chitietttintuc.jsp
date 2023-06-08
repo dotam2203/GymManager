@@ -214,7 +214,7 @@ to {
 							<div class="col-md-4 pr-md-1">
 								<div class="form-group">
 									<label>Mã Tin Tức</label> <input type="text"
-										class="form-control" placeholder="Xuất xứ" readonly="readonly"
+										class="form-control" placeholder="Xuất xứ" readonly="readonly" name="matin"
 										value="${tinTuc.maTinTuc}">
 								</div>
 
@@ -233,15 +233,15 @@ to {
 								<div class="form-group">
 									<label>Nhân Viên Tạo Bài Viết </label> 
 									 <input type="text"
-										disabled="disabled" class="form-control"
-										placeholder="Mã nhân viên" value="${tinTuc.nhanVien.maNV}"
+										disabled="disabled" class="form-control" name="manv"
+										placeholder="Mã nhân viên" value="${tinTuc.nhanVien.tenNV}"
 										>
 								</div>
 							</div>
 							<div class="col-md-4 px-md-1">
 								<div class="form-group">
 									<label>Ngày Tạo</label> <input type="text" readonly="readonly"
-										class="form-control" placeholder="Ngày tạo"
+										class="form-control" placeholder="Ngày tạo" id="ngaytao"
 										value="${tinTuc.ngayTao}">
 								</div>
 							</div>
@@ -271,11 +271,10 @@ to {
 
 				</div>
 				<script>
-         const formatter = new Intl.NumberFormat('en-US', {
-         	style : 'currency',
-         	currency : 'VND',
-         	minimumFractionDigits : 2
-         })
+				var date  = "${tinTuc.ngayTao}";
+                var msg  = date .split("-");
+                var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+                document.getElementById("ngaytao").value = dateFormat;
          
          function layloaithietbi() {
          	//alert(document.getElementById("lopdvss").value);
@@ -315,10 +314,19 @@ to {
 	</div>
 </div>
 <!--       ==========================end========================== -->
+<script>
+var date  = "${tinTuc.ngayTao}";
+var msg  = date .split("-");
+var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+document.getElementById("ngaytao").innerHTML = dateFormat;
+if(${thongbao} == "1"){
+	demo.showNotification('top','right','Thay Đổi Thành Công!','2');
+}
+else if(${thongbao} == "0"){
+	demo.showNotification('top','right','Thay Đổi Thất Bại!','3');
+}
 
-
-</div>
-</div>
+</script>
 
 <script>
 var url_string = window.location.href;

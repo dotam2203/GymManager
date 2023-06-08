@@ -553,10 +553,10 @@ $(document).ready(function(){
 														<td class="text-center">${info.nhanVienDD.tenNV}</td>
 													</tr>
 													<script>
-                         var date  = "${info.thoiGian}";
-                         var msg  = date .split("-");
-                         var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
-                         document.getElementById("fomatDate_${info.thoiGian}").innerHTML = dateFormat;
+                         								var date  = "${info.thoiGian}";
+                         								var msg  = date .split("-");
+                        								var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+                         								document.getElementById("fomatDate_${info.thoiGian}").innerHTML = dateFormat;
                          
                          /*  */
                          /* window.onload = function() {
