@@ -20,7 +20,6 @@ public class Menu1 implements HandlerInterceptor {
 			  HttpServletResponse response, 
 			  Object handler) throws Exception {
 				List<String> menu1s=new ArrayList<String>();
-				//trả về list chức năng trang admin trong file sidebar.jsp
 				menu1s.add("home");
 				menu1s.add("statistics");
 				menu1s.add("information");
