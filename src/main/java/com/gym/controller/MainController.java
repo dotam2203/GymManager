@@ -2198,7 +2198,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "delTinTuc", params = { "id" }, method = RequestMethod.GET)
-	public ModelAndView XoaTinTuc(HttpSession session, HttpServletResponse response,@RequestParam("id") String maTinTuc) throws IOException {
+	public ModelAndView XoaTinTuc(HttpSession session, HttpServletResponse response,@RequestParam("id") Integer maTinTuc) throws IOException {
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
 		roleLogin(response,session);
 		ModelAndView mw = new ModelAndView("admin/tintuc");
@@ -2218,7 +2218,7 @@ public class MainController {
 		String tenHinhAnh = image.getOriginalFilename();
 		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
 		String manv= (String) session.getAttribute("manv");
-		List<NhanVien> nv= (List<NhanVien>) nhanVienService.selectByMaNV(manv);
+		NhanVien nv =  nhanVienService.selectByMaNV(manv);
 		// auto create id
 		List<TinTuc> listTinTuc = new ArrayList<>();
 		List<TinTuc> listTT = tinTucService.selectSortMaTinTuc();
@@ -2229,7 +2229,7 @@ public class MainController {
 		} else {
 			tinTuc.setMaTinTuc(1);
 		}
-		tinTuc.setNhanVien(nv.get(0));
+		tinTuc.setNhanVien(nv);
 		tinTuc.setTieuDe(tieuDe);
 		tinTuc.setNoiDung(noiDung);
 		image.transferTo(new File(path));
@@ -2265,7 +2265,7 @@ public class MainController {
 			throws IOException {
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
 		roleLogin(response,session);
-
+		
 		ModelAndView mw = new ModelAndView("admin/chitietttintuc");
 		TinTuc tt = tinTucService.selectByMaTT(maTinTuc);
 		mw.addObject("tinTuc", tt);
@@ -2276,9 +2276,8 @@ public class MainController {
 	// ================= Update thông tin Tin Tức file chitiettintuc.jsp khi
 	// nhấn btn Cập nhật
 	@RequestMapping(value = "updatetintuc", method = RequestMethod.POST)
-	public ModelAndView UpdateTB(HttpSession session, HttpServletResponse response,Model model, @RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
-			@RequestParam("noidung") String noiDung,@RequestParam("ngaytao") String ngayTao, @RequestParam("hinhanh") MultipartFile image)
-throws ParseException, IllegalStateException, IOException {
+	public ModelAndView UpdateTB(HttpSession session, HttpServletResponse response, @RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
+			@RequestParam("noidung") String noiDung, @RequestParam("hinhanh") MultipartFile image) throws ParseException, IllegalStateException, IOException {
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
 		roleLogin(response,session);
@@ -2291,6 +2290,7 @@ throws ParseException, IllegalStateException, IOException {
 
 		tt.setNoiDung(noiDung);
 		tt.setTieuDe(tieuDe);
+		tt.setNgayTao(new Date());
 		if (!image.isEmpty()) {
 			File f = new File(servletContext.getRealPath("resources/img/" + tt.getHinhAnh()));
 			f.delete();
