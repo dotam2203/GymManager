@@ -1,4 +1,4 @@
-   <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/resources/include/sidebar.jsp" %>
     <%@ page contentType="text/html" pageEncoding="UTF-8" %>  
       <%@ include file="/resources/include/navbarmn.jsp" %>
@@ -63,7 +63,7 @@ $(document).ready(function(){
                         <th class="text-center">
                           Thành tiền
                         </th>
-                        <th>
+                        <th class="text-center">
                           Nhân Viên Lập
                         </th>
                         <th class="text-center">
@@ -81,24 +81,37 @@ $(document).ready(function(){
                         <td>
                           ${info.thehd.khachHang.tenKH}
                         </td>
-                        <td >
+                        <td>
                           ${info.thehd.goiTap.tenGoiTap}
                         </td>
-                        <td >
+                        <td>
                          ${info.thehd.goiTap.lopDV.tenLop}
                         </td>
-                         <td class="text-center" >
+                         <td id="formatMoney_${info.thehd.goiTap.gia}" class="text-center" >
                          ${info.thehd.goiTap.gia}
                         </td>
-                         <td >
+                         <td class="text-center">
                          ${info.nhanVien.tenNV}
                         </td>
-                        <td class="text-center">
+                        <td id="fomatDate_${info.ngayHD}" class="text-center">
                         ${info.ngayHD}
                         </td>
                         
   						</tr>
-                         
+  						
+                         <script>
+                         var date  = "${info.ngayHD}";
+                         var msg  = date .split("-");
+                         var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+                         document.getElementById("fomatDate_${info.ngayHD}").innerHTML = dateFormat;
+                         /*  */
+                         const formatter_${info.maSoHD} = new Intl.NumberFormat('vi-VN', {
+           				  style: 'currency',
+           				  currency: 'VND',
+           				  minimumFractionDigits: 0
+           				})
+           				document.getElementById("formatMoney_${info.thehd.goiTap.gia}").innerHTML = formatter_${info.maSoHD}.format(${info.thehd.goiTap.gia});                         
+                         </script>
                        </c:forEach>
                     </tbody>
                   </table>

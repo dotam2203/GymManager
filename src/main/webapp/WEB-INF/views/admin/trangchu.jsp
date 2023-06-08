@@ -4,16 +4,16 @@
 
 
       <%@ include file="/resources/include/navbarmn.jsp" %>
-   <%-- <c:forEach var="the_wtt" items="${thes_wtt}"> 
+   <c:forEach var="the_wtt" items="${thes_ctt}"> 
       <script>
-      	var mathe="${the_wtt.maThe}";
+      	var mathe="${the_ctt.maThe}";
 			if("${the_wtt.trangThai}"=="Chưa Thanh Toán"){
 				demo.showNotification('top','right',' <a style="color: white;font-size:20px" href=\"hoadon?id=${the_wtt.maThe}\">Thẻ '+mathe.trim()+' chưa được thanh toán </a> ','3');
 
 				}
 
       </script>
-      </c:forEach> --%>
+      </c:forEach>
       
       <div class="content">
         <div class="row">
@@ -62,12 +62,12 @@
                 <h5 class="card-category">Doanh Thu Cao Nhất</h5>
                 <h3 class="card-title"><i class="tim-icons icon-money-coins text-primary"></i><span id="tienDTCN"></span></h3>
                 <script>
-				const formatter = new Intl.NumberFormat('en-US', {
+				const formatter = new Intl.NumberFormat('vi-VN', {
 				  style: 'currency',
 				  currency: 'VND',
-				  minimumFractionDigits: 2
+				  minimumFractionDigits: 0
 				})
-				document.getElementById("tienDTCN").innerHTML= formatter.format(${maxDT});
+				document.getElementById("tienDTCN").innerHTML = formatter.format(${maxDT});
 				</script>
               </div>
               <div onclick="redirect('bieudodtcn')" class="card-body">

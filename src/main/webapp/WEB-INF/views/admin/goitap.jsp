@@ -1,72 +1,71 @@
-<%@ include file="/resources/include/sidebar.jsp" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/resources/include/sidebar.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!- -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style type="text/css">
 /* The switch - the box around the slider */
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 48px;
-  height: 24px;
+	position: relative;
+	display: inline-block;
+	width: 48px;
+	height: 24px;
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
 /* The slider */
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+	position: absolute;
+	content: "";
+	height: 16px;
+	width: 16px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
 }
 
-input:checked + .slider {
-  background-color: #2196F3;
+input:checked+.slider {
+	background-color: #2196F3;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
 }
 
 .slider.round {
-  border-radius: 24px;
+	border-radius: 24px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+	border-radius: 50%;
 }
-
-
 </style>
 
 <script>
@@ -96,92 +95,99 @@ $(document).ready(function(){
 	});
 </script>
 
- <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JNKKKK/MoreToggles.css@0.2.1/output/moretoggles.min.css">
-  </head>
+<head>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/JNKKKK/MoreToggles.css@0.2.1/output/moretoggles.min.css">
+</head>
 
-  <%@ page contentType="text/html" pageEncoding="UTF-8" %>    
-      <%@ include file="/resources/include/navbarmn.jsp" %>
-      <div class="content">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header ">
-                <div class="row">
-                  <div class="col-sm-6 text-left">
-                    
-                    <h2 class="card-title"> Dịch Vụ</h2>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                      <label  class="tablinks btn btn-sm btn-primary btn-simple active" id="defaultOpen" onclick="dangky(event, 'doanhthu')">
-                        <input type="radio" name="options" checked>
-                       <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Danh Sách Gói Tập</span></form>
-                        <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-single-02"></i>
-                        </span>
-                      </label>               
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="/resources/include/navbarmn.jsp"%>
+<div class="content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header ">
+					<div class="row">
+						<div class="col-sm-6 text-left">
 
-              <!-- ========================Nội dung ======================== -->
-              <!-- ========================Chỉnh sửa lớp dịch vụ============ -->
-              <div id="chinhsua" class="card-body tabcontent">
-					<form itemid="@{lopDV}">
-                       <div class="row">
-											<div class="col-md-3 pr-md-1">
-												<div  class="form-group">
-										<label>Mã Dịch Vụ</label> <input style="text-align: center;color:white" type="text"
-											class="form-control" disabled="" placeholder="ID" name="maLop" id="maLop"
-											value=" ${lopDV.maLop}">
-									</div>
-											</div>
-											<div class="col-md-3 pr-md-1">
-												<label>Tên Dịch Vụ</label> 
-												<input type="text" list="ide"
-														class="form-control" placeholder="tenLop" name="tenLop"
-														value="${lopDV.tenLop}">
-												<datalist id="ide">
-													<option value="Boxing" label="mặc định" />
-												    <option value="Aerobic" label="mặc định" />
-												    <option value="Fitness"label="mặc định"/>
-												    <option value="Yoga" label="mặc định"/>
-												</datalist>
-												</div>
+							<h2 class="card-title">Dịch Vụ</h2>
+						</div>
+						<div class="col-sm-6">
+							<div class="btn-group btn-group-toggle float-right"
+								data-toggle="buttons">
+								<label class="tablinks btn btn-sm btn-primary btn-simple active"
+									id="defaultOpen" onclick="dangky(event, 'doanhthu')"> <input
+									type="radio" name="options" checked> <span
+									class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Danh
+										Sách Gói Tập</span>
+								</form> <span class="d-block d-sm-none"> <i
+										class="tim-icons icon-single-02"></i>
+								</span>
+								</label>
 							</div>
-						</form>	 
-					<!-- ================================end lớp dv=============================== -->
-					
-	<!-- ==========================================Thêm mới gói tập========================================= -->						 
-							 <form action="updatelopdv" method="post">
-							
-							<div class="row">
-												
-											<div class="col-md-3 pr-md-1">
-												<div class="form-group">
-													<label>Loại Gói Tập</label>
-													<select id="loaigoitap"  onchange="chonloaigoitap()" placeholder="Hãy chọn loại gói tập" style="background: #27293d" class="form-control form-select">
-														<option hidden checked="" ></option>
-														<option>Ngày</option>
-														<option>Tuần</option>
-														<option>Tháng</option>
-														<option>Năm</option>
-														
-													</select>
-												</div>
-											</div>
-											 <div  class="col-md-2 pr-md-1">
-											      <div class="form-group">
-											           <label>Tên Gói Tập</label>
-											          <select id="optiongoitap" name="tengoitap"  style="background: #27293d" class="form-control form-select"></select>
-											      </div>
-											</div> 
+						</div>
+					</div>
 
-								
-											<script>
+				</div>
+
+				<!-- ========================Nội dung ======================== -->
+				<!-- ========================Chỉnh sửa lớp dịch vụ============ -->
+				<div id="chinhsua" class="card-body tabcontent">
+					<form itemid="@{lopDV}">
+						<div class="row">
+							<div class="col-md-3 pr-md-1">
+								<div class="form-group">
+									<label>Mã Dịch Vụ</label> <input
+										style="text-align: center; color: white" type="text"
+										class="form-control" disabled="" placeholder="ID" name="maLop"
+										id="maLop" value=" ${lopDV.maLop}">
+								</div>
+							</div>
+							<div class="col-md-3 pr-md-1">
+								<label>Tên Dịch Vụ</label> <input type="text" list="ide"
+									class="form-control" placeholder="tenLop" name="tenLop"
+									value="${lopDV.tenLop}">
+								<datalist id="ide">
+									<option value="Boxing" label="mặc định" />
+									<option value="Aerobic" label="mặc định" />
+									<option value="Fitness" label="mặc định" />
+									<option value="Yoga" label="mặc định" />
+								</datalist>
+							</div>
+						</div>
+					</form>
+					<!-- ================================end lớp dv=============================== -->
+
+					<!-- ==========================================Thêm mới gói tập========================================= -->
+					<form action="updatelopdv" method="post">
+
+						<div class="row">
+
+							<div class="col-md-3 pr-md-1">
+								<div class="form-group">
+									<label>Loại Gói Tập</label> <select id="loaigoitap"
+										onchange="chonloaigoitap()"
+										placeholder="Hãy chọn loại gói tập"
+										style="background: #27293d" class="form-control form-select">
+										<option hidden checked=""></option>
+										<option>Ngày</option>
+										<option>Tuần</option>
+										<option>Tháng</option>
+										<option>Năm</option>
+
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2 pr-md-1">
+								<div class="form-group">
+									<label>Tên Gói Tập</label> <select id="optiongoitap"
+										name="tengoitap" style="background: #27293d"
+										class="form-control form-select"></select>
+								</div>
+							</div>
+
+
+							<script>
 
 												function layoption(start,end,ten){
 													var options="";
@@ -208,83 +214,65 @@ $(document).ready(function(){
 													
 												}
 											</script>
-									
-										
-										<div class="col-md-3 pr-md-1">
-												<div class="form-group">
-													<label>Giá Tiền</label> <input type="number"
-														class="form-control" placeholder="gia" name="gia">
-												</div>
-											</div>
-									
-									<input name = "malop" value="" id = "maLop1" hidden="">	
-									<div class="card-footer">
-										<button type="submit" class="btn btn-fill btn-primary">Thêm</button>
-									</div>
-						</div>	
-						
+
+
+							<div class="col-md-3 pr-md-1">
+								<div class="form-group">
+									<label>Giá Tiền</label> <input type="number"
+										class="form-control" placeholder="gia" name="gia">
+								</div>
+							</div>
+
+							<input name="malop" value="" id="maLop1" hidden="">
+							<div class="card-footer">
+								<button type="submit" class="btn btn-fill btn-primary">Thêm</button>
+							</div>
+						</div>
+
 					</form>
-					
-					
+
+
 					<script type="text/javascript">
 						document.getElementById("maLop1").value = document.getElementById("maLop").value;
 						
 					</script>
-				
-                 <!-- end title --> 
-              
-              <!-- =================================end==================================================== -->
-              <!-- =================================Bảng gói tập=========================================== -->
-              
-              <div class="card-body">
-                <div class="table-responsive ps">
-                  <table class="table tablesorter " id="">
-                    <thead class=" text-primary">
-                      <tr>
-                      <th>
-                          Mã Gói Tập
-                        </th>
-                        <th>
-                          Tên Gói tập
-                        </th>
-                        
-                        <th class="text-center">
-                          Thời Hạn
-                        </th>
-                        <th class="text-center">
-                          Giá Tiền
-                        </th>
-                       <th class="text-center">Trạng Thái</th>
-                        
-                        <th class="text-center">
-                          Xóa
-                        </th>
-                        
-                        
-                      </tr>
-                    </thead>
-                    <tbody id="myTable">
-						<c:forEach var="info" items="${goiTapServices}">
-                      <tr id="tr_${info.maGoiTap}">
-                        <td>
-                          ${info.maGoiTap}
-                        </td>
-                        <td>
-                          ${info.tenGoiTap}
-                        </td>
-                        <td class="text-center">
-                          ${info.thoiHan} ngày
-                        </td>
-                        <td class="text-center">
-                          ${info.gia} VND
-                        </td>
-                        <td id="td_${info.maGoiTap}" class="text-center">
-                        	<span id="ttgt_${info.maGoiTap}"> 	
-                        		<c:forEach var="the" items="${info.the}">
+
+					<!-- end title -->
+
+					<!-- =================================end==================================================== -->
+					<!-- =================================Bảng gói tập=========================================== -->
+
+					<div class="card-body">
+						<div class="table-responsive ps">
+							<table class="table tablesorter " id="">
+								<thead class=" text-primary">
+									<tr>
+										<th>Mã Gói Tập</th>
+										<th>Tên Gói tập</th>
+
+										<th class="text-center">Thời Hạn</th>
+										<th class="text-center">Giá Tiền</th>
+										<th class="text-center">Trạng Thái</th>
+
+										<th class="text-center">Xóa</th>
+
+
+									</tr>
+								</thead>
+								<tbody id="myTable">
+									<c:forEach var="info" items="${goiTapServices}">
+										<tr id="tr_${info.maGoiTap}">
+											<td>${info.maGoiTap}</td>
+											<td>${info.tenGoiTap}</td>
+											<td class="text-center">${info.thoiHan} ngày</td>
+											<td id="giatien" class="text-center">${info.gia} VND</td>
+											<td id="td_${info.maGoiTap}" class="text-center"><span
+												id="ttgt_${info.maGoiTap}"> <c:forEach var="the"
+														items="${info.the}">
                         			${the.maThe},
                         		</c:forEach>
-							</span>
-                        	<script>
+											</span>
+							<script>
 								var trangthai = "";
 								var trangthais = document
 										.getElementById("ttgt_${info.maGoiTap}").innerHTML
@@ -297,39 +285,59 @@ $(document).ready(function(){
 								
 								document.getElementById("td_${info.maGoiTap}").innerHTML = trangthai.trim();
 								
+								/* ================format money ================= */
+							
+								const formatter = new Intl.NumberFormat('vi-VN', {
+				  						style: 'currency',
+				  						currency: 'VND',
+				  						minimumFractionDigits: 0
+								})
+								document.getElementById("giatien").innerHTML = formatter.format(${info.gia})
 								
-							</script>
-                        
-                        </td>
-                        
-                         <td  class="text-center text-danger"><a href="#myModal${info.maGoiTap}" data-toggle="modal"  id="xoa1_${info.maGoiTap}" style="color:red" class="tim-icons icon-simple-remove"></a></td>
-                      	 
-                    
-                      	 <!-- Modal HTML -->
-							<div id="myModal${info.maGoiTap}" class="modal fade">
-								<div class="modal-dialog modal-confirm">
-									<div class="modal-content">
-										
-													<br>		
-											<center><h3 style="color: black">Bạn muốn tiếp tục?</h3></center>	
-							                
-										
-										<div class="modal-body">
-											<center><p> BẠN chắc chắn muốn xóa gói tập <b style="font-weight: bold;">${info.tenGoiTap}</b> ?</p></center>
-										</div>
-										<div class="modal-footer">
-										<button id="thoat${info.maGoiTap}" style="margin-right: 100px" type="button" class="btn btn-info" data-dismiss="modal">Hủy</button>
-											<button onclick='ajax_xoa_GT("${info.maGoiTap}")' style="margin-left: 100px" type="button" class="btn btn-danger">Xóa</button>
-										</div>
-									</div>
-								</div>
-							</div> 
-                      <script>
+							</script></td>
+
+											<td class="text-center text-danger"><a
+												href="#myModal${info.maGoiTap}" data-toggle="modal"
+												id="xoa1_${info.maGoiTap}" style="color: red"
+												class="tim-icons icon-simple-remove"></a></td>
+
+
+											<!-- Modal HTML -->
+											<div id="myModal${info.maGoiTap}" class="modal fade">
+												<div class="modal-dialog modal-confirm">
+													<div class="modal-content">
+
+														<br>
+														<center>
+															<h3 style="color: black">Bạn muốn tiếp tục?</h3>
+														</center>
+
+
+														<div class="modal-body">
+															<center>
+																<p>
+																	BẠN chắc chắn muốn xóa gói tập <b
+																		style="font-weight: bold;">${info.tenGoiTap}</b> ?
+																</p>
+															</center>
+														</div>
+														<div class="modal-footer">
+															<button id="thoat${info.maGoiTap}"
+																style="margin-right: 100px" type="button"
+																class="btn btn-info" data-dismiss="modal">Hủy</button>
+															<button onclick='ajax_xoa_GT("${info.maGoiTap}")'
+																style="margin-left: 100px" type="button"
+																class="btn btn-danger">Xóa</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<script>
                          if(document.getElementById("td_${info.maGoiTap}").innerHTML.trim()!="KDK") document.getElementById("xoa1_${info.maGoiTap}").remove(); 
-					 </script>    
-                      </tr>
-                      </c:forEach>
-                      <script>
+					 </script>
+										</tr>
+									</c:forEach>
+									<script>
 						
 						function ajax_xoa_GT(maGT){
 							$.ajax({
@@ -357,23 +365,23 @@ $(document).ready(function(){
 						}
 
                     </script>
-                    </tbody>
-                  </table>
-            </div>
-          </div>
-   </div>
- </div>       
-           <!-- =================================end==================================================== -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- =================================end==================================================== -->
 
-        </div>
-      </div>
+		</div>
+	</div>
 
-    </div>
-  <script>
+</div>
+<script>
 	if("${thongbao}".trim()=="1") demo.showNotification('top','right','Thêm Gói Tập thành công!','2');
 	else if("${thongbao}".trim()=="0")demo.showNotification('top','right','Thêm Gói Tập thất bại!','3');
 
   </script>
-  <%@include file="/resources/include/endsidebar.jsp" %>
+<%@include file="/resources/include/endsidebar.jsp"%>
 </body>
 
