@@ -896,134 +896,134 @@ public class MainController {
 		boolean updateTT = theService.updateByMaThe("Hoạt Động", maThe);
 
 		// Gửi mail thông báo Thanh Toán Hóa Đơn
-		The thesMail = theService.selectByMaThe(maThe);
-		MimeMessage messages = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(messages, true, "UTF-8");
-
-		helper.setTo(thesMail.getKhachHang().getEmail());
-		helper.setSubject("Thanh Toán Dịch Vụ");
-		String html_HoaDon = "\r\n"
-				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /><title>NDTGYM Confirm</title><style type=\"text/css\">\r\n"
-				+ "    /* Take care of image borders and formatting, client hacks */\r\n"
-				+ "    img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}\r\n"
-				+ "    a img { border: none; }\r\n" + "    table { border-collapse: collapse !important;}\r\n"
-				+ "    #outlook a { padding:0; }\r\n" + "    .ReadMsgBody { width: 100%; }\r\n"
-				+ "    .ExternalClass { width: 100%; }\r\n"
-				+ "    .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }\r\n"
-				+ "    table td { border-collapse: collapse; }\r\n" + "    .ExternalClass * { line-height: 115%; }\r\n"
-				+ "    .container-for-gmail-android { min-width: 600px; }\r\n" + "\r\n" + "\r\n"
-				+ "    /* General styling */\r\n" + "    * {\r\n"
-				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "    }\r\n" + "\r\n" + "    body {\r\n"
-				+ "      -webkit-font-smoothing: antialiased;\r\n" + "      -webkit-text-size-adjust: none;\r\n"
-				+ "      width: 100% !important;\r\n" + "      margin: 0 !important;\r\n" + "      height: 100%;\r\n"
-				+ "      color: #676767;\r\n" + "    }\r\n" + "\r\n" + "    td {\r\n"
-				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "      font-size: 14px;\r\n"
-				+ "      color: #777777;\r\n" + "      text-align: center;\r\n" + "      line-height: 21px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    a {\r\n" + "      color: #676767;\r\n"
-				+ "      text-decoration: none !important;\r\n" + "    }\r\n" + "\r\n" + "    .pull-left {\r\n"
-				+ "      text-align: left;\r\n" + "    }\r\n" + "\r\n" + "    .pull-right {\r\n"
-				+ "      text-align: right;\r\n" + "    }\r\n" + "\r\n" + "    .header-lg,\r\n" + "    .header-md,\r\n"
-				+ "    .header-sm {\r\n" + "      font-size: 32px;\r\n" + "      font-weight: 700;\r\n"
-				+ "      line-height: normal;\r\n" + "      padding: 35px 0 0;\r\n" + "      color: #4d4d4d;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .header-md {\r\n" + "      font-size: 24px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .header-sm {\r\n" + "      padding: 5px 0;\r\n" + "      font-size: 18px;\r\n"
-				+ "      line-height: 1.3;\r\n" + "    }\r\n" + "\r\n" + "    .content-padding {\r\n"
-				+ "      padding: 20px 0 5px;\r\n" + "    }\r\n" + "\r\n" + "    .mobile-header-padding-right {\r\n"
-				+ "      width: 290px;\r\n" + "      text-align: right;\r\n" + "      padding-left: 10px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .mobile-header-padding-left {\r\n" + "      width: 290px;\r\n"
-				+ "      text-align: left;\r\n" + "      padding-left: 10px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .free-text {\r\n" + "      width: 100% !important;\r\n" + "      padding: 10px 60px 0px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .button {\r\n" + "      padding: 30px 0;\r\n" + "    }\r\n" + "\r\n"
-				+ "\r\n" + "    .mini-block {\r\n" + "      border: 1px solid #e5e5e5;\r\n"
-				+ "      border-radius: 5px;\r\n" + "      background-color: #ffffff;\r\n"
-				+ "      padding: 12px 15px 15px;\r\n" + "      text-align: left;\r\n" + "      width: 253px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .mini-container-left {\r\n" + "      width: 278px;\r\n"
-				+ "      padding: 10px 0 10px 15px;\r\n" + "    }\r\n" + "\r\n" + "    .mini-container-right {\r\n"
-				+ "      width: 278px;\r\n" + "      padding: 10px 14px 10px 15px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .product {\r\n" + "      text-align: left;\r\n" + "      vertical-align: top;\r\n"
-				+ "      width: 175px;\r\n" + "    }\r\n" + "\r\n" + "    .total-space {\r\n"
-				+ "      padding-bottom: 8px;\r\n" + "      display: inline-block;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .item-table {\r\n" + "      padding: 50px 20px;\r\n" + "      width: 560px;\r\n" + "    }\r\n"
-				+ "\r\n" + "    .item {\r\n" + "      width: 300px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .mobile-hide-img {\r\n" + "      text-align: left;\r\n" + "      width: 125px;\r\n" + "    }\r\n"
-				+ "\r\n" + "    .mobile-hide-img img {\r\n" + "      border: 1px solid #e6e6e6;\r\n"
-				+ "      border-radius: 4px;\r\n" + "    }\r\n" + "\r\n" + "    .title-dark {\r\n"
-				+ "      text-align: left;\r\n" + "      border-bottom: 1px solid #cccccc;\r\n"
-				+ "      color: #4d4d4d;\r\n" + "      font-weight: 700;\r\n" + "      padding-bottom: 5px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .item-col {\r\n" + "      padding-top: 20px;\r\n"
-				+ "      text-align: left;\r\n" + "      vertical-align: top;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .force-width-gmail {\r\n" + "      min-width:600px;\r\n" + "      height: 0px !important;\r\n"
-				+ "      line-height: 1px !important;\r\n" + "      font-size: 1px !important;\r\n" + "    }\r\n"
-				+ "\r\n" + "  </style><style type=\"text/css\" media=\"screen\">\r\n"
-				+ "    @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700);\r\n"
-				+ "  </style><style type=\"text/css\" media=\"screen\">\r\n" + "    @media screen {\r\n"
-				+ "      /* Thanks Outlook 2013! */\r\n" + "      * {\r\n"
-				+ "        font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;\r\n"
-				+ "      }\r\n" + "    }\r\n"
-				+ "  </style><style type=\"text/css\" media=\"only screen and (max-width: 480px)\">\r\n"
-				+ "    /* Mobile styles */\r\n" + "    @media only screen and (max-width: 480px) {\r\n" + "\r\n"
-				+ "      table[class*=\"container-for-gmail-android\"] {\r\n"
-				+ "        min-width: 290px !important;\r\n" + "        width: 100% !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      img[class=\"force-width-gmail\"] {\r\n" + "        display: none !important;\r\n"
-				+ "        width: 0 !important;\r\n" + "        height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      table[class=\"w320\"] {\r\n" + "        width: 320px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "\r\n" + "      td[class*=\"mobile-header-padding-left\"] {\r\n"
-				+ "        width: 160px !important;\r\n" + "        padding-left: 0 !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      td[class*=\"mobile-header-padding-right\"] {\r\n"
-				+ "        width: 160px !important;\r\n" + "        padding-right: 0 !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      td[class=\"header-lg\"] {\r\n" + "        font-size: 24px !important;\r\n"
-				+ "        padding-bottom: 5px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class=\"content-padding\"] {\r\n" + "        padding: 5px 0 5px !important;\r\n"
-				+ "      }\r\n" + "\r\n" + "       td[class=\"button\"] {\r\n"
-				+ "        padding: 5px 5px 30px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class*=\"free-text\"] {\r\n" + "        padding: 10px 18px 30px !important;\r\n"
-				+ "      }\r\n" + "\r\n" + "      td[class~=\"mobile-hide-img\"] {\r\n"
-				+ "        display: none !important;\r\n" + "        height: 0 !important;\r\n"
-				+ "        width: 0 !important;\r\n" + "        line-height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class~=\"item\"] {\r\n" + "        width: 140px !important;\r\n"
-				+ "        vertical-align: top !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class~=\"quantity\"] {\r\n" + "        width: 50px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class~=\"price\"] {\r\n" + "        width: 90px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class=\"item-table\"] {\r\n" + "        padding: 30px 20px !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      td[class=\"mini-container-left\"],\r\n"
-				+ "      td[class=\"mini-container-right\"] {\r\n" + "        padding: 0 15px 15px !important;\r\n"
-				+ "        display: block !important;\r\n" + "        width: 290px !important;\r\n" + "      }\r\n"
-				+ "    }\r\n"
-				+ "  </style></head><body bgcolor=\"#f7f7f7\"><table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" class=\"container-for-gmail-android\" width=\"100%\"><tr><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" bgcolor=\"#ffffff\" background=\"http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg\" style=\"background-color:transparent\"><tr><td width=\"100%\" height=\"80\" valign=\"top\" style=\"text-align: center; vertical-align:middle;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"pull-left mobile-header-padding-left\" style=\"vertical-align: middle;\"><a class=\"header-md\" href=\"\">Xin chào, "
-				+ thesMail.getKhachHang().getTenKH()
-				+ "</a></td></tr></table></center></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7;\" class=\"content-padding\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"header-lg\">\r\n"
-				+ "              Thanh Toán Thành Công!\r\n" + "            </td></tr><tr><td class=\"free-text\">\r\n"
-				+ "              Chân thành cảm ơn Quý Khách đã đồng hành cùng FITNESSGYM.<br> Chúc Quý Khách hàng có một trải nghiệm thật tốt và thú vị!!\r\n"
-				+ "            </td></tr><tr><td class=\"button\"><div><a href=\"http://\"\r\n"
-				+ "              style=\"background-color:#28a745;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;\">Đăng ký dịch vụ mới</a></div></td></tr><tr><td class=\"w320\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-container-left\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông tin khách hàng</span><br />\r\n"
-				+ "                                " + thesMail.getKhachHang().getTenKH() + " <br />\r\n"
-				+ "                                " + thesMail.getKhachHang().getSdt() + " <br />\r\n"
-				+ "                                " + thesMail.getKhachHang().getEmail() + " \r\n"
-				+ "                              </td></tr></table></td></tr></table></td><td class=\"mini-container-right\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông Tin Dịch Vụ</span><br />\r\n"
-				+ "                                Ngày Đăng Ký: " + thesMail.getNgayDK()
-				+ " <br /><span class=\"header-sm\">Mã Hóa Đơn</span><br />\r\n" + "                                #"
-				+ maHDMail + "\r\n"
-				+ "                              </td></tr></table></td></tr></table></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"item-table\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td class=\"title-dark\" width=\"300\">\r\n"
-				+ "                       Dịch Vụ\r\n"
-				+ "                    </td><td class=\"title-dark\" width=\"163\">\r\n"
-				+ "                      Gói Tập\r\n"
-				+ "                    </td><td class=\"title-dark\" width=\"97\">\r\n"
-				+ "                      Giá\r\n"
-				+ "                    </td></tr><tr><td class=\"item-col item\"><span style=\"color: #4d4d4d; font-weight:bold;\">"
-				+ thesMail.getGoiTap().getLopDV().getTenLop()
-				+ "</span></td><td class=\"item-col quantity\">\r\n" + "                     "
-				+ thesMail.getGoiTap().getTenGoiTap() + "\r\n"
-				+ "                    </td><td class=\"item-col\">\r\n" + "                      ₫"
-				+ thesMail.getGoiTap().getGia() + "\r\n"
-				+ "                    </td></tr><tr><td class=\"item-col item mobile-row-padding\"></td><td class=\"item-col quantity\"></td><td class=\"item-col price\"></td></tr><tr><td class=\"item-col item\"></td><td class=\"item-col quantity\" style=\"text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;\"><span class=\"total-space\">Tổng chi phí</span><br /><span class=\"total-space\">Thuế</span><br /><span class=\"total-space\" style=\"font-weight: bold; color: #4d4d4d\">Thành Tiền</span></td><td class=\"item-col price\" style=\"text-align: left; border-top: 1px solid #cccccc;\"><span class=\"total-space\">₫"
-				+ thesMail.getGoiTap().getGia()
-				+ "</span><br /><span class=\"total-space\">0.00₫</span><br /><span class=\"total-space\" style=\"font-weight:bold; color: #4d4d4d\">"
-				+ thesMail.getGoiTap().getGia()
-				+ "₫</span></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7; height: 100px;\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td style=\"padding: 5px 0 10px\"><strong>97 Man Thiện</strong><br />\r\n"
-				+ "              Thành phố Thủ Đức <br />\r\n"
-				+ "              Thành Phố Hồ Chí Minh <br /><br /></td></tr></table></center></td></tr></table></div></body></html>";
-		helper.setText(html_HoaDon, true);
-		this.javaMailSender.send(messages);
+//		The thesMail = theService.selectByMaThe(maThe);
+//		MimeMessage messages = javaMailSender.createMimeMessage();
+//		MimeMessageHelper helper = new MimeMessageHelper(messages, true, "UTF-8");
+//
+//		helper.setTo(thesMail.getKhachHang().getEmail());
+//		helper.setSubject("Thanh Toán Dịch Vụ");
+//		String html_HoaDon = "\r\n"
+//				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /><title>NDTGYM Confirm</title><style type=\"text/css\">\r\n"
+//				+ "    /* Take care of image borders and formatting, client hacks */\r\n"
+//				+ "    img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}\r\n"
+//				+ "    a img { border: none; }\r\n" + "    table { border-collapse: collapse !important;}\r\n"
+//				+ "    #outlook a { padding:0; }\r\n" + "    .ReadMsgBody { width: 100%; }\r\n"
+//				+ "    .ExternalClass { width: 100%; }\r\n"
+//				+ "    .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }\r\n"
+//				+ "    table td { border-collapse: collapse; }\r\n" + "    .ExternalClass * { line-height: 115%; }\r\n"
+//				+ "    .container-for-gmail-android { min-width: 600px; }\r\n" + "\r\n" + "\r\n"
+//				+ "    /* General styling */\r\n" + "    * {\r\n"
+//				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "    }\r\n" + "\r\n" + "    body {\r\n"
+//				+ "      -webkit-font-smoothing: antialiased;\r\n" + "      -webkit-text-size-adjust: none;\r\n"
+//				+ "      width: 100% !important;\r\n" + "      margin: 0 !important;\r\n" + "      height: 100%;\r\n"
+//				+ "      color: #676767;\r\n" + "    }\r\n" + "\r\n" + "    td {\r\n"
+//				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "      font-size: 14px;\r\n"
+//				+ "      color: #777777;\r\n" + "      text-align: center;\r\n" + "      line-height: 21px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    a {\r\n" + "      color: #676767;\r\n"
+//				+ "      text-decoration: none !important;\r\n" + "    }\r\n" + "\r\n" + "    .pull-left {\r\n"
+//				+ "      text-align: left;\r\n" + "    }\r\n" + "\r\n" + "    .pull-right {\r\n"
+//				+ "      text-align: right;\r\n" + "    }\r\n" + "\r\n" + "    .header-lg,\r\n" + "    .header-md,\r\n"
+//				+ "    .header-sm {\r\n" + "      font-size: 32px;\r\n" + "      font-weight: 700;\r\n"
+//				+ "      line-height: normal;\r\n" + "      padding: 35px 0 0;\r\n" + "      color: #4d4d4d;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .header-md {\r\n" + "      font-size: 24px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .header-sm {\r\n" + "      padding: 5px 0;\r\n" + "      font-size: 18px;\r\n"
+//				+ "      line-height: 1.3;\r\n" + "    }\r\n" + "\r\n" + "    .content-padding {\r\n"
+//				+ "      padding: 20px 0 5px;\r\n" + "    }\r\n" + "\r\n" + "    .mobile-header-padding-right {\r\n"
+//				+ "      width: 290px;\r\n" + "      text-align: right;\r\n" + "      padding-left: 10px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .mobile-header-padding-left {\r\n" + "      width: 290px;\r\n"
+//				+ "      text-align: left;\r\n" + "      padding-left: 10px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .free-text {\r\n" + "      width: 100% !important;\r\n" + "      padding: 10px 60px 0px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .button {\r\n" + "      padding: 30px 0;\r\n" + "    }\r\n" + "\r\n"
+//				+ "\r\n" + "    .mini-block {\r\n" + "      border: 1px solid #e5e5e5;\r\n"
+//				+ "      border-radius: 5px;\r\n" + "      background-color: #ffffff;\r\n"
+//				+ "      padding: 12px 15px 15px;\r\n" + "      text-align: left;\r\n" + "      width: 253px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .mini-container-left {\r\n" + "      width: 278px;\r\n"
+//				+ "      padding: 10px 0 10px 15px;\r\n" + "    }\r\n" + "\r\n" + "    .mini-container-right {\r\n"
+//				+ "      width: 278px;\r\n" + "      padding: 10px 14px 10px 15px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .product {\r\n" + "      text-align: left;\r\n" + "      vertical-align: top;\r\n"
+//				+ "      width: 175px;\r\n" + "    }\r\n" + "\r\n" + "    .total-space {\r\n"
+//				+ "      padding-bottom: 8px;\r\n" + "      display: inline-block;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .item-table {\r\n" + "      padding: 50px 20px;\r\n" + "      width: 560px;\r\n" + "    }\r\n"
+//				+ "\r\n" + "    .item {\r\n" + "      width: 300px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .mobile-hide-img {\r\n" + "      text-align: left;\r\n" + "      width: 125px;\r\n" + "    }\r\n"
+//				+ "\r\n" + "    .mobile-hide-img img {\r\n" + "      border: 1px solid #e6e6e6;\r\n"
+//				+ "      border-radius: 4px;\r\n" + "    }\r\n" + "\r\n" + "    .title-dark {\r\n"
+//				+ "      text-align: left;\r\n" + "      border-bottom: 1px solid #cccccc;\r\n"
+//				+ "      color: #4d4d4d;\r\n" + "      font-weight: 700;\r\n" + "      padding-bottom: 5px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .item-col {\r\n" + "      padding-top: 20px;\r\n"
+//				+ "      text-align: left;\r\n" + "      vertical-align: top;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .force-width-gmail {\r\n" + "      min-width:600px;\r\n" + "      height: 0px !important;\r\n"
+//				+ "      line-height: 1px !important;\r\n" + "      font-size: 1px !important;\r\n" + "    }\r\n"
+//				+ "\r\n" + "  </style><style type=\"text/css\" media=\"screen\">\r\n"
+//				+ "    @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700);\r\n"
+//				+ "  </style><style type=\"text/css\" media=\"screen\">\r\n" + "    @media screen {\r\n"
+//				+ "      /* Thanks Outlook 2013! */\r\n" + "      * {\r\n"
+//				+ "        font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;\r\n"
+//				+ "      }\r\n" + "    }\r\n"
+//				+ "  </style><style type=\"text/css\" media=\"only screen and (max-width: 480px)\">\r\n"
+//				+ "    /* Mobile styles */\r\n" + "    @media only screen and (max-width: 480px) {\r\n" + "\r\n"
+//				+ "      table[class*=\"container-for-gmail-android\"] {\r\n"
+//				+ "        min-width: 290px !important;\r\n" + "        width: 100% !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      img[class=\"force-width-gmail\"] {\r\n" + "        display: none !important;\r\n"
+//				+ "        width: 0 !important;\r\n" + "        height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      table[class=\"w320\"] {\r\n" + "        width: 320px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "\r\n" + "      td[class*=\"mobile-header-padding-left\"] {\r\n"
+//				+ "        width: 160px !important;\r\n" + "        padding-left: 0 !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      td[class*=\"mobile-header-padding-right\"] {\r\n"
+//				+ "        width: 160px !important;\r\n" + "        padding-right: 0 !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      td[class=\"header-lg\"] {\r\n" + "        font-size: 24px !important;\r\n"
+//				+ "        padding-bottom: 5px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class=\"content-padding\"] {\r\n" + "        padding: 5px 0 5px !important;\r\n"
+//				+ "      }\r\n" + "\r\n" + "       td[class=\"button\"] {\r\n"
+//				+ "        padding: 5px 5px 30px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class*=\"free-text\"] {\r\n" + "        padding: 10px 18px 30px !important;\r\n"
+//				+ "      }\r\n" + "\r\n" + "      td[class~=\"mobile-hide-img\"] {\r\n"
+//				+ "        display: none !important;\r\n" + "        height: 0 !important;\r\n"
+//				+ "        width: 0 !important;\r\n" + "        line-height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class~=\"item\"] {\r\n" + "        width: 140px !important;\r\n"
+//				+ "        vertical-align: top !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class~=\"quantity\"] {\r\n" + "        width: 50px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class~=\"price\"] {\r\n" + "        width: 90px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class=\"item-table\"] {\r\n" + "        padding: 30px 20px !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      td[class=\"mini-container-left\"],\r\n"
+//				+ "      td[class=\"mini-container-right\"] {\r\n" + "        padding: 0 15px 15px !important;\r\n"
+//				+ "        display: block !important;\r\n" + "        width: 290px !important;\r\n" + "      }\r\n"
+//				+ "    }\r\n"
+//				+ "  </style></head><body bgcolor=\"#f7f7f7\"><table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" class=\"container-for-gmail-android\" width=\"100%\"><tr><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" bgcolor=\"#ffffff\" background=\"http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg\" style=\"background-color:transparent\"><tr><td width=\"100%\" height=\"80\" valign=\"top\" style=\"text-align: center; vertical-align:middle;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"pull-left mobile-header-padding-left\" style=\"vertical-align: middle;\"><a class=\"header-md\" href=\"\">Xin chào, "
+//				+ thesMail.getKhachHang().getTenKH()
+//				+ "</a></td></tr></table></center></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7;\" class=\"content-padding\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"header-lg\">\r\n"
+//				+ "              Thanh Toán Thành Công!\r\n" + "            </td></tr><tr><td class=\"free-text\">\r\n"
+//				+ "              Chân thành cảm ơn Quý Khách đã đồng hành cùng FITNESSGYM.<br> Chúc Quý Khách hàng có một trải nghiệm thật tốt và thú vị!!\r\n"
+//				+ "            </td></tr><tr><td class=\"button\"><div><a href=\"http://\"\r\n"
+//				+ "              style=\"background-color:#28a745;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;\">Đăng ký dịch vụ mới</a></div></td></tr><tr><td class=\"w320\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-container-left\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông tin khách hàng</span><br />\r\n"
+//				+ "                                " + thesMail.getKhachHang().getTenKH() + " <br />\r\n"
+//				+ "                                " + thesMail.getKhachHang().getSdt() + " <br />\r\n"
+//				+ "                                " + thesMail.getKhachHang().getEmail() + " \r\n"
+//				+ "                              </td></tr></table></td></tr></table></td><td class=\"mini-container-right\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông Tin Dịch Vụ</span><br />\r\n"
+//				+ "                                Ngày Đăng Ký: " + thesMail.getNgayDK()
+//				+ " <br /><span class=\"header-sm\">Mã Hóa Đơn</span><br />\r\n" + "                                #"
+//				+ maHDMail + "\r\n"
+//				+ "                              </td></tr></table></td></tr></table></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"item-table\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td class=\"title-dark\" width=\"300\">\r\n"
+//				+ "                       Dịch Vụ\r\n"
+//				+ "                    </td><td class=\"title-dark\" width=\"163\">\r\n"
+//				+ "                      Gói Tập\r\n"
+//				+ "                    </td><td class=\"title-dark\" width=\"97\">\r\n"
+//				+ "                      Giá\r\n"
+//				+ "                    </td></tr><tr><td class=\"item-col item\"><span style=\"color: #4d4d4d; font-weight:bold;\">"
+//				+ thesMail.getGoiTap().getLopDV().getTenLop()
+//				+ "</span></td><td class=\"item-col quantity\">\r\n" + "                     "
+//				+ thesMail.getGoiTap().getTenGoiTap() + "\r\n"
+//				+ "                    </td><td class=\"item-col\">\r\n" + "                      ₫"
+//				+ thesMail.getGoiTap().getGia() + "\r\n"
+//				+ "                    </td></tr><tr><td class=\"item-col item mobile-row-padding\"></td><td class=\"item-col quantity\"></td><td class=\"item-col price\"></td></tr><tr><td class=\"item-col item\"></td><td class=\"item-col quantity\" style=\"text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;\"><span class=\"total-space\">Tổng chi phí</span><br /><span class=\"total-space\">Thuế</span><br /><span class=\"total-space\" style=\"font-weight: bold; color: #4d4d4d\">Thành Tiền</span></td><td class=\"item-col price\" style=\"text-align: left; border-top: 1px solid #cccccc;\"><span class=\"total-space\">₫"
+//				+ thesMail.getGoiTap().getGia()
+//				+ "</span><br /><span class=\"total-space\">0.00₫</span><br /><span class=\"total-space\" style=\"font-weight:bold; color: #4d4d4d\">"
+//				+ thesMail.getGoiTap().getGia()
+//				+ "₫</span></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7; height: 100px;\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td style=\"padding: 5px 0 10px\"><strong>97 Man Thiện</strong><br />\r\n"
+//				+ "              Thành phố Thủ Đức <br />\r\n"
+//				+ "              Thành Phố Hồ Chí Minh <br /><br /></td></tr></table></center></td></tr></table></div></body></html>";
+//		helper.setText(html_HoaDon, true);
+//		this.javaMailSender.send(messages);
 
 		ModelAndView mw = new ModelAndView("admin/hoadon");
 		mw.addObject("updateTT", updateTT);// trả về JS trong hoadon.jsp
@@ -1097,10 +1097,26 @@ public class MainController {
 	// ================= Hiển thị danh sách Khách Hàng file bangusers.jsp => hiển
 	// thị list user
 	@RequestMapping("bangusers")
-	public ModelAndView BangKhachHang() {
+	public ModelAndView BangKhachHang() throws IOException{
 		ModelAndView mw = new ModelAndView("admin/bangusers");
-		List<KhachHang> khachHangServices = khachHangService.listAll();
+		List<KhachHang> khachHangServices = khachHangService.selectSortMaKh();
+		List<KhachHang> khachHangs = new ArrayList<>();
+		List<The> thes = new ArrayList<>();
+		
+		try {
+			for(KhachHang kh: khachHangServices) {
+				thes = theService.selectByTrangThaiKhachHang("Hoạt Động",kh.getMaKH());
+				if(thes.size() > 0) {
+					khachHangs.add(kh);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		mw.addObject("khachHangServices", khachHangServices);
+		mw.addObject("checkinKhShow",khachHangs);
+		mw.addObject("trangthai",thes.get(0).getTrangThai());
 		return mw;
 	}
 
@@ -1129,14 +1145,22 @@ public class MainController {
 
 			maTDV = "TT1";
 		}
-
+		//=======================checkin===============================
+		List<DiemDanh> diemDanhs = new ArrayList<>();
+		List<DiemDanh> diemDanhss = diemDanhService.selectDiemDanhByMaKH(maKH);
+		diemDanhs = diemDanhss;
+		//=============================================================
 		ModelAndView mw = new ModelAndView("admin/dichvu");
 		mw.addObject("maTDV", maTDV);
 		mw.addObject("maKH", maKH);
 		mw.addObject("lopDVs", lopDVs);
 		mw.addObject("localDate", localDate);
 		mw.addObject("thes", thes);
-
+		try {
+			mw.addObject("khCheckin",diemDanhs);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return mw;
 	}
 
@@ -1238,21 +1262,32 @@ public class MainController {
 	// => trả về user.jsp
 	// ================= Khách Hàng checkin use JS và api file banguser.jsp
 	@RequestMapping(value = "usercheckin", method = RequestMethod.POST)
-	public ModelAndView CheckinKhachHang(@RequestParam("maKH") String maKH){
+	public ModelAndView checkinKhachHang(@RequestParam("maKH") String maKH, HttpSession session)throws IOException{
+		TaiKhoan taiKhoan = taiKhoanService.selectByUserName(session.getAttribute("username").toString());
 		ModelAndView mw = new ModelAndView("apikhachhangcheckin");// trả về kết quả thongbao = mw
 		DiemDanh diemDanh = new DiemDanh();
 		KhachHang khachHang = khachHangService.selectByMaKH(maKH);
+		NhanVien nhanVien = new NhanVien();
+		nhanVien = taiKhoan.getNhanVien();
+		
+		
 		System.out.println("MÃ KH: " + maKH);
 		The the = new The();
 		List<DiemDanh> diemDanhss = diemDanhService.selectByIdDesc();
 		List<DiemDanh> diemDanhs = new ArrayList<>();
 		Date date = new Date();
 		diemDanhs = diemDanhss;
-		int flag = 0;
-		diemDanh.setId(1);
+		if(diemDanhs.size() > 0) {
+			diemDanh.setId(diemDanhs.get(0).getId() + 1);
+		}
+		else {
+			diemDanh.setId(1);
+		}
+		
 		diemDanh.setThoiGian(date);
 		diemDanh.setSoLan(diemDanhs.size() + 1);
 		diemDanh.setKhachHangDD(khachHang);
+		diemDanh.setNhanVienDD(nhanVien);
 		try {
 			System.out.println("Ngày: " + date);
 			System.out.println("Số Lần checkin: " + (diemDanhs.size() + 1));

@@ -78,7 +78,7 @@
 							<div class="col-md-8">
 								<div class="form-group">
 									<label>Tổng Tiền</label>
-									<h3>${the.goiTap.gia} VNĐ</h3>
+									<h3 id="giatien">${the.goiTap.gia} VND</h3>
 								</div>
 							</div>
 						</div>
@@ -90,12 +90,19 @@
 				</form>
 						
 						<script >
+						const formatter = new Intl.NumberFormat('vi-VN', {
+							style : 'currency',
+							currency : 'VND',
+							minimumFractionDigits : 0
+						})
+						document.getElementById("giatien").innerHTML = formatter.format("${the.goiTap.gia}");
 						
 							if ("Hoạt Động" == "${the.trangThai}"||"Hết Hạn" == "${the.trangThai}"){
 								document.getElementById("button").innerHTML = "Đã Thanh Toán";
 								document.getElementById("button").setAttribute("disabled", " ");
 								if("true" == "${updateTT}" ){
-									demo.showNotification('top','right','Thanh Toán Thành Công','2');	
+									demo.showNotification('top','right','Thanh Toán Thành Công','2');
+									
 									
 								}
 								else if("false" == "${updateTT}" ){

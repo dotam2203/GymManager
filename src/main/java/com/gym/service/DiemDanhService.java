@@ -28,10 +28,16 @@ public class DiemDanhService{
 	public List<DiemDanh> selectByIdDesc() {
 		return repo.findByIdDesc();
 	}
-	public List<DiemDanh> selectIdDDsByMaKH(String maKH){
-		return repo.findIdDDsByMaKH(maKH);
+	public List<DiemDanh> selectDiemDanhByMaKH(String maKH){
+		return repo.findDiemDanhByMaKH(maKH);
 	}
 	public List<DiemDanh> selectSoLansByMaKH(String maKH){
 		return repo.findSoLansByMaKH(maKH);
+	}
+	public List<DiemDanh> selectDiemDanhByMaNV(String maNV){
+		return repo.findDiemDanhByMaNV(maNV);
+	}
+	public List<DiemDanh> selectDiemDanhByMaNVDateDesc(String maNV){
+		return repo.findDiemDanhByMaNVDateDesc(maNV);
 	}
 }

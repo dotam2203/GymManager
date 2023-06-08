@@ -181,6 +181,17 @@ to {
 	transform: translate(-50%, -50%);
 }
 </style>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+</script>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/resources/include/navbarmn.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -203,16 +214,22 @@ to {
 									class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Dịch
 										Vụ</span> <span class="d-block d-sm-none"> <i
 										class="tim-icons icon-gift-2"></i>
-								</span></label>
-								<label class="tablinks btn btn-sm btn-primary btn-simple"
+								</span>
+								</label> <label class="tablinks btn btn-sm btn-primary btn-simple"
 									id="1" onclick="dangky(event, 'the')"> <input
 									type="radio" name="options" checked> <span
-									class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Thẻ Tập</span>
-									<span class="d-block d-sm-none"> <i
+									class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Thẻ
+										Tập</span> <span class="d-block d-sm-none"> <i
+										class="tim-icons icon-gift-2"></i>
+								</span>
+								</label> <label class="tablinks btn btn-sm btn-primary btn-simple"
+									id="2" onclick="dangky(event, 'checkin')"> <input
+									type="radio" name="options" checked> <span
+									class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Lịch
+										sử Điểm Danh</span> <span class="d-block d-sm-none"> <i
 										class="tim-icons icon-gift-2"></i>
 								</span>
 								</label>
-
 							</div>
 						</div>
 					</div>
@@ -393,7 +410,7 @@ to {
 								<div class="form-group">
 									<label>Thành Tiền</label> <input style="color: white"
 										id="giatien" type="text" class="form-control" readonly="true"
-										value="0 VNĐ">
+										value="0 VND">
 								</div>
 							</div>
 						</div>
@@ -402,12 +419,12 @@ to {
 								class="btn btn-fill btn-primary">Lưu và Xuất hóa đơn</button>
 						</div>
 					</form>
-				
-				<script>
-					const formatter = new Intl.NumberFormat('en-US', {
+
+					<script>
+					const formatter = new Intl.NumberFormat('vi-VN', {
 						style : 'currency',
 						currency : 'VND',
-						minimumFractionDigits : 2
+						minimumFractionDigits : 0
 					})
 
 					function laygoitap() {
@@ -491,12 +508,83 @@ to {
 					}
 				</script>
 
-				<!-- =========================================== end2 =========== -->
+					<!-- =========================================== end2 =========== -->
+					
+				</div>
 
+				<!-- ================================checkin story===================== -->
+				<div id="checkin" class="card-body tabcontent">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card ">
+								<div class="card-header">
+									<div class="row">
+										<div class="col-md-3 pr-md-1">
+											<h4 class="card-title">Lịch sử Điểm Danh</h4>
+										</div>
+										<div class="col-md-3 pr-md-1"></div>
+										<div class="col-md-3 pr-md-1"></div>
+										<div class="col-md-2 pr-md-1 ">
+											<div class="form-group tim-icons icon-zoom-split ">
+												<label>Search</label> <input class=" form-control"
+													id="myInput" type="text" placeholder="">
+											</div>
+										</div>
 
-				<!--========================scirpt start 1 trong 2 mode -->
+									</div>
 
-				<script>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table tablesorter " id="myTable1">
+											<thead class=" text-primary">
+												<tr>
+													<th class="text-center">Ngày Điểm Danh</th>
+													<th class="text-center">Số lần</th>
+													<th class="text-center">Nhân Viên Thực Hiện</th>
+												</tr>
+											</thead>
+											<tbody id="myTable">
+												<c:forEach var="info" items="${khCheckin}">
+													<tr id="tr_${info.id}">
+														<td id="fomatDate_${info.thoiGian}"
+															class="text-center">${info.thoiGian}</td>
+														<td class="text-center">${info.soLan}</td>
+														<td class="text-center">${info.nhanVienDD.tenNV}</td>
+													</tr>
+													<script>
+                         var date  = "${info.thoiGian}";
+                         var msg  = date .split("-");
+                         var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+                         document.getElementById("fomatDate_${info.thoiGian}").innerHTML = dateFormat;
+                         
+                         /*  */
+                         /* window.onload = function() {
+                             var hoaDons = document.querySelectorAll("[id^='fomatDate_']");
+                             hoaDons.forEach(function(element) {
+                                 var date = element.innerText;
+                                 var msg = date.split("-");
+                                 var dateFormat = msg[2] + "/" + msg[1] + "/" + msg[0];
+                                 element.innerHTML = dateFormat;
+                                 });
+                             }; */
+                         </script>
+						</c:forEach>
+						</tbody>
+						</table>
+						</div>
+						</div>
+						</div>
+						</div>
+
+					</div>
+
+				</div>
+
+				<!-- ======================================================================= -->
+				<!--========================scirpt start 1 trong 3 mode -->
+
+					<script>
 					function dangky(evt, cityName) {
 						var i, tabcontent, tablinks;
 						tabcontent = document
@@ -517,15 +605,14 @@ to {
 					document.getElementById("0").click();
 				</script>
 
-				<!--======================= end script ======= -->
-</div>
+					<!--======================= end script ======= -->
 			</div>
 		</div>
-		</div>
-
 	</div>
 
-	<script>
+</div>
+
+<script>
 		if ("${thongbao}" == "Đăng ký Khách Hàng thành công") {
 
 			demo.showNotification('top', 'right',
@@ -533,7 +620,7 @@ to {
 		}
 	</script>
 
-	<%@include file="/resources/include/endsidebar.jsp"%>
-	</body>
+<%@include file="/resources/include/endsidebar.jsp"%>
+</body>
 
-	</html>
+</html>
