@@ -17,24 +17,24 @@ public class TaiKhoanService {
 		return (List<TaiKhoan>) repo.findAll();
 	}
 	
-	public void delete(Integer id) {
-		repo.deleteById(id);
+	public void delete(String userName) {
+		repo.deleteById(userName);
 	}
 
-	public Optional<TaiKhoan> get(Integer id) {
-		return repo.findById(id);
+	public Optional<TaiKhoan> get(String userName) {
+		return repo.findById(userName);
 	}
 
 	public void save(TaiKhoan taiKhoan) {
 		repo.save(taiKhoan);
 	}
-	public List<TaiKhoan> selectByUserName(String userName){
+	public TaiKhoan selectByUserName(String userName){
 		return repo.findByUserName(userName);
 	}
 	public List<TaiKhoan> selectByMaQuyen(int maQuyen){
 		return repo.findByMaQuyen(maQuyen);
 	}
-	public int updateByUserName(int trangThai,String userName){
-		return repo.updateByUserName(trangThai,userName);
+	public boolean updateByUserName(int trangThai,String userName){
+		return repo.updateByUserName(trangThai,userName) > 0;
 	}
 }

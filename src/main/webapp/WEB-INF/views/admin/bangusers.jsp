@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/resources/include/sidebar.jsp"%>
-
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/resources/include/navbarmn.jsp"%>
 
@@ -186,12 +185,12 @@ to {
 								</thead>
 								
 								<tbody id="myTable">
-									<c:forEach var="info" items="${khachHangServices}">
+									<c:forEach var="info" items="${checkinKhShow}">
 
 										<tr id = "tr_${info.maKH}">
 											<td class="text-center">${info.maKH}</td>
 											<td class="text-center">${info.tenKH}</td>
-											<td class="text-center">Hoạt Động</td>
+											<td class="text-center">${trangthai}</td>
 											<td class="text-center text-danger">
                          <%-- <a href="#myModal${info.maKH}" data-toggle="modal"> --%><div class="card-footer">
 						<button onclick='ajax_checkin_KH("${info.maKH}")' type="submit" class="btn btn-fill btn-primary" id="checkin_${info.maKH}">Check In</button>
@@ -211,7 +210,7 @@ to {
 										</div>
 										<div class="modal-footer">
 											<button id="thoat${info.maKH}" style="margin-right: 100px" type="button" class="btn btn-info" data-dismiss="modal">Hủy</button>
-											<button onclick='ajax_checkin_KH("${info.maKH}")' style="margin-left: 100px" type="button" class="btn btn-danger">Đồng ý</button>
+											<button onclick='ajax_checkin_KH("${info.maKH}")' id = "button_click" style="margin-left: 100px" type="button" class="btn btn-danger">Đồng ý</button>
 										</div>
 									</div>
 								</div>
@@ -220,6 +219,16 @@ to {
                     </c:forEach>
                     
                     <script>
+                    var setButton = document.getElementById("button");
+                    var currentDate = new Date();
+                 // Định dạng ngày giờ theo format dd/MM/yyyy HH:mm
+                    var formattedDate = currentDate.toLocaleString('en-GB', { 
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    });
 						function ajax_checkin_KH(maKH){
 							
 							$.ajax({
@@ -227,14 +236,16 @@ to {
 			                    type : "post",
 			                    dataType:"text",
 			                    data : {
-			                         "maKH": maKH
+			                         "maKH": maKH,
+			                        // "thoiGian": document.getElementById("button").value;
 			                         
 			                    },
 			                    success : function (result){
 				                    
 			                        if(result=="1"){
+			                        	document.getElementById("button_click").innerHTML = formattedDate;
+			                        	document.getElementById("button_click").disable = true;
 			                        	demo.showNotification('top','right','Checkin thành công!','2');
-			                        	document.getElementById("checkin_${info.maKH}").disable = true;
 			                        	//document.getElementById("thoat"+maKH).click()
 			                        	
 			                        	

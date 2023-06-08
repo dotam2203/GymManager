@@ -1,5 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -141,6 +141,9 @@
         	  checkAdmins("thongKeCheck");
         	  checkAdmins("nhanVienCheck");
         	  checkAdmins("lopdvCheck");
+        	  checkAdmins("loaiThietBi");
+        	  checkAdmins("thietBi");
+        	  checkAdmins("tinTuc");
              }
           
           

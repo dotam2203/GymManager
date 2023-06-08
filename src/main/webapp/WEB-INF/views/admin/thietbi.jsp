@@ -927,7 +927,7 @@ rotate
 										<td class="text-center">${info.soLuong}</td>
 										<td class="text-center">${info.thuongHieu}</td>
 										<td class="text-center">${info.tinhTrang}</td>
-										<td class="text-center">${info.ngayNhap}</td>
+										<td id = "fomatDate_${info.ngayNhap}" class="text-center">${info.ngayNhap}</td>
 										<td class="text-center">${info.moTa}</td>
 
 										<!-- Chỉnh Sửa -->
@@ -936,7 +936,12 @@ rotate
 										<td class="text-center text-success"><a
 											href="delthietbi?id=${info.maTB}"  onclick="if (!confirm('Bạn có muốn xóa thiết bị này?')) { return false }"
 											class="tim-icons icon-simple-remove"></a></td>
-
+										<script>
+										var date  = "${info.ngayNhap}";
+				                        var msg  = date .split("-");
+				                        var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+				                        document.getElementById("fomatDate_${info.ngayNhap}").innerHTML = dateFormat;
+										</script>
 										<%-- <td id="switch_${info.maTB}" class="text-center"><label
                                  class="switch"> <input id="khoa_${info.maTB}"
                                  	onchange="ajax_khoa_TKNV('${info.maTB}')" type="checkbox">

@@ -1,7 +1,10 @@
 package com.gym.repository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,12 +38,17 @@ public interface TheRepository extends CrudRepository<The, String> {
 	public List<The> checkByNgayKT(@Param("ngayHT") Date ngayHT);
 	
 	@Query("SELECT c FROM The c WHERE c.maThe = :mathe")
-	public List<The> findByMaThe(@Param("mathe") String maThe);
+	public The findByMaThe(@Param("mathe") String maThe);
+	
 	@Query("SELECT c FROM The c WHERE c.goiTap.maGoiTap = :maGT")
 	public List<The> findByMaGT(@Param("maGT") String maGT);
 	
 	@Query("SELECT c FROM The c WHERE c.trangThai = :trangThai")
 	public List<The> findByTrangThai(@Param("trangThai") String trangThai);
+	
+	@Query("SELECT c FROM The c WHERE c.trangThai = :trangThai AND c.khachHang.maKH = :makh")
+	public List<The> findByTrangThaiKhachHang(@Param("trangThai") String trangThai,@Param("makh") String maKH);
+	
 	@Transactional
 	@Modifying
 	@Query("UPDATE The c SET c.trangThai= :trangthai WHERE c.maThe= :mathe")
@@ -54,8 +62,5 @@ public interface TheRepository extends CrudRepository<The, String> {
 	public int updateNgayByMaThe( @Param("ngayBD") Date ngayBD , @Param("ngayKT") Date ngayKT ,@Param("mathe") String maThe ) ;
 	@Query("SELECT c FROM  The c WHERE  c.ngayDK LIKE CONCAT(:nam,'%') ORDER BY c.goiTap.gia DESC ")//
 	public List<The> findBetweenNamSortGiaTien(@Param("nam") String nam);
-	
-	
-//	@Query("SELECT c FROM The c order by c. DESC")
-//	public List<The> sortByData();
+
 }

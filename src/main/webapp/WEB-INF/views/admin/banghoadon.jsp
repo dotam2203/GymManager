@@ -1,4 +1,4 @@
-   <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/resources/include/sidebar.jsp" %>
     <%@ page contentType="text/html" pageEncoding="UTF-8" %>  
       <%@ include file="/resources/include/navbarmn.jsp" %>
@@ -30,7 +30,7 @@ $(document).ready(function(){
             <div class="card ">
               <div class="card-header">
 					<div class="row">
-						<div class="col-md-3 pr-md-1"><h4 class="card-title">Bảng Hóa Đơn</h4></div>
+						<div class="col-md-3 pr-md-1"><h3 class="card-title">Bảng Hóa Đơn</h3></div>
 						<div class="col-md-3 pr-md-1"></div>
 						<div class="col-md-3 pr-md-1"></div>
 						<div class="col-md-2 pr-md-1 ">
@@ -63,7 +63,7 @@ $(document).ready(function(){
                         <th class="text-center">
                           Thành tiền
                         </th>
-                        <th>
+                        <th class="text-center">
                           Nhân Viên Lập
                         </th>
                         <th class="text-center">
@@ -74,31 +74,54 @@ $(document).ready(function(){
                     </thead>
                     <tbody id="myTable" >
                     <c:forEach var="info" items="${hoaDons}">
-                      <tr  id="tr_${info.maSoHD}" >
+                      <tr id="tr_${info.maSoHD}" >
                         <td>
                           ${info.maSoHD}
                         </td>
                         <td>
                           ${info.thehd.khachHang.tenKH}
                         </td>
-                        <td >
+                        <td>
                           ${info.thehd.goiTap.tenGoiTap}
                         </td>
-                        <td >
+                        <td>
                          ${info.thehd.goiTap.lopDV.tenLop}
                         </td>
-                         <td class="text-center" >
+                         <td id="formatMoney_${info.thehd.goiTap.gia}" class="text-center" >
                          ${info.thehd.goiTap.gia}
                         </td>
-                         <td >
+                         <td class="text-center">
                          ${info.nhanVien.tenNV}
                         </td>
-                        <td class="text-center">
+                        <td id="fomatDate_${info.ngayHD}" class="text-center">
                         ${info.ngayHD}
                         </td>
                         
   						</tr>
+  						
+                         <script>
+                         /* var date  = "${info.ngayHD}";
+                         var msg  = date .split("-");
+                         var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+                         document.getElementById("fomatDate_${info.ngayHD}").innerHTML = dateFormat; */
                          
+                         /*  */
+                         window.onload = function() {
+                             var hoaDons = document.querySelectorAll("[id^='fomatDate_']");
+                             hoaDons.forEach(function(element) {
+                                 var date = element.innerText;
+                                 var msg = date.split("-");
+                                 var dateFormat = msg[2] + "/" + msg[1] + "/" + msg[0];
+                                 element.innerHTML = dateFormat;
+                                 });
+                             };
+                         const formatter_${info.maSoHD} = new Intl.NumberFormat('vi-VN', {
+           				  style: 'currency',
+           				  currency: 'VND',
+           				  minimumFractionDigits: 0
+           				})
+           				document.getElementById("formatMoney_${info.thehd.goiTap.gia}").innerHTML = formatter_${info.maSoHD}.format(${info.thehd.goiTap.gia});                         
+                         </script>
                        </c:forEach>
                     </tbody>
                   </table>

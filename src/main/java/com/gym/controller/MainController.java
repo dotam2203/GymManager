@@ -112,6 +112,11 @@ public class MainController {
 	 * ==================================================== TRANG CHỦ
 	 * ===================================================
 	 */
+	public void roleLogin(HttpServletResponse response, HttpSession session) throws IOException {
+		if (!session.getAttribute("maQuyen").equals("0")) {
+			response.sendRedirect("dangky");
+		}
+	}
 	// ==============Show thông tin tài khoản nhân viên đăng nhập
 	@RequestMapping("taikhoan")
 	public ModelAndView showTKDN() {
@@ -125,9 +130,8 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/trangchu");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
+		
 		List<The> thes = theService.selectByTrangThai("Chưa Thanh Toán");
 		LocalDate localDate = LocalDate.now();
 		String date = "" + localDate;
@@ -311,7 +315,7 @@ public class MainController {
 		} catch (Exception e) {
 		}
 		// ============================ Lấy dữ liệu vào file trangchu.jsp
-		mw.addObject("thes_wtt", thes);
+		mw.addObject("thes_ctt", thes);
 		mw.addObject("danhThuN", Arrays.toString(danhThuT));
 		mw.addObject("doanhThuTCN", Arrays.toString(doanhThuTCN));
 		mw.addObject("fieldBDNCN", Arrays.toString(fieldBDNCN));
@@ -358,9 +362,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/lopdv");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		List<LopDV> lopDVServices = lopDVService.listAll();
 		mw.addObject("lopDVServices", lopDVServices);
@@ -377,9 +379,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/lopdv");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		Enumeration<String> parameterNames = request.getParameterNames();
 		List<String> paramNames = new ArrayList<>();
@@ -531,9 +531,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/goitap");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		LopDV checkMaLop = lopDVService.selectByMaLop(maLop);
 		if (checkMaLop != null) {
@@ -559,9 +557,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/goitap");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		String maLop = maLop1.trim();
 		mw.addObject("thongbao", 0);
@@ -616,8 +612,9 @@ public class MainController {
 				}
 
 				// check trùng gói tập trong dv
-				List<GoiTap> checkGoiTap = goiTapService.selectByMaGT(maGT);
-				if (checkGoiTap.size() > 0)
+				GoiTap checkGoiTap = new GoiTap();
+				checkGoiTap = goiTapService.selectByMaGT(maGT);
+				if (checkGoiTap == null)
 					break kiemTraLoi;
 
 				// nếu trùng thì nhập lại
@@ -650,9 +647,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("apixoalopdv");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		List<GoiTap> goiTaps = goiTapService.selectByMaLop(maLop);
 		if (goiTaps.isEmpty()) {
@@ -671,9 +666,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("apixoagoitap");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		mw.addObject("thongbaoxoa", 0);
 		List<The> theGT = theService.selectByMaGT(maGT);
@@ -851,8 +844,8 @@ public class MainController {
 	public ModelAndView LapHoaDon(@RequestParam("id") String maThe, HttpServletResponse response) {
 
 		ModelAndView mw = new ModelAndView("admin/hoadon");// trả về chi tiết hóa đơn file hoadon.jsp
-		List<The> thes = theService.selectByMaThe(maThe);
-		mw.addObject("thes", thes);
+		The the = theService.selectByMaThe(maThe);
+		mw.addObject("the", the);
 		return mw;
 	}
 
@@ -867,8 +860,8 @@ public class MainController {
 
 		// lấy tên tài khoản đăng nhập của nhân viên để thanh toán hóa đơn (username
 		// trong login.jsp)
-		List<TaiKhoan> taiKhoans = taiKhoanService.selectByUserName(session.getAttribute("username").toString());
-		List<The> thes = theService.selectByMaThe(maThe);
+		TaiKhoan taiKhoan = taiKhoanService.selectByUserName(session.getAttribute("username").toString());
+		The thee = theService.selectByMaThe(maThe);
 		List<HoaDon> hoaDons = hoaDonService.selectSortMaSoHD();
 		String maHDMail = "";
 		HoaDon hoaDon = new HoaDon();
@@ -877,8 +870,8 @@ public class MainController {
 		GoiTap goiTap = new GoiTap();
 		Date date = new Date();
 
-		nhanVien = taiKhoans.get(0).getNhanVien();
-		the = thes.get(0);
+		nhanVien = taiKhoan.getNhanVien();
+		the = thee;
 		hoaDon.setNhanVien(nhanVien);
 		hoaDon.setThehd(the);
 		hoaDon.setNgayHD(date);
@@ -900,143 +893,143 @@ public class MainController {
 
 		hoaDon.setMaSoHD(maHDMail);
 		hoaDonService.save(hoaDon);
-		int updateTT = theService.updateByMaThe("Hoạt Động", maThe);
+		boolean updateTT = theService.updateByMaThe("Hoạt Động", maThe);
 
 		// Gửi mail thông báo Thanh Toán Hóa Đơn
-		List<The> thesMail = theService.selectByMaThe(maThe);
-		MimeMessage messages = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(messages, true, "UTF-8");
-
-		helper.setTo(thesMail.get(0).getKhachHang().getEmail());
-		helper.setSubject("Thanh Toán Dịch Vụ");
-		String html_HoaDon = "\r\n"
-				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /><title>NDTGYM Confirm</title><style type=\"text/css\">\r\n"
-				+ "    /* Take care of image borders and formatting, client hacks */\r\n"
-				+ "    img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}\r\n"
-				+ "    a img { border: none; }\r\n" + "    table { border-collapse: collapse !important;}\r\n"
-				+ "    #outlook a { padding:0; }\r\n" + "    .ReadMsgBody { width: 100%; }\r\n"
-				+ "    .ExternalClass { width: 100%; }\r\n"
-				+ "    .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }\r\n"
-				+ "    table td { border-collapse: collapse; }\r\n" + "    .ExternalClass * { line-height: 115%; }\r\n"
-				+ "    .container-for-gmail-android { min-width: 600px; }\r\n" + "\r\n" + "\r\n"
-				+ "    /* General styling */\r\n" + "    * {\r\n"
-				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "    }\r\n" + "\r\n" + "    body {\r\n"
-				+ "      -webkit-font-smoothing: antialiased;\r\n" + "      -webkit-text-size-adjust: none;\r\n"
-				+ "      width: 100% !important;\r\n" + "      margin: 0 !important;\r\n" + "      height: 100%;\r\n"
-				+ "      color: #676767;\r\n" + "    }\r\n" + "\r\n" + "    td {\r\n"
-				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "      font-size: 14px;\r\n"
-				+ "      color: #777777;\r\n" + "      text-align: center;\r\n" + "      line-height: 21px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    a {\r\n" + "      color: #676767;\r\n"
-				+ "      text-decoration: none !important;\r\n" + "    }\r\n" + "\r\n" + "    .pull-left {\r\n"
-				+ "      text-align: left;\r\n" + "    }\r\n" + "\r\n" + "    .pull-right {\r\n"
-				+ "      text-align: right;\r\n" + "    }\r\n" + "\r\n" + "    .header-lg,\r\n" + "    .header-md,\r\n"
-				+ "    .header-sm {\r\n" + "      font-size: 32px;\r\n" + "      font-weight: 700;\r\n"
-				+ "      line-height: normal;\r\n" + "      padding: 35px 0 0;\r\n" + "      color: #4d4d4d;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .header-md {\r\n" + "      font-size: 24px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .header-sm {\r\n" + "      padding: 5px 0;\r\n" + "      font-size: 18px;\r\n"
-				+ "      line-height: 1.3;\r\n" + "    }\r\n" + "\r\n" + "    .content-padding {\r\n"
-				+ "      padding: 20px 0 5px;\r\n" + "    }\r\n" + "\r\n" + "    .mobile-header-padding-right {\r\n"
-				+ "      width: 290px;\r\n" + "      text-align: right;\r\n" + "      padding-left: 10px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .mobile-header-padding-left {\r\n" + "      width: 290px;\r\n"
-				+ "      text-align: left;\r\n" + "      padding-left: 10px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .free-text {\r\n" + "      width: 100% !important;\r\n" + "      padding: 10px 60px 0px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .button {\r\n" + "      padding: 30px 0;\r\n" + "    }\r\n" + "\r\n"
-				+ "\r\n" + "    .mini-block {\r\n" + "      border: 1px solid #e5e5e5;\r\n"
-				+ "      border-radius: 5px;\r\n" + "      background-color: #ffffff;\r\n"
-				+ "      padding: 12px 15px 15px;\r\n" + "      text-align: left;\r\n" + "      width: 253px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .mini-container-left {\r\n" + "      width: 278px;\r\n"
-				+ "      padding: 10px 0 10px 15px;\r\n" + "    }\r\n" + "\r\n" + "    .mini-container-right {\r\n"
-				+ "      width: 278px;\r\n" + "      padding: 10px 14px 10px 15px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .product {\r\n" + "      text-align: left;\r\n" + "      vertical-align: top;\r\n"
-				+ "      width: 175px;\r\n" + "    }\r\n" + "\r\n" + "    .total-space {\r\n"
-				+ "      padding-bottom: 8px;\r\n" + "      display: inline-block;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .item-table {\r\n" + "      padding: 50px 20px;\r\n" + "      width: 560px;\r\n" + "    }\r\n"
-				+ "\r\n" + "    .item {\r\n" + "      width: 300px;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .mobile-hide-img {\r\n" + "      text-align: left;\r\n" + "      width: 125px;\r\n" + "    }\r\n"
-				+ "\r\n" + "    .mobile-hide-img img {\r\n" + "      border: 1px solid #e6e6e6;\r\n"
-				+ "      border-radius: 4px;\r\n" + "    }\r\n" + "\r\n" + "    .title-dark {\r\n"
-				+ "      text-align: left;\r\n" + "      border-bottom: 1px solid #cccccc;\r\n"
-				+ "      color: #4d4d4d;\r\n" + "      font-weight: 700;\r\n" + "      padding-bottom: 5px;\r\n"
-				+ "    }\r\n" + "\r\n" + "    .item-col {\r\n" + "      padding-top: 20px;\r\n"
-				+ "      text-align: left;\r\n" + "      vertical-align: top;\r\n" + "    }\r\n" + "\r\n"
-				+ "    .force-width-gmail {\r\n" + "      min-width:600px;\r\n" + "      height: 0px !important;\r\n"
-				+ "      line-height: 1px !important;\r\n" + "      font-size: 1px !important;\r\n" + "    }\r\n"
-				+ "\r\n" + "  </style><style type=\"text/css\" media=\"screen\">\r\n"
-				+ "    @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700);\r\n"
-				+ "  </style><style type=\"text/css\" media=\"screen\">\r\n" + "    @media screen {\r\n"
-				+ "      /* Thanks Outlook 2013! */\r\n" + "      * {\r\n"
-				+ "        font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;\r\n"
-				+ "      }\r\n" + "    }\r\n"
-				+ "  </style><style type=\"text/css\" media=\"only screen and (max-width: 480px)\">\r\n"
-				+ "    /* Mobile styles */\r\n" + "    @media only screen and (max-width: 480px) {\r\n" + "\r\n"
-				+ "      table[class*=\"container-for-gmail-android\"] {\r\n"
-				+ "        min-width: 290px !important;\r\n" + "        width: 100% !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      img[class=\"force-width-gmail\"] {\r\n" + "        display: none !important;\r\n"
-				+ "        width: 0 !important;\r\n" + "        height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      table[class=\"w320\"] {\r\n" + "        width: 320px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "\r\n" + "      td[class*=\"mobile-header-padding-left\"] {\r\n"
-				+ "        width: 160px !important;\r\n" + "        padding-left: 0 !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      td[class*=\"mobile-header-padding-right\"] {\r\n"
-				+ "        width: 160px !important;\r\n" + "        padding-right: 0 !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      td[class=\"header-lg\"] {\r\n" + "        font-size: 24px !important;\r\n"
-				+ "        padding-bottom: 5px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class=\"content-padding\"] {\r\n" + "        padding: 5px 0 5px !important;\r\n"
-				+ "      }\r\n" + "\r\n" + "       td[class=\"button\"] {\r\n"
-				+ "        padding: 5px 5px 30px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class*=\"free-text\"] {\r\n" + "        padding: 10px 18px 30px !important;\r\n"
-				+ "      }\r\n" + "\r\n" + "      td[class~=\"mobile-hide-img\"] {\r\n"
-				+ "        display: none !important;\r\n" + "        height: 0 !important;\r\n"
-				+ "        width: 0 !important;\r\n" + "        line-height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class~=\"item\"] {\r\n" + "        width: 140px !important;\r\n"
-				+ "        vertical-align: top !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class~=\"quantity\"] {\r\n" + "        width: 50px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class~=\"price\"] {\r\n" + "        width: 90px !important;\r\n" + "      }\r\n" + "\r\n"
-				+ "      td[class=\"item-table\"] {\r\n" + "        padding: 30px 20px !important;\r\n" + "      }\r\n"
-				+ "\r\n" + "      td[class=\"mini-container-left\"],\r\n"
-				+ "      td[class=\"mini-container-right\"] {\r\n" + "        padding: 0 15px 15px !important;\r\n"
-				+ "        display: block !important;\r\n" + "        width: 290px !important;\r\n" + "      }\r\n"
-				+ "    }\r\n"
-				+ "  </style></head><body bgcolor=\"#f7f7f7\"><table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" class=\"container-for-gmail-android\" width=\"100%\"><tr><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" bgcolor=\"#ffffff\" background=\"http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg\" style=\"background-color:transparent\"><tr><td width=\"100%\" height=\"80\" valign=\"top\" style=\"text-align: center; vertical-align:middle;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"pull-left mobile-header-padding-left\" style=\"vertical-align: middle;\"><a class=\"header-md\" href=\"\">Xin chào, "
-				+ thesMail.get(0).getKhachHang().getTenKH()
-				+ "</a></td></tr></table></center></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7;\" class=\"content-padding\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"header-lg\">\r\n"
-				+ "              Thanh Toán Thành Công!\r\n" + "            </td></tr><tr><td class=\"free-text\">\r\n"
-				+ "              Chân thành cảm ơn Quý Khách đã đồng hành cùng FITNESSGYM.<br> Chúc Quý Khách hàng có một trải nghiệm thật tốt và thú vị!!\r\n"
-				+ "            </td></tr><tr><td class=\"button\"><div><a href=\"http://\"\r\n"
-				+ "              style=\"background-color:#28a745;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;\">Đăng ký dịch vụ mới</a></div></td></tr><tr><td class=\"w320\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-container-left\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông tin khách hàng</span><br />\r\n"
-				+ "                                " + thesMail.get(0).getKhachHang().getTenKH() + " <br />\r\n"
-				+ "                                " + thesMail.get(0).getKhachHang().getSdt() + " <br />\r\n"
-				+ "                                " + thesMail.get(0).getKhachHang().getEmail() + " \r\n"
-				+ "                              </td></tr></table></td></tr></table></td><td class=\"mini-container-right\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông Tin Dịch Vụ</span><br />\r\n"
-				+ "                                Ngày Đăng Ký: " + thesMail.get(0).getNgayDK()
-				+ " <br /><span class=\"header-sm\">Mã Hóa Đơn</span><br />\r\n" + "                                #"
-				+ maHDMail + "\r\n"
-				+ "                              </td></tr></table></td></tr></table></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"item-table\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td class=\"title-dark\" width=\"300\">\r\n"
-				+ "                       Dịch Vụ\r\n"
-				+ "                    </td><td class=\"title-dark\" width=\"163\">\r\n"
-				+ "                      Gói Tập\r\n"
-				+ "                    </td><td class=\"title-dark\" width=\"97\">\r\n"
-				+ "                      Giá\r\n"
-				+ "                    </td></tr><tr><td class=\"item-col item\"><span style=\"color: #4d4d4d; font-weight:bold;\">"
-				+ thesMail.get(0).getGoiTap().getLopDV().getTenLop()
-				+ "</span></td><td class=\"item-col quantity\">\r\n" + "                     "
-				+ thesMail.get(0).getGoiTap().getTenGoiTap() + "\r\n"
-				+ "                    </td><td class=\"item-col\">\r\n" + "                      ₫"
-				+ thesMail.get(0).getGoiTap().getGia() + "\r\n"
-				+ "                    </td></tr><tr><td class=\"item-col item mobile-row-padding\"></td><td class=\"item-col quantity\"></td><td class=\"item-col price\"></td></tr><tr><td class=\"item-col item\"></td><td class=\"item-col quantity\" style=\"text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;\"><span class=\"total-space\">Tổng chi phí</span><br /><span class=\"total-space\">Thuế</span><br /><span class=\"total-space\" style=\"font-weight: bold; color: #4d4d4d\">Thành Tiền</span></td><td class=\"item-col price\" style=\"text-align: left; border-top: 1px solid #cccccc;\"><span class=\"total-space\">₫"
-				+ thesMail.get(0).getGoiTap().getGia()
-				+ "</span><br /><span class=\"total-space\">0.00₫</span><br /><span class=\"total-space\" style=\"font-weight:bold; color: #4d4d4d\">"
-				+ thesMail.get(0).getGoiTap().getGia()
-				+ "₫</span></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7; height: 100px;\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td style=\"padding: 5px 0 10px\"><strong>97 Man Thiện</strong><br />\r\n"
-				+ "              Thành phố Thủ Đức <br />\r\n"
-				+ "              Thành Phố Hồ Chí Minh <br /><br /></td></tr></table></center></td></tr></table></div></body></html>";
-		helper.setText(html_HoaDon, true);
-		this.javaMailSender.send(messages);
+//		The thesMail = theService.selectByMaThe(maThe);
+//		MimeMessage messages = javaMailSender.createMimeMessage();
+//		MimeMessageHelper helper = new MimeMessageHelper(messages, true, "UTF-8");
+//
+//		helper.setTo(thesMail.getKhachHang().getEmail());
+//		helper.setSubject("Thanh Toán Dịch Vụ");
+//		String html_HoaDon = "\r\n"
+//				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /><title>NDTGYM Confirm</title><style type=\"text/css\">\r\n"
+//				+ "    /* Take care of image borders and formatting, client hacks */\r\n"
+//				+ "    img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}\r\n"
+//				+ "    a img { border: none; }\r\n" + "    table { border-collapse: collapse !important;}\r\n"
+//				+ "    #outlook a { padding:0; }\r\n" + "    .ReadMsgBody { width: 100%; }\r\n"
+//				+ "    .ExternalClass { width: 100%; }\r\n"
+//				+ "    .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }\r\n"
+//				+ "    table td { border-collapse: collapse; }\r\n" + "    .ExternalClass * { line-height: 115%; }\r\n"
+//				+ "    .container-for-gmail-android { min-width: 600px; }\r\n" + "\r\n" + "\r\n"
+//				+ "    /* General styling */\r\n" + "    * {\r\n"
+//				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "    }\r\n" + "\r\n" + "    body {\r\n"
+//				+ "      -webkit-font-smoothing: antialiased;\r\n" + "      -webkit-text-size-adjust: none;\r\n"
+//				+ "      width: 100% !important;\r\n" + "      margin: 0 !important;\r\n" + "      height: 100%;\r\n"
+//				+ "      color: #676767;\r\n" + "    }\r\n" + "\r\n" + "    td {\r\n"
+//				+ "      font-family: Helvetica, Arial, sans-serif;\r\n" + "      font-size: 14px;\r\n"
+//				+ "      color: #777777;\r\n" + "      text-align: center;\r\n" + "      line-height: 21px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    a {\r\n" + "      color: #676767;\r\n"
+//				+ "      text-decoration: none !important;\r\n" + "    }\r\n" + "\r\n" + "    .pull-left {\r\n"
+//				+ "      text-align: left;\r\n" + "    }\r\n" + "\r\n" + "    .pull-right {\r\n"
+//				+ "      text-align: right;\r\n" + "    }\r\n" + "\r\n" + "    .header-lg,\r\n" + "    .header-md,\r\n"
+//				+ "    .header-sm {\r\n" + "      font-size: 32px;\r\n" + "      font-weight: 700;\r\n"
+//				+ "      line-height: normal;\r\n" + "      padding: 35px 0 0;\r\n" + "      color: #4d4d4d;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .header-md {\r\n" + "      font-size: 24px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .header-sm {\r\n" + "      padding: 5px 0;\r\n" + "      font-size: 18px;\r\n"
+//				+ "      line-height: 1.3;\r\n" + "    }\r\n" + "\r\n" + "    .content-padding {\r\n"
+//				+ "      padding: 20px 0 5px;\r\n" + "    }\r\n" + "\r\n" + "    .mobile-header-padding-right {\r\n"
+//				+ "      width: 290px;\r\n" + "      text-align: right;\r\n" + "      padding-left: 10px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .mobile-header-padding-left {\r\n" + "      width: 290px;\r\n"
+//				+ "      text-align: left;\r\n" + "      padding-left: 10px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .free-text {\r\n" + "      width: 100% !important;\r\n" + "      padding: 10px 60px 0px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .button {\r\n" + "      padding: 30px 0;\r\n" + "    }\r\n" + "\r\n"
+//				+ "\r\n" + "    .mini-block {\r\n" + "      border: 1px solid #e5e5e5;\r\n"
+//				+ "      border-radius: 5px;\r\n" + "      background-color: #ffffff;\r\n"
+//				+ "      padding: 12px 15px 15px;\r\n" + "      text-align: left;\r\n" + "      width: 253px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .mini-container-left {\r\n" + "      width: 278px;\r\n"
+//				+ "      padding: 10px 0 10px 15px;\r\n" + "    }\r\n" + "\r\n" + "    .mini-container-right {\r\n"
+//				+ "      width: 278px;\r\n" + "      padding: 10px 14px 10px 15px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .product {\r\n" + "      text-align: left;\r\n" + "      vertical-align: top;\r\n"
+//				+ "      width: 175px;\r\n" + "    }\r\n" + "\r\n" + "    .total-space {\r\n"
+//				+ "      padding-bottom: 8px;\r\n" + "      display: inline-block;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .item-table {\r\n" + "      padding: 50px 20px;\r\n" + "      width: 560px;\r\n" + "    }\r\n"
+//				+ "\r\n" + "    .item {\r\n" + "      width: 300px;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .mobile-hide-img {\r\n" + "      text-align: left;\r\n" + "      width: 125px;\r\n" + "    }\r\n"
+//				+ "\r\n" + "    .mobile-hide-img img {\r\n" + "      border: 1px solid #e6e6e6;\r\n"
+//				+ "      border-radius: 4px;\r\n" + "    }\r\n" + "\r\n" + "    .title-dark {\r\n"
+//				+ "      text-align: left;\r\n" + "      border-bottom: 1px solid #cccccc;\r\n"
+//				+ "      color: #4d4d4d;\r\n" + "      font-weight: 700;\r\n" + "      padding-bottom: 5px;\r\n"
+//				+ "    }\r\n" + "\r\n" + "    .item-col {\r\n" + "      padding-top: 20px;\r\n"
+//				+ "      text-align: left;\r\n" + "      vertical-align: top;\r\n" + "    }\r\n" + "\r\n"
+//				+ "    .force-width-gmail {\r\n" + "      min-width:600px;\r\n" + "      height: 0px !important;\r\n"
+//				+ "      line-height: 1px !important;\r\n" + "      font-size: 1px !important;\r\n" + "    }\r\n"
+//				+ "\r\n" + "  </style><style type=\"text/css\" media=\"screen\">\r\n"
+//				+ "    @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700);\r\n"
+//				+ "  </style><style type=\"text/css\" media=\"screen\">\r\n" + "    @media screen {\r\n"
+//				+ "      /* Thanks Outlook 2013! */\r\n" + "      * {\r\n"
+//				+ "        font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;\r\n"
+//				+ "      }\r\n" + "    }\r\n"
+//				+ "  </style><style type=\"text/css\" media=\"only screen and (max-width: 480px)\">\r\n"
+//				+ "    /* Mobile styles */\r\n" + "    @media only screen and (max-width: 480px) {\r\n" + "\r\n"
+//				+ "      table[class*=\"container-for-gmail-android\"] {\r\n"
+//				+ "        min-width: 290px !important;\r\n" + "        width: 100% !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      img[class=\"force-width-gmail\"] {\r\n" + "        display: none !important;\r\n"
+//				+ "        width: 0 !important;\r\n" + "        height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      table[class=\"w320\"] {\r\n" + "        width: 320px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "\r\n" + "      td[class*=\"mobile-header-padding-left\"] {\r\n"
+//				+ "        width: 160px !important;\r\n" + "        padding-left: 0 !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      td[class*=\"mobile-header-padding-right\"] {\r\n"
+//				+ "        width: 160px !important;\r\n" + "        padding-right: 0 !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      td[class=\"header-lg\"] {\r\n" + "        font-size: 24px !important;\r\n"
+//				+ "        padding-bottom: 5px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class=\"content-padding\"] {\r\n" + "        padding: 5px 0 5px !important;\r\n"
+//				+ "      }\r\n" + "\r\n" + "       td[class=\"button\"] {\r\n"
+//				+ "        padding: 5px 5px 30px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class*=\"free-text\"] {\r\n" + "        padding: 10px 18px 30px !important;\r\n"
+//				+ "      }\r\n" + "\r\n" + "      td[class~=\"mobile-hide-img\"] {\r\n"
+//				+ "        display: none !important;\r\n" + "        height: 0 !important;\r\n"
+//				+ "        width: 0 !important;\r\n" + "        line-height: 0 !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class~=\"item\"] {\r\n" + "        width: 140px !important;\r\n"
+//				+ "        vertical-align: top !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class~=\"quantity\"] {\r\n" + "        width: 50px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class~=\"price\"] {\r\n" + "        width: 90px !important;\r\n" + "      }\r\n" + "\r\n"
+//				+ "      td[class=\"item-table\"] {\r\n" + "        padding: 30px 20px !important;\r\n" + "      }\r\n"
+//				+ "\r\n" + "      td[class=\"mini-container-left\"],\r\n"
+//				+ "      td[class=\"mini-container-right\"] {\r\n" + "        padding: 0 15px 15px !important;\r\n"
+//				+ "        display: block !important;\r\n" + "        width: 290px !important;\r\n" + "      }\r\n"
+//				+ "    }\r\n"
+//				+ "  </style></head><body bgcolor=\"#f7f7f7\"><table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" class=\"container-for-gmail-android\" width=\"100%\"><tr><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" bgcolor=\"#ffffff\" background=\"http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg\" style=\"background-color:transparent\"><tr><td width=\"100%\" height=\"80\" valign=\"top\" style=\"text-align: center; vertical-align:middle;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"pull-left mobile-header-padding-left\" style=\"vertical-align: middle;\"><a class=\"header-md\" href=\"\">Xin chào, "
+//				+ thesMail.getKhachHang().getTenKH()
+//				+ "</a></td></tr></table></center></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7;\" class=\"content-padding\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"header-lg\">\r\n"
+//				+ "              Thanh Toán Thành Công!\r\n" + "            </td></tr><tr><td class=\"free-text\">\r\n"
+//				+ "              Chân thành cảm ơn Quý Khách đã đồng hành cùng FITNESSGYM.<br> Chúc Quý Khách hàng có một trải nghiệm thật tốt và thú vị!!\r\n"
+//				+ "            </td></tr><tr><td class=\"button\"><div><a href=\"http://\"\r\n"
+//				+ "              style=\"background-color:#28a745;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;\">Đăng ký dịch vụ mới</a></div></td></tr><tr><td class=\"w320\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-container-left\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông tin khách hàng</span><br />\r\n"
+//				+ "                                " + thesMail.getKhachHang().getTenKH() + " <br />\r\n"
+//				+ "                                " + thesMail.getKhachHang().getSdt() + " <br />\r\n"
+//				+ "                                " + thesMail.getKhachHang().getEmail() + " \r\n"
+//				+ "                              </td></tr></table></td></tr></table></td><td class=\"mini-container-right\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td class=\"mini-block-padding\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"border-collapse:separate !important;\"><tr><td class=\"mini-block\"><span class=\"header-sm\">Thông Tin Dịch Vụ</span><br />\r\n"
+//				+ "                                Ngày Đăng Ký: " + thesMail.getNgayDK()
+//				+ " <br /><span class=\"header-sm\">Mã Hóa Đơn</span><br />\r\n" + "                                #"
+//				+ maHDMail + "\r\n"
+//				+ "                              </td></tr></table></td></tr></table></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;\"><center><table cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"w320\"><tr><td class=\"item-table\"><table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td class=\"title-dark\" width=\"300\">\r\n"
+//				+ "                       Dịch Vụ\r\n"
+//				+ "                    </td><td class=\"title-dark\" width=\"163\">\r\n"
+//				+ "                      Gói Tập\r\n"
+//				+ "                    </td><td class=\"title-dark\" width=\"97\">\r\n"
+//				+ "                      Giá\r\n"
+//				+ "                    </td></tr><tr><td class=\"item-col item\"><span style=\"color: #4d4d4d; font-weight:bold;\">"
+//				+ thesMail.getGoiTap().getLopDV().getTenLop()
+//				+ "</span></td><td class=\"item-col quantity\">\r\n" + "                     "
+//				+ thesMail.getGoiTap().getTenGoiTap() + "\r\n"
+//				+ "                    </td><td class=\"item-col\">\r\n" + "                      ₫"
+//				+ thesMail.getGoiTap().getGia() + "\r\n"
+//				+ "                    </td></tr><tr><td class=\"item-col item mobile-row-padding\"></td><td class=\"item-col quantity\"></td><td class=\"item-col price\"></td></tr><tr><td class=\"item-col item\"></td><td class=\"item-col quantity\" style=\"text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;\"><span class=\"total-space\">Tổng chi phí</span><br /><span class=\"total-space\">Thuế</span><br /><span class=\"total-space\" style=\"font-weight: bold; color: #4d4d4d\">Thành Tiền</span></td><td class=\"item-col price\" style=\"text-align: left; border-top: 1px solid #cccccc;\"><span class=\"total-space\">₫"
+//				+ thesMail.getGoiTap().getGia()
+//				+ "</span><br /><span class=\"total-space\">0.00₫</span><br /><span class=\"total-space\" style=\"font-weight:bold; color: #4d4d4d\">"
+//				+ thesMail.getGoiTap().getGia()
+//				+ "₫</span></td></tr></table></td></tr></table></center></td></tr><tr><td align=\"center\" valign=\"top\" width=\"100%\" style=\"background-color: #f7f7f7; height: 100px;\"><center><table cellspacing=\"0\" cellpadding=\"0\" width=\"600\" class=\"w320\"><tr><td style=\"padding: 5px 0 10px\"><strong>97 Man Thiện</strong><br />\r\n"
+//				+ "              Thành phố Thủ Đức <br />\r\n"
+//				+ "              Thành Phố Hồ Chí Minh <br /><br /></td></tr></table></center></td></tr></table></div></body></html>";
+//		helper.setText(html_HoaDon, true);
+//		this.javaMailSender.send(messages);
 
 		ModelAndView mw = new ModelAndView("admin/hoadon");
 		mw.addObject("updateTT", updateTT);// trả về JS trong hoadon.jsp
 		System.out.println(updateTT);
-		List<The> thes1 = theService.selectByMaThe(maThe);
-		mw.addObject("thes", thes1);
+		The the1 = theService.selectByMaThe(maThe);
+		mw.addObject("the", the1);
 
 		return mw;
 	}
@@ -1104,26 +1097,26 @@ public class MainController {
 	// ================= Hiển thị danh sách Khách Hàng file bangusers.jsp => hiển
 	// thị list user
 	@RequestMapping("bangusers")
-	public ModelAndView BangKhachHang() {
+	public ModelAndView BangKhachHang() throws IOException{
 		ModelAndView mw = new ModelAndView("admin/bangusers");
-		List<KhachHang> khachHangServices = khachHangService.listAll();
-		List<KhachHang> khachHangs = new ArrayList<KhachHang>();
-		int flag = 0;
-		for(KhachHang kh: khachHangServices) {
-			List<The> thes = theService.selectByMaThe(kh.getMaKH());
-		    for(The the: thes) {
-		    	if(the.getTrangThai() == "Hoạt Động") {
-		    		flag = 1;
-		    		break;
-		    	}
-		    }
-		    if(flag == 1) {
-		    	khachHangs.add(kh);
-		    }
+		List<KhachHang> khachHangServices = khachHangService.selectSortMaKh();
+		List<KhachHang> khachHangs = new ArrayList<>();
+		List<The> thes = new ArrayList<>();
+		
+		try {
+			for(KhachHang kh: khachHangServices) {
+				thes = theService.selectByTrangThaiKhachHang("Hoạt Động",kh.getMaKH());
+				if(thes.size() > 0) {
+					khachHangs.add(kh);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		mw.addObject("khachHangServices", khachHangServices);
-		mw.addObject("khCheckinServices",khachHangs);
-		System.out.print("thẻ KH:"+(khachHangs.size()));
+		mw.addObject("checkinKhShow",khachHangs);
+		mw.addObject("trangthai",thes.get(0).getTrangThai());
 		return mw;
 	}
 
@@ -1152,14 +1145,22 @@ public class MainController {
 
 			maTDV = "TT1";
 		}
-
+		//=======================checkin===============================
+		List<DiemDanh> diemDanhs = new ArrayList<>();
+		List<DiemDanh> diemDanhss = diemDanhService.selectDiemDanhByMaKH(maKH);
+		diemDanhs = diemDanhss;
+		//=============================================================
 		ModelAndView mw = new ModelAndView("admin/dichvu");
 		mw.addObject("maTDV", maTDV);
 		mw.addObject("maKH", maKH);
 		mw.addObject("lopDVs", lopDVs);
 		mw.addObject("localDate", localDate);
 		mw.addObject("thes", thes);
-
+		try {
+			mw.addObject("khCheckin",diemDanhs);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return mw;
 	}
 
@@ -1261,21 +1262,32 @@ public class MainController {
 	// => trả về user.jsp
 	// ================= Khách Hàng checkin use JS và api file banguser.jsp
 	@RequestMapping(value = "usercheckin", method = RequestMethod.POST)
-	public ModelAndView CheckinKhachHang(@RequestParam("maKH") String maKH){
+	public ModelAndView checkinKhachHang(@RequestParam("maKH") String maKH, HttpSession session)throws IOException{
+		TaiKhoan taiKhoan = taiKhoanService.selectByUserName(session.getAttribute("username").toString());
 		ModelAndView mw = new ModelAndView("apikhachhangcheckin");// trả về kết quả thongbao = mw
 		DiemDanh diemDanh = new DiemDanh();
 		KhachHang khachHang = khachHangService.selectByMaKH(maKH);
+		NhanVien nhanVien = new NhanVien();
+		nhanVien = taiKhoan.getNhanVien();
+		
+		
 		System.out.println("MÃ KH: " + maKH);
 		The the = new The();
 		List<DiemDanh> diemDanhss = diemDanhService.selectByIdDesc();
 		List<DiemDanh> diemDanhs = new ArrayList<>();
 		Date date = new Date();
 		diemDanhs = diemDanhss;
-		int flag = 0;
-		diemDanh.setId(1);
+		if(diemDanhs.size() > 0) {
+			diemDanh.setId(diemDanhs.get(0).getId() + 1);
+		}
+		else {
+			diemDanh.setId(1);
+		}
+		
 		diemDanh.setThoiGian(date);
 		diemDanh.setSoLan(diemDanhs.size() + 1);
 		diemDanh.setKhachHangDD(khachHang);
+		diemDanh.setNhanVienDD(nhanVien);
 		try {
 			System.out.println("Ngày: " + date);
 			System.out.println("Số Lần checkin: " + (diemDanhs.size() + 1));
@@ -1307,9 +1319,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/nhanvien");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		List<NhanVien> nhanViens = nhanVienService.listAll();
 		mw.addObject("nhanViens", nhanViens);
@@ -1328,19 +1338,19 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/nhanvien");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		if (password.equals(xnpassword) && password.trim().length() > 5 && !chucVu.trim().isEmpty()
 				&& !hoVaTen.trim().isEmpty() && !userName.trim().isEmpty()) {
-			List<NhanVien> ktEmail = nhanVienService.selectByEmail(email);
-			List<NhanVien> ktUserName = nhanVienService.selectByUserName(userName);
+			NhanVien ktEmail = new NhanVien();
+			NhanVien ktUserName = new NhanVien();
+			ktEmail = nhanVienService.selectByEmail(email);
+			ktUserName = nhanVienService.selectByUserName(userName);
 
 			// kiểm tra trùng email & username
-			if (ktEmail.size() == 0 && ktUserName.size() == 0) {
+			if (ktEmail == null && ktUserName == null) {
 				TaiKhoan taiKhoan = new TaiKhoan();
-				List<PhanQuyen> phanQuyen;
+				PhanQuyen phanQuyen = new PhanQuyen();
 				if (chucVu.equals("Quản Lý"))
 					phanQuyen = phanQuyenService.selectByMaQuyen(0);
 				else
@@ -1349,7 +1359,7 @@ public class MainController {
 				taiKhoan.setUserName(userName);
 				taiKhoan.setPassWord(encoderPass(password));
 				taiKhoan.setTrangThai(1);// nhân viên
-				taiKhoan.setPhanQuyen(phanQuyen.get(0));
+				taiKhoan.setPhanQuyen(phanQuyen);
 				taiKhoanService.save(taiKhoan);
 
 				NhanVien nhanVien = new NhanVien();
@@ -1402,12 +1412,10 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/chitietnhanvien");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
-		List<NhanVien> nhanViens = nhanVienService.selectByMaNV(maNV);
-		mw.addObject("nhanVien", nhanViens);
+		NhanVien nhanVien = nhanVienService.selectByMaNV(maNV);
+		mw.addObject("nhanVien", nhanVien);
 		return mw;
 	}
 
@@ -1422,25 +1430,22 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/chitietnhanvien");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
-
-		List<NhanVien> nhanViens = nhanVienService.selectByMaNV(maNV);
+		roleLogin(response,session);
+		
+		NhanVien ktEmail = new NhanVien();
+		NhanVien nhanVienn = nhanVienService.selectByMaNV(maNV);
 		mw.addObject("thongbao", "0");
-		List<NhanVien> ktEmail = nhanVienService.selectByEmail(email);
+		ktEmail = nhanVienService.selectByEmail(email);
 
 		// kiểm tra nếu nhân viên chưa lập hóa đơn hoặc chưa có email thì có thể chỉnh
 		// sửa thông tin
-		if (nhanViens.get(0).getHoaDons().size() == 0 && nhanViens.size() > 0
-				&& (nhanViens.get(0).getEmail().equals(email.trim()) || ktEmail.size() == 0)) {
+		if (nhanVienn.getHoaDons().size() == 0 && (nhanVienn.getEmail().equals(email.trim()) || ktEmail == null)) {
 			NhanVien nhanVien = new NhanVien();
-			//nhanVien.setMaNV(maNV);
 			nhanVien.setDiaChi(diaChi);
 			nhanVien.setEmail(email);
 			nhanVien.setGioiTinh(gioiTinh);
 			nhanVien.setSdt(sdt);
-			nhanVien.setTaiKhoan(nhanViens.get(0).getTaiKhoan());
+			nhanVien.setTaiKhoan(nhanVienn.getTaiKhoan());
 			nhanVien.setTenNV(hoVaTen);
 
 			nhanVienService.save(nhanVien);
@@ -1449,8 +1454,8 @@ public class MainController {
 
 		}
 		// Truy xuất dữ liệu sau khi Update nV
-		nhanViens = nhanVienService.selectByMaNV(maNV);
-		mw.addObject("nhanVien", nhanViens);
+		nhanVienn = nhanVienService.selectByMaNV(maNV);
+		mw.addObject("nhanVien", nhanVienn);
 		return mw;
 
 	}
@@ -1463,17 +1468,15 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("apikhoataikhoan");// trả về thongbaoupdate cho api và result kq = mw
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
-		List<NhanVien> nhanVien = nhanVienService.selectByMaNV(maNV);
-		if (!nhanVien.get(0).getTaiKhoan().getPhanQuyen().getChucVu().equals("Quản Lý")) {
+		NhanVien nhanVien = nhanVienService.selectByMaNV(maNV);
+		if (!nhanVien.getTaiKhoan().getPhanQuyen().getChucVu().equals("Quản Lý")) {
 			try {
 				if (checked.trim().equals("true"))
-					taiKhoanService.updateByUserName(0, nhanVien.get(0).getTaiKhoan().getUserName());
+					taiKhoanService.updateByUserName(0, nhanVien.getTaiKhoan().getUserName());
 				else if (checked.trim().equals("false"))
-					taiKhoanService.updateByUserName(1, nhanVien.get(0).getTaiKhoan().getUserName());
+					taiKhoanService.updateByUserName(1, nhanVien.getTaiKhoan().getUserName());
 
 				mw.addObject("thongbaoupdate", "1");
 			} catch (Exception e) {
@@ -1495,27 +1498,26 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/chitietnhanvien");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		int tb = 4;// giả sử cập nhật NV thành công
-		List<TaiKhoan> taiKhoans = taiKhoanService.selectByUserName(userName);
-		List<NhanVien> nhanViens = nhanVienService.selectByMaNV(maNV);
+		TaiKhoan taiKhoann = new TaiKhoan();
+		taiKhoann = taiKhoanService.selectByUserName(userName);
+		NhanVien nhanVien = nhanVienService.selectByMaNV(maNV);
 
 		mw.addObject("thongbao", "3");// 3: username define
 
 		// check tài khoản để không bị trùng , khác root
-		if (taiKhoans.size() > 0 && !taiKhoans.get(0).getUserName().trim().equals("root")
-				&& taiKhoans.get(0).getUserName().equals(nhanViens.get(0).getTaiKhoan().getUserName().trim())) {
+		if (taiKhoann != null && !taiKhoann.getUserName().trim().equals("root")
+				&& taiKhoann.getUserName().equals(nhanVien.getTaiKhoan().getUserName().trim())) {
 			TaiKhoan taiKhoan = new TaiKhoan();
 
 			// ================================== Check Phân Quyền=================
-			List<PhanQuyen> phanQuyen;
+			PhanQuyen phanQuyen = new PhanQuyen();
 			// Bắt buộc >2 Quản lý mới cho đổi quyền từ 1->0 (Quản Lý -> Nhân Viên)
 			if (maQuyen.trim().equals("0"))
 				phanQuyen = phanQuyenService.selectByMaQuyen(0);
-			else if (nhanViens.get(0).getTaiKhoan().getUserName().trim().equals(session.getAttribute("username"))) {
+			else if (nhanVien.getTaiKhoan().getUserName().trim().equals(session.getAttribute("username"))) {
 				phanQuyen = phanQuyenService.selectByMaQuyen(0);// qly
 				tb += 1;// 5: không thay đổi quyền của chính bạn
 			} else
@@ -1527,17 +1529,17 @@ public class MainController {
 				taiKhoan.setPassWord(encoderPass(passWord));
 				mw.addObject("thongbaopass", "1");// 1: change pass success
 			} else {
-				taiKhoan.setPassWord(nhanViens.get(0).getTaiKhoan().getPassWord());
+				taiKhoan.setPassWord(nhanVien.getTaiKhoan().getPassWord());
 				tb += 2;// 6: pass ko hợp lệ <=5
 			}
 
 			// ================================== Check Trạng Thái (username: tài khoản của
 			// bạn đang đăng nhập) 0-Khóa; 1- HĐ=================
 			if (trangThai.trim().equals("1") || (trangThai.trim().equals("0")
-					&& !nhanViens.get(0).getTaiKhoan().getUserName().trim().equals(session.getAttribute("username"))))
+					&& !nhanVien.getTaiKhoan().getUserName().trim().equals(session.getAttribute("username"))))
 				taiKhoan.setTrangThai(Integer.parseInt(trangThai));
 			else {
-				taiKhoan.setTrangThai(nhanViens.get(0).getTaiKhoan().getTrangThai());
+				taiKhoan.setTrangThai(nhanVien.getTaiKhoan().getTrangThai());
 				/*
 				 * 8: không thay đổi được trạng thái của chính bạn 5 + 4 = 9: không thay đổi
 				 * quyền & không thay đổi được trạng thái của chính bạn 6 + 4 = 10: không thay
@@ -1546,13 +1548,13 @@ public class MainController {
 				tb += 4;// x+4
 			}
 
-			taiKhoan.setPhanQuyen(phanQuyen.get(0));
+			taiKhoan.setPhanQuyen(phanQuyen);
 			taiKhoanService.save(taiKhoan);
 			mw.addObject("thongbao", "" + tb);//
 		}
 
-		nhanViens = nhanVienService.selectByMaNV(maNV);
-		mw.addObject("nhanVien", nhanViens);
+		nhanVien = nhanVienService.selectByMaNV(maNV);
+		mw.addObject("nhanVien", nhanVien);
 		return mw;
 	}
 
@@ -1571,9 +1573,8 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/thongke");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
+		
 
 		float tongTien = 0;
 		LocalDate date = LocalDate.now();// lấy thời gian hiện tại
@@ -1617,9 +1618,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/thongke");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		float tongTien = 0;
 
@@ -1657,10 +1656,8 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("thongke");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
-
+		roleLogin(response,session);
+		
 		Date dateBD = new SimpleDateFormat("yyyy/MM/dd").parse(ngayBD.replace("-", "/"));
 		Date dateKT = new SimpleDateFormat("yyyy/MM/dd").parse(ngayKT.replace("-", "/"));
 
@@ -1687,9 +1684,7 @@ public class MainController {
 		ModelAndView mw = new ModelAndView("admin/thongke");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
 
 		int slThe = 0;
 		Date dateBD = new SimpleDateFormat("yyyy/MM/dd").parse(ngayBD.replace("-", "/"));
@@ -1922,18 +1917,14 @@ public class MainController {
 	 * =============================================================================
 	 * ============================
 	 */
-	// Loại thiết bị
-//		@ModelAttribute("loai") 
-//		  public List<LoaiThietBi> nhanLoai()
-//		  { 	  
-//			  List<LoaiThietBi> listCategory = loaiTBService.listAll();
-//			return listCategory; 
-//		  } 
 
 	// ================= Hiển thị danh sách Thiết Bị file sidebar.jsp trả về file
 	// thietbi.jsp
 	@RequestMapping("thietbi")
 	public ModelAndView DanhSachTB(HttpServletResponse response, HttpSession session) throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+		roleLogin(response,session);
+
 		ModelAndView mw = new ModelAndView("admin/thietbi");
 		List<ThietBi> listTB = thietBiService.listAll();
 		List<LoaiThietBi> listCategory = loaiTBService.listAll();
@@ -1946,6 +1937,9 @@ public class MainController {
 	@RequestMapping(value = "delthietbi", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView XoaThietBi(HttpSession session, HttpServletResponse response, @RequestParam("id") String maTB)
 			throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/thietbi");
 		thietBiService.delete(maTB);
 		List<ThietBi> listTB = thietBiService.listAll();
@@ -1960,6 +1954,9 @@ public class MainController {
 			@RequestParam("xuatxu") String thuongHieu, @RequestParam("tinhtrang") String tinhTrang,
 			@RequestParam("ngaynhap") String ngayNhap, @RequestParam("loaithietbi") String loaiThietBi,
 			@RequestParam("hinhanh") MultipartFile image) throws IOException, InterruptedException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/thietbi");
 
 		String tenHinhAnh = image.getOriginalFilename();
@@ -2021,6 +2018,9 @@ public class MainController {
 	@RequestMapping(value = "thietbi", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView ChinhSuaTB(HttpSession session, HttpServletResponse response, @RequestParam("id") String maTB)
 			throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/chitietthietbi");
 		List<LoaiThietBi> listCategory = loaiTBService.listAll();
 		ThietBi tb = thietBiService.selectByMaTB(maTB);
@@ -2033,12 +2033,15 @@ public class MainController {
 	// ================= Update thông tin Thiết Bị file chitietthietbi.jsp khi
 	// nhấn btn Cập nhật
 	@RequestMapping(value = "updatethietbi", method = RequestMethod.POST)
-	public ModelAndView UpdateTB(Model model, @RequestParam("matb") String maTB, @RequestParam("tentb") String tenTB,
+	public ModelAndView UpdateTB(HttpServletResponse response,HttpSession session ,Model model, @RequestParam("matb") String maTB, @RequestParam("tentb") String tenTB,
 			@RequestParam("soluong") int soLuong, @RequestParam("tinhtrang") String tinhTrang,
 			@RequestParam("xuatxu") String thuongHieu, @RequestParam("mota") String moTa,
 			@RequestParam("loaithietbi") String loaiThietBi, @RequestParam("hinhanh") MultipartFile image)
 			throws ParseException, IllegalStateException, IOException {
 
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("redirect:thietbi?id=" + maTB);// thành công trả về thongbao JS trong file
 		mw.addObject("thongbao", "0");// gán là fail
 		ThietBi tb = thietBiService.selectByMaTB(maTB);
@@ -2080,9 +2083,8 @@ public class MainController {
 	@RequestMapping(value = "loaithietbi")
 	public ModelAndView show(HttpServletResponse response, HttpSession session) throws IOException {
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		if (!session.getAttribute("maQuyen").equals("0")) {
-			response.sendRedirect("dangky");
-		}
+		roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/loaithietbi");
 		List<LoaiThietBi> loaiTBs = new ArrayList<>();
 		List<LoaiThietBi> loaiTBServices = loaiTBService.selectSortMaLoai();
@@ -2095,6 +2097,9 @@ public class MainController {
 	@RequestMapping(value = "loaithietbi", method = RequestMethod.POST)
 	public ModelAndView insert(@RequestParam("tenloai") String tenLoai, HttpSession session,
 			HttpServletResponse response) throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/loaithietbi");
 		// auto create id
 		List<LoaiThietBi> loaiTBs = new ArrayList<>();
@@ -2132,6 +2137,9 @@ public class MainController {
 	@RequestMapping(value = "loaithietbi", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView ChinhSuaLTB(HttpSession session, HttpServletResponse response, @RequestParam("id") int maLoai)
 			throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/chitietloaithietbi");
 		LoaiThietBi ltb = loaiTBService.selectByMaKH(maLoai);
 		mw.addObject("loaiThietBi", ltb);
@@ -2141,9 +2149,11 @@ public class MainController {
 	// ================= Update thông tin Thiết Bị file chitietthietbi.jsp khi
 	// nhấn btn Cập nhật
 	@RequestMapping(value = "updateloaithietbi", method = RequestMethod.POST)
-	public ModelAndView UpdateLTB(Model model, @RequestParam("maloai") int maLoai,
+	public ModelAndView UpdateLTB(HttpSession session, HttpServletResponse response, Model model, @RequestParam("maloai") int maLoai,
 			@RequestParam("tenloai") String tenLoai) throws IOException {
 
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
 		ModelAndView mw = new ModelAndView("redirect:loaithietbi?id=" + maLoai);// thành công trả về thongbao JS trong
 																				// file
 		mw.addObject("thongbao", "0");// gán là fail
@@ -2167,6 +2177,9 @@ public class MainController {
 	@RequestMapping(value = "delloaithietbi", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView XoaLoaiThietBi(HttpSession session, HttpServletResponse response,
 			@RequestParam("id") Integer maLoai) throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+				roleLogin(response,session);
+		
 		ModelAndView mw = new ModelAndView("admin/loaithietbi");
 		loaiTBService.delete(maLoai);
 		List<LoaiThietBi> loai = loaiTBService.listAll();
@@ -2175,15 +2188,19 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "tintuc", method = RequestMethod.GET)
-	public String showTinTuc(ModelMap model) {
+	public String showTinTuc(HttpSession session, HttpServletResponse response, ModelMap model) throws IOException{
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+		roleLogin(response,session);
+
 		List<TinTuc> listTinTuc = tinTucService.listAll();
 		model.addAttribute("listTinTuc", listTinTuc);
 		return "admin/tintuc";
 	}
 
 	@RequestMapping(value = "delTinTuc", params = { "id" }, method = RequestMethod.GET)
-	public ModelAndView XoaTinTuc(HttpSession session, HttpServletResponse response,
-			@RequestParam("id") Integer maTinTuc) throws IOException {
+	public ModelAndView XoaTinTuc(HttpSession session, HttpServletResponse response,@RequestParam("id") String maTinTuc) throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+		roleLogin(response,session);
 		ModelAndView mw = new ModelAndView("admin/tintuc");
 		tinTucService.delete(maTinTuc);
 		List<TinTuc> listTinTuc = tinTucService.listAll();
@@ -2192,8 +2209,11 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "tintuc", method = RequestMethod.POST)
-	public ModelAndView insertTT(HttpSession session,@RequestParam("tieuDe") String tieuDe, @RequestParam("noiDung") String noiDung,
-			@RequestParam("hinhAnh") MultipartFile image) throws IOException {
+	public ModelAndView insertTT(HttpSession session, HttpServletResponse response,@RequestParam("tieuDe") String tieuDe, @RequestParam("noiDung") String noiDung,
+@RequestParam("hinhAnh") MultipartFile image) throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+		roleLogin(response,session);
+
 		ModelAndView mw = new ModelAndView("admin/tintuc");
 		String tenHinhAnh = image.getOriginalFilename();
 		String path = servletContext.getRealPath("resources/img/" + image.getOriginalFilename());
@@ -2243,6 +2263,9 @@ public class MainController {
 	@RequestMapping(value = "tintuc", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView ChinhSuaTT(HttpSession session, HttpServletResponse response, @RequestParam("id") int maTinTuc)
 			throws IOException {
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+		roleLogin(response,session);
+
 		ModelAndView mw = new ModelAndView("admin/chitietttintuc");
 		TinTuc tt = tinTucService.selectByMaTT(maTinTuc);
 		mw.addObject("tinTuc", tt);
@@ -2253,9 +2276,12 @@ public class MainController {
 	// ================= Update thông tin Tin Tức file chitiettintuc.jsp khi
 	// nhấn btn Cập nhật
 	@RequestMapping(value = "updatetintuc", method = RequestMethod.POST)
-	public ModelAndView UpdateTT(@RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
-			@RequestParam("noidung") String noiDung, @RequestParam("hinhanh") MultipartFile image)
-			throws ParseException, IllegalStateException, IOException {
+	public ModelAndView UpdateTB(HttpSession session, HttpServletResponse response,Model model, @RequestParam("matin") int maTinTuc, @RequestParam("tieude") String tieuDe,
+			@RequestParam("noidung") String noiDung,@RequestParam("ngaytao") String ngayTao, @RequestParam("hinhanh") MultipartFile image)
+throws ParseException, IllegalStateException, IOException {
+
+		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+		roleLogin(response,session);
 
 		ModelAndView mw = new ModelAndView("redirect:tintuc?id=" + maTinTuc);// thành công trả về thongbao JS trong file
 		mw.addObject("thongbao", "0");// gán là fail

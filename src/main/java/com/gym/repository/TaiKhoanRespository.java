@@ -12,9 +12,9 @@ import org.springframework.data.repository.query.Param;
 import com.gym.entity.TaiKhoan;
 
 
-public interface TaiKhoanRespository extends CrudRepository<TaiKhoan, Integer> {
+public interface TaiKhoanRespository extends CrudRepository<TaiKhoan, String> {
 	@Query("SELECT c FROM TaiKhoan c WHERE c.userName = :userName")
-	public List<TaiKhoan> findByUserName(@Param("userName") String userName);
+	public TaiKhoan findByUserName(@Param("userName") String userName);
 	
 	@Query("SELECT c FROM TaiKhoan c WHERE c.phanQuyen.maQuyen = :maQuyen")
 	public List<TaiKhoan> findByMaQuyen(@Param("maQuyen") int maQuyen);
