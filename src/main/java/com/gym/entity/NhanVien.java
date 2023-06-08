@@ -6,7 +6,6 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -40,6 +39,18 @@ public class NhanVien {
 	@OneToMany(mappedBy="nhanVien")
 	private Collection<HoaDon> hoaDons;
 	
+	@OneToMany(mappedBy="nhanVienDD")
+	private Collection<DiemDanh> diemDanhs;
+	
+	
+	public Collection<DiemDanh> getDiemDanhs() {
+		return diemDanhs;
+	}
+
+	public void setDiemDanhs(Collection<DiemDanh> diemDanhs) {
+		this.diemDanhs = diemDanhs;
+	}
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="userName")
 	private TaiKhoan taiKhoan;

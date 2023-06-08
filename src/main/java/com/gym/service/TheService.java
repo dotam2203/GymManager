@@ -46,6 +46,9 @@ public class TheService {
 	public List<The> selectByTrangThai(String trangThai){
 		return repo.findByTrangThai(trangThai);
 	}
+	public List<The> selectByTrangThaiKhachHang(String trangThai, String maKH){
+		return repo.findByTrangThaiKhachHang(trangThai, maKH);
+	}
 	public boolean updateByMaThe(String trangThai,String maThe) {
 		return repo.updateByMaThe(trangThai, maThe)>0;
 	}

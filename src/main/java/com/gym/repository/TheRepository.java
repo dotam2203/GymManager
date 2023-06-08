@@ -1,7 +1,10 @@
 package com.gym.repository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +45,10 @@ public interface TheRepository extends CrudRepository<The, String> {
 	
 	@Query("SELECT c FROM The c WHERE c.trangThai = :trangThai")
 	public List<The> findByTrangThai(@Param("trangThai") String trangThai);
+	
+	@Query("SELECT c FROM The c WHERE c.trangThai = :trangThai AND c.khachHang.maKH = :makh")
+	public List<The> findByTrangThaiKhachHang(@Param("trangThai") String trangThai,@Param("makh") String maKH);
+	
 	@Transactional
 	@Modifying
 	@Query("UPDATE The c SET c.trangThai= :trangthai WHERE c.maThe= :mathe")

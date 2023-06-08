@@ -20,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "DIEMDANH")
 public class DiemDanh {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idDD")
 	private Integer id;
 	
@@ -28,14 +27,26 @@ public class DiemDanh {
 	private Integer soLan;
 	
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "MM/DD/YYYY")
+	@DateTimeFormat(pattern = "MM/DD/YYYY HH:mm")
 	@Column(name = "ThoiGian")
 	private Date thoiGian;
 	
 	@ManyToOne
 	@JoinColumn(name = "MaKH") 
 	private KhachHang khachHangDD;
+	
+	@ManyToOne
+	@JoinColumn(name = "MaNV") 
+	private NhanVien nhanVienDD;
 
+
+	public NhanVien getNhanVienDD() {
+		return nhanVienDD;
+	}
+
+	public void setNhanVienDD(NhanVien nhanVienDD) {
+		this.nhanVienDD = nhanVienDD;
+	}
 
 	public KhachHang getKhachHangDD() {
 		return khachHangDD;
