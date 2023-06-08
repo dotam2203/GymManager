@@ -170,9 +170,13 @@ keyframes shake { 0% {
 
 
 
+
+
 %
 {
 transform
+
+
 
 
 
@@ -186,12 +190,18 @@ transform
 
 
 
+
+
 translate
 
 
 
 
+
+
 (
+
+
 
 
 
@@ -207,7 +217,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -219,7 +233,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -233,7 +251,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -241,6 +263,8 @@ rotate
 ;
 }
 20
+
+
 
 
 
@@ -256,7 +280,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -268,7 +296,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -284,7 +316,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -296,7 +332,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -310,7 +350,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -318,6 +362,8 @@ rotate
 ;
 }
 30
+
+
 
 
 
@@ -333,7 +379,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -345,7 +395,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -361,7 +415,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -373,7 +431,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -387,7 +449,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -395,6 +461,8 @@ rotate
 ;
 }
 40
+
+
 
 
 
@@ -410,7 +478,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -422,7 +494,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -438,7 +514,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -450,7 +530,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -464,7 +548,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -472,6 +560,8 @@ rotate
 ;
 }
 50
+
+
 
 
 
@@ -487,7 +577,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -499,7 +593,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -515,7 +613,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -527,7 +629,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -541,7 +647,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -549,6 +659,8 @@ rotate
 ;
 }
 60
+
+
 
 
 
@@ -564,7 +676,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -576,7 +692,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -592,7 +712,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -604,7 +728,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -618,7 +746,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -626,6 +758,8 @@ rotate
 ;
 }
 70
+
+
 
 
 
@@ -641,7 +775,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -653,7 +791,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -669,7 +811,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -681,7 +827,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -695,7 +845,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -703,6 +857,8 @@ rotate
 ;
 }
 80
+
+
 
 
 
@@ -718,7 +874,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -730,7 +890,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -746,7 +910,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -758,7 +926,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -772,7 +944,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -780,6 +956,8 @@ rotate
 ;
 }
 90
+
+
 
 
 
@@ -795,7 +973,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -807,7 +989,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -823,7 +1009,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -835,7 +1025,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -849,7 +1043,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -857,6 +1055,8 @@ rotate
 ;
 }
 100
+
+
 
 
 
@@ -872,7 +1072,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -884,7 +1088,11 @@ translate
 
 
 
+
+
 (
+
+
 
 
 
@@ -900,7 +1108,11 @@ translate
 
 
 
+
+
 )
+
+
 
 
 
@@ -912,7 +1124,11 @@ rotate
 
 
 
+
+
 (
+
+
 
 
 
@@ -926,7 +1142,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 
@@ -1002,29 +1222,28 @@ rotate
 						<div id="tintuc" class="card-body tabcontent">
 							<div id="profile" class="card-body tabcontent"
 								style="display: block;">
-								<form action="tinTuc" method="POST">
+								<form action="tintuc" method="POST" enctype="multipart/form-data">
 									<div class="row">
-										<div class="col-md-6 pr-md-1">
+										<div class="col-md-7 pr-md-1">
 											<div class="form-group">
-												<label>Tiêu Đề</label> <input type="text"
-													class="form-control" placeholder="Tiêu đề" required
-													pattern="\S+.*" value="" name="tieuDe">
+												<label>Tiêu Đề Bài Viết</label> <input type="text"
+													class="form-control" name="tieuDe" />
 											</div>
 										</div>
-										<div class="col-md-6 pl-md-1">
-											<div class="form-group">
-												<label>Nội Dung</label>
-												<textarea class="form-control"
-													placeholder="Nội dung bài viết" name="noiDung"> </textarea>
+										<div class="col-md-5 pl-md-1">
 
+											<div>
+												<label>Hình Ảnh</label><input type="file" id="myFile"
+													name="hinhAnh" class="form-control" />
 											</div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-6 pr-md-1">
-											<div>
-												<label>Hình Ảnh</label> <input type="file" id="myFile"
-													name="hinhAnh" class="form-control" />
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Nội dung bài viết</label>
+												<textarea name="noiDung" class="form-control"
+													placeholder="Nội dung bài viết"> </textarea>
 											</div>
 										</div>
 
@@ -1077,6 +1296,7 @@ rotate
 
 										<td class="text-center text-success"><a
 											href="delTinTuc?id=${info.maTinTuc}"
+											onclick="if (!confirm('Bạn có muốn xóa tin tức này?')) { return false }"
 											class="tim-icons icon-simple-remove"></a></td>
 
 
@@ -1091,22 +1311,16 @@ rotate
 												.showNotification(
 														'top',
 														'right',
-														'Đăng Ký Nhân Viên thành công!',
+														'Thêm bài viết thất bại!',
 														'2');
 									else if ("${thongbao}".trim() == "1")
 										demo
 												.showNotification(
 														'top',
 														'right',
-														'Username hoặc Email trùng nhau!',
+														'Thêm bài viết thành công!',
 														'3');
-									else if ("${thongbao}".trim() == "2")
-										demo
-												.showNotification(
-														'top',
-														'right',
-														'Password và Xác nhận Password không đúng!',
-														'3');
+									
 								</script>
 							</tbody>
 						</table>
@@ -1163,7 +1377,12 @@ rotate
 	}
 	sortTable();
 </script>
-
+<script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+   bkLib.onDomLoaded(function() {
+   	nicEditors.allTextAreas()
+   });
+</script>
 
 <%@include file="/resources/include/endsidebar.jsp"%>
 </body>

@@ -36,13 +36,13 @@ public class GoiTapService {
 	public List<GoiTap> selectByTenLopTrangThai(String tenLop){
 		return repo.findByTenLopTrangThai(tenLop);
 	}
-	public List<GoiTap> selectByMaGT(String maGT){
+	public GoiTap selectByMaGT(String maGT){
 		return repo.findByMaGT(maGT);
 	}
 	public List<GoiTap> selectByMaLopTenGoiTap(String maLop,String tenGoiTap){
 		return repo.findByMaLopGoiTap(maLop,tenGoiTap);
 	}
-	public int updateByMaGT(int trangThai,String maGT){
-		return repo.updateByMaGT(trangThai,maGT);
+	public boolean updateByMaGT(int trangThai,String maGT){
+		return repo.updateByMaGT(trangThai,maGT) > 0;
 	}
 }

@@ -25,10 +25,19 @@ public class DiemDanhService{
 	public void save(DiemDanh diemDanh) {
 		repo.save(diemDanh);
 	}
-	public List<DiemDanh> selectIdDDsByMaThe(String maThe){
-		return repo.findIdDDsByMaThe(maThe);
+	public List<DiemDanh> selectByIdDesc() {
+		return repo.findByIdDesc();
 	}
-	public List<DiemDanh> selectSoLansByMaThe(String maThe){
-		return repo.findSoLansByMaThe(maThe);
+	public List<DiemDanh> selectDiemDanhByMaKH(String maKH){
+		return repo.findDiemDanhByMaKH(maKH);
+	}
+	public List<DiemDanh> selectSoLansByMaKH(String maKH){
+		return repo.findSoLansByMaKH(maKH);
+	}
+	public List<DiemDanh> selectDiemDanhByMaNV(String maNV){
+		return repo.findDiemDanhByMaNV(maNV);
+	}
+	public List<DiemDanh> selectDiemDanhByMaNVDateDesc(String maNV){
+		return repo.findDiemDanhByMaNVDateDesc(maNV);
 	}
 }

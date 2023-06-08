@@ -28,13 +28,13 @@ public class NhanVienService {
 	public void save(NhanVien nhanVien) {
 		repo.save(nhanVien);
 	}
-	public List<NhanVien> selectByMaNV(String maNV){
+	public NhanVien selectByMaNV(String maNV){
 		return repo.findByMaNV(maNV);
 	}
-	public List<NhanVien> selectByEmail(String email){
+	public NhanVien selectByEmail(String email){
 		return repo.findByEmail(email);
 	}
-	public List<NhanVien> selectByUserName(String userName){
+	public NhanVien selectByUserName(String userName){
 		return repo.findByUserName(userName);
 	}
 }

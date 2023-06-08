@@ -15,8 +15,8 @@ import java.util.List;
 @Repository
 public interface TinTucRepository  extends CrudRepository<TinTuc, String> {
 	@Query("SELECT c FROM TinTuc c WHERE c.maTinTuc = :maTinTuc")
-	public TinTuc findByMaTin(@Param("maTinTuc") String maTin);
-	@Query("FROM TinTuc c ORDER BY c.ngayTao DESC")
-	public List<TinTuc> findAllSortNgayTao();
+	public TinTuc findByMaTin(@Param("maTinTuc") int maTin);
+	@Query("FROM TinTuc c ORDER BY c.maTinTuc DESC")
+	public List<TinTuc> findAllSortMaTinTuc();
 	
 }

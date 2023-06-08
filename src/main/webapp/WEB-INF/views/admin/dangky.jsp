@@ -78,7 +78,8 @@
 									          document.getElementById("userdate").value="";
 									     }
 									    return true;
-									}</script>
+									}
+						</script>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

@@ -1,6 +1,9 @@
 package com.gym.configs;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -43,5 +46,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		//hiển thị list trang admin
 		registry.addInterceptor(new Menu1()).addPathPatterns("/manager/*");
 	}
+	 @Bean
+	  public MultipartResolver multipartResolver(){
+	      CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+	      commonsMultipartResolver.setDefaultEncoding("utf-8");
+	      commonsMultipartResolver.setMaxUploadSize(20000000);
+	      commonsMultipartResolver.setResolveLazily(false);
+	      return commonsMultipartResolver;
+	  }
 
 }

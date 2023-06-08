@@ -19,7 +19,7 @@ public interface ThietBiRepository  extends CrudRepository<ThietBi, String> {
 	public List<ThietBi> findByLoaiTB(@Param("maLoai") String maLoai);
 	@Query("SELECT c FROM ThietBi c WHERE c.tenTB LIKE CONCAT(:kw,'%') OR c.loaiThietBi.tenLoai LIKE CONCAT(:kw,'%') ")
 	public List<ThietBi> findByKeyWord(@Param("kw") String kw);
-	@Query("FROM ThietBi c ORDER BY c.maTB DESC")
+	@Query("SELECT c FROM ThietBi c ORDER BY c.maTB DESC")
 	public List<ThietBi> findAllSortMaTB();
 	
 }

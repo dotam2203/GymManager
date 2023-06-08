@@ -1,5 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,15 +109,15 @@
 							<p>Nhân Viên</p>
 					</a></li>
 
-					<li id="loaiThietBi"><a href="./loaiThietBi"> <i
+					<li id="loaiThietBi"><a href="./loaithietbi"> <i
 							class="tim-icons icon-tag"></i>
 							<p>Loại thiết bị</p>
 					</a></li>
-					<li id="thietBi"><a href="./thietBi"> <i
+					<li id="thietBi"><a href="./thietbi"> <i
 							class="tim-icons icon-atom"></i>
 							<p>Thiết bị</p>
 					</a></li>
-					<li id="tinTuc"><a href="./tinTuc"> <i
+					<li id="tinTuc"><a href="./tintuc"> <i
 							class="tim-icons icon-chat-33"></i>
 							<p>Tin tức</p>
 					</a></li>
@@ -141,6 +141,9 @@
         	  checkAdmins("thongKeCheck");
         	  checkAdmins("nhanVienCheck");
         	  checkAdmins("lopdvCheck");
+        	  checkAdmins("loaiThietBi");
+        	  checkAdmins("thietBi");
+        	  checkAdmins("tinTuc");
              }
           
           

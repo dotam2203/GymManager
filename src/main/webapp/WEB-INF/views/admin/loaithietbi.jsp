@@ -363,35 +363,36 @@ $(document).ready(function(){
 						</div>
 
 
-						<!-- =============================== Form Lớp DV========================= -->
+						<!-- =============================== Form them loai tb========================= -->
 
-							<div id="loaithietbi" class="card-body tabcontent"
+							<div id="themloaitb" class="card-body tabcontent"
 								style="display: block;">
-								<form action="loaiThietBi" method="POST">
-									<input name="maLoai" style="display: none" />
+								<form action="loaithietbi" method="post">
+									<!-- <input name="maLoai" style="display: none" /> -->
 
 									<div class="row">
 										<div class="form-group">
-											<label>Tên Loại Thiết Bị</label> <input type="text"
+											<label>Tên Loại Thiết Bị</label> <input type="text" 
 												class="form-control" placeholder="Tên Loại Thiết Bị"
-												required pattern="\S+.*" value="" name="tenLoai" />
+												required pattern="\S+.*" value="" name="tenloai" />
 										</div>
 									</div>
 									<div class="card-footer">
-										<button id="dangkynv" type="submit"
+										<button type="submit"
 											class="btn btn-fill btn-primary">Lưu</button>
 									</div>
 
 								</form>
 
 							</div>
-						<!-- ===================end FormlớpDV============================== -->
+						<!-- ===================end Form loai tb============================== -->
 
 
 					</div>
 				</div>
+				
 				<!-- ========================= end them ========================== -->
-				<div class="card-body">
+				<div id="loaithietbi" class="card-body">
 					<div class="table-responsive">
 						<table class="table tablesorter " id="myTable1">
 							<thead class=" text-primary">
@@ -403,7 +404,7 @@ $(document).ready(function(){
 								</tr>
 							</thead>
 							<tbody id="myTable">
-								<c:forEach var="info" items="${loai}">
+								<c:forEach var="info" items="${loaiTBs}">
 									<tr>
 										<td>${info.maLoai}</td>
 										<td>${info.tenLoai}</td>
@@ -412,7 +413,7 @@ $(document).ready(function(){
 											href="loaithietbi?id=${info.maLoai}"
 											class="tim-icons icon-pencil"></a></td>
 										<td class="text-center text-success"><a
-											href="delloaithietbi?id=${info.maLoai}"
+											href="delloaithietbi?id=${info.maLoai}"  onclick="if (!confirm('Bạn có muốn xóa loại thiết bị này?')) { return false }"
 											class="tim-icons icon-simple-remove"></a></td>
 
 
@@ -421,9 +422,15 @@ $(document).ready(function(){
 								</c:forEach>
 
 								<script>
-						if("${thongbao}".trim()=="0") demo.showNotification('top','right','Đăng Ký Nhân Viên thành công!','2');
-						else if("${thongbao}".trim()=="1")demo.showNotification('top','right','Username hoặc Email trùng nhau!','3');
-						else if("${thongbao}".trim()=="2")demo.showNotification('top','right','Password và Xác nhận Password không đúng!','3');
+						if("${thongbao}".trim()=="1") demo.showNotification('top','right','Thêm thiết bị thành công!','2');
+						else if ("${thongbao}".trim()=="0") {
+							demo.showNotification('top','right','Thêm thiết bị thất bại','3');
+						}else if("${thongbao}".trim()=="2"){
+							demo.showNotification('top','right','Thêm thiết bị thất bại(tên loại thiết bị không được trùng)!','4');
+
+						}
+						//else if("${thongbao}".trim()=="1")demo.showNotification('top','right','Username hoặc Email trùng nhau!','3');
+						//else if("${thongbao}".trim()=="2")demo.showNotification('top','right','Password và Xác nhận Password không đúng!','3');
 						
 						
 						
