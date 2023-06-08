@@ -19,31 +19,31 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class TinTuc {
 	@Id
 	@Column(name = "MaTinTuc")
-	private int maTinTuc;
+	public Integer maTinTuc;
 
 	@Column(name = "TieuDe")
-	private String tieuDe;
+	public String tieuDe;
 
 	@Column(name = "NoiDung")
-	private String noiDung;
+	public String noiDung;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "MM/DD/YYYY")
 	@Column(name = "NgayTao")
-	private Date ngayTao;
+	public Date ngayTao;
 
 	@Column(name = "HinhAnh")
-	private String hinhAnh;
+	public String hinhAnh;
 
 	@ManyToOne
 	@JoinColumn(name = "MaNV")
-	private NhanVien nhanVien;
+	public NhanVien nhanVien;
 
-	public int getMaTinTuc() {
+	public Integer getMaTinTuc() {
 		return maTinTuc;
 	}
 
-	public void setMaTinTuc(int maTinTuc) {
+	public void setMaTinTuc(Integer maTinTuc) {
 		this.maTinTuc = maTinTuc;
 	}
 

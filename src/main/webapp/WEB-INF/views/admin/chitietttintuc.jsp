@@ -215,7 +215,7 @@ to {
 								<div class="form-group">
 									<label>Mã Tin Tức</label> <input type="text"
 										class="form-control" placeholder="Xuất xứ" readonly="readonly"
-										value="${tinTuc.maTinTuc}" name="matin">
+										value="${tinTuc.maTinTuc}">
 								</div>
 
 							</div>
@@ -228,23 +228,33 @@ to {
 								</div>
 							</div>
 						</div>
-						<div class="row">
-									<div class="col-md-4 pr-md-1">
-										<div>
-											<label>Ngày Tạo</label><input type="text" value="${tinTuc.ngayTao}" disabled="disabled"
-												name="ngaytao" class="form-control" />
-										</div>
-									</div>
-									<div class="col-md-8 pl-md-1">
-										<div class="form-group">
-											<label>Hình Ảnh</label><span hidden>${hinhanh}</span><input type="file" id="myFile" 
-												name="hinhanh" class="form-control" />
-												<img
+				<div class="row">
+							<div class="col-md-4 pr-md-1">
+								<div class="form-group">
+									<label>Nhân Viên Tạo Bài Viết </label> 
+									 <input type="text"
+										disabled="disabled" class="form-control"
+										placeholder="Mã nhân viên" value="${tinTuc.nhanVien.maNV}"
+										>
+								</div>
+							</div>
+							<div class="col-md-4 px-md-1">
+								<div class="form-group">
+									<label>Ngày Tạo</label> <input type="text" readonly="readonly"
+										class="form-control" placeholder="Ngày tạo"
+										value="${tinTuc.ngayTao}">
+								</div>
+							</div>
+							<div class="col-md-4 pl-md-1">
+								<div >
+									<label>Hình Ảnh</label> <span hidden>${hinhanh}</span>  <input type="file"
+										class="form-control" placeholder="Link ảnh" name="hinhanh">
+									<img
 										src="http://localhost:8080/GymManager/resources/img/${tinTuc.hinhAnh}"
 										alt="Ảnh thiết bị" style="width: 100px; height: 100px" >
-										</div>
-									</div>
 								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

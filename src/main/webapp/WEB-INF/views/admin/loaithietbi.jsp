@@ -374,7 +374,7 @@ $(document).ready(function(){
 										<div class="form-group">
 											<label>Tên Loại Thiết Bị</label> <input type="text" 
 												class="form-control" placeholder="Tên Loại Thiết Bị"
-												required pattern="\S+.*" value="" name="tenloai" />
+												required pattern="^[a-zA-Z]*$" value="" name="tenloai" />
 										</div>
 									</div>
 									<div class="card-footer">
