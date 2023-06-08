@@ -145,8 +145,6 @@
         	  checkAdmins("thietBi");
         	  checkAdmins("tinTuc");
              }
-          
-          
           </script>
 				</ul>
 			</div>
