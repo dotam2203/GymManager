@@ -4,9 +4,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/resources/include/navbarmn.jsp"%>
 
-
-<!- -->
-
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"
 	rel="stylesheet">
 <link rel="stylesheet"

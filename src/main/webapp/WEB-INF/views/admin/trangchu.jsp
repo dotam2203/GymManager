@@ -4,11 +4,11 @@
 
 
       <%@ include file="/resources/include/navbarmn.jsp" %>
-   <c:forEach var="the_wtt" items="${thes_ctt}"> 
+   <c:forEach var="the_ctt" items="${thes_ctt}"> 
       <script>
       	var mathe="${the_ctt.maThe}";
-			if("${the_wtt.trangThai}"=="Chưa Thanh Toán"){
-				demo.showNotification('top','right',' <a style="color: white;font-size:20px" href=\"hoadon?id=${the_wtt.maThe}\">Thẻ '+mathe.trim()+' chưa được thanh toán </a> ','3');
+			if("${the_ctt.trangThai}"=="Chưa Thanh Toán"){
+				demo.showNotification('top','right',' <a style="color: white;font-size:20px" href=\"hoadon?id=${the_ctt.maThe}\">Thẻ '+mathe.trim()+' chưa được thanh toán </a> ','3');
 
 				}
 

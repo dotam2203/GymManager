@@ -31,7 +31,7 @@
 						<div class="row">
 							<div class="col-md-5 pr-md-1">
 								<div class="form-group">
-									<label>Mã Khách Hàng </label> <input type="text"
+									<label>Mã Khách Hàng </label> <input type="text" style="text-align: center; color: white"
 										class="form-control" readonly="true" placeholder="ID"
 										value="${khachhang.maKH}" name="makh">
 								</div>

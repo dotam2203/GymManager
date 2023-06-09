@@ -260,9 +260,11 @@ public class MainController {
 			tongDV += soLuongDV[i];
 
 		// =========== THỐNG KÊ TOP 5 KHÁCH HÀNG =========
-		List<HoaDon> top5KHs = hoaDonService.findBetweenNamSortGiaTien(namHienTai);
+		List<HoaDon> top5KHs = new ArrayList<>();
+		List<HoaDon> top5KHss = hoaDonService.findBetweenNamSortGiaTien(namHienTai);
 		List<String> khachHangs = new ArrayList<>();
 		List<KhachHang> top5KHTiemNang = new ArrayList<>();
+		top5KHs = top5KHss;
 
 		for (int ig = 0; ig < top5KHs.size(); ig++) {
 			String maKHTop = top5KHs.get(ig).getThehd().getKhachHang().getMaKH();
@@ -537,7 +539,7 @@ public class MainController {
 		if (checkMaLop != null) {
 			List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop);
 			LopDV lopDV = lopDVService.selectByMaLop(maLop);
-			mw.addObject("lopDVs", lopDV);
+			mw.addObject("lopDV", lopDV);
 			mw.addObject("goiTapServices", goiTapServices);
 
 			return mw;
@@ -550,93 +552,93 @@ public class MainController {
 
 	// ====================== Sau khi thêm gói tập or chỉnh sửa dịch vụ thì
 	// updatelopdv file goitap.jsp
-	@RequestMapping(value = "updatelopdv", method = RequestMethod.POST)
-	public ModelAndView UpdateLopDV(HttpSession session, HttpServletResponse response,
-			@RequestParam("malop") String maLop1, @RequestParam("tengoitap") String tenGoiTap,
-			@RequestParam("gia") String gia) throws IOException {
-		ModelAndView mw = new ModelAndView("admin/goitap");
+		@RequestMapping(value = "updatelopdv", method = RequestMethod.POST)
+		public ModelAndView UpdateLopDV(HttpSession session, HttpServletResponse response,
+				@RequestParam("malop") String maLop1, @RequestParam("goitap") String tenGoiTap,
+				@RequestParam("gia") String gia) throws IOException {
+			ModelAndView mw = new ModelAndView("redirect:goitap?id=" + maLop1);
+			// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
+			roleLogin(response,session);
 
-		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
-		roleLogin(response,session);
+			String maLop = maLop1.trim();
+			mw.addObject("thongbao", 0);
+			LopDV checkLopDV = lopDVService.selectByMaLop(maLop.trim());
 
-		String maLop = maLop1.trim();
-		mw.addObject("thongbao", 0);
-		LopDV checkLopDV = lopDVService.selectByMaLop(maLop.trim());
+			kiemTraLoi: try {
+				float giaGoiTap = Float.parseFloat(gia);
 
-		kiemTraLoi: try {
-			float giaGoiTap = Float.parseFloat(gia);
+				// kiem tra dịch vụ có tồn tại không
+				if (checkLopDV != null) {
+					GoiTap goiTap = new GoiTap();
+					int thoiHan = 0;
 
-			// kiem tra dịch vụ có tồn tại không
-			if (checkLopDV != null) {
-				GoiTap goiTap = new GoiTap();
-				int thoiHan = 0;
+					// Tự động lấy mã gói tập
+					// format GT + Thoihan + Tengoitap + số của mã Lớp
+					String maGT = "GT";
+					if (Integer.parseInt(tenGoiTap.trim().split(" ")[0]) > 1) {
+						if (tenGoiTap.trim().split(" ")[1].equals("ngày")
+								&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 7) {
+							maGT += tenGoiTap.trim().split(" ")[0] + "NG" + maLop.substring(2);
+							thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]);
+						} else if (tenGoiTap.trim().split(" ")[1].equals("tuần")
+								&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 4) {
+							maGT += tenGoiTap.trim().split(" ")[0] + "T" + maLop.substring(2);
+							thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]) * 7;
+						} else if (tenGoiTap.trim().split(" ")[1].equals("tháng")
+								&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 12) {
+							maGT += tenGoiTap.trim().split(" ")[0] + "TH" + maLop.substring(2);
+							thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]) * 30;
+						} else if (tenGoiTap.trim().split(" ")[1].equals("năm")
+								&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 11) {
+							maGT += tenGoiTap.trim().split(" ")[0] + "N" + maLop.substring(2);
+							thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]) * 365;
+						} else
+							break kiemTraLoi;
+					} else {
+						if (tenGoiTap.trim().split(" ")[1].equals("ngày")) {
+							maGT += "NG" + maLop.substring(2);
+							thoiHan = 1;
+						} else if (tenGoiTap.trim().split(" ")[1].equals("tuần")) {
+							maGT += "T" + maLop.substring(2);
+							thoiHan = 7;
+						} else if (tenGoiTap.trim().split(" ")[1].equals("tháng")) {
+							maGT += "TH" + maLop.substring(2);
+							thoiHan = 30;
+						} else if (tenGoiTap.trim().split(" ")[1].equals("năm")) {
+							maGT += "N" + maLop.substring(2);
+							thoiHan = 365;
+						} else
+							break kiemTraLoi;
 
-				// Tự động lấy mã gói tập
-				// format GT + Thoihan + Tengoitap + số của mã Lớp
-				String maGT = "GT";
-				if (Integer.parseInt(tenGoiTap.trim().split(" ")[0]) > 1) {
-					if (tenGoiTap.trim().split(" ")[1].equals("ngày")
-							&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 7) {
-						maGT += tenGoiTap.trim().split(" ")[0] + "NG" + maLop.substring(2);
-						thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]);
-					} else if (tenGoiTap.trim().split(" ")[1].equals("tuần")
-							&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 4) {
-						maGT += tenGoiTap.trim().split(" ")[0] + "T" + maLop.substring(2);
-						thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]) * 7;
-					} else if (tenGoiTap.trim().split(" ")[1].equals("tháng")
-							&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 12) {
-						maGT += tenGoiTap.trim().split(" ")[0] + "TH" + maLop.substring(2);
-						thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]) * 30;
-					} else if (tenGoiTap.trim().split(" ")[1].equals("năm")
-							&& Integer.parseInt(tenGoiTap.trim().split(" ")[0]) < 11) {
-						maGT += tenGoiTap.trim().split(" ")[0] + "N" + maLop.substring(2);
-						thoiHan = Integer.parseInt(tenGoiTap.trim().split(" ")[0]) * 365;
-					} else
+					}
+
+					// check trùng gói tập trong dv
+					GoiTap checkGoiTap = new GoiTap();
+					checkGoiTap = goiTapService.selectByMaGT(maGT);
+					if (checkGoiTap == null)
 						break kiemTraLoi;
-				} else {
-					if (tenGoiTap.trim().split(" ")[1].equals("ngày")) {
-						maGT += "NG" + maLop.substring(2);
-						thoiHan = 1;
-					} else if (tenGoiTap.trim().split(" ")[1].equals("tuần")) {
-						maGT += "T" + maLop.substring(2);
-						thoiHan = 7;
-					} else if (tenGoiTap.trim().split(" ")[1].equals("tháng")) {
-						maGT += "TH" + maLop.substring(2);
-						thoiHan = 30;
-					} else if (tenGoiTap.trim().split(" ")[1].equals("năm")) {
-						maGT += "N" + maLop.substring(2);
-						thoiHan = 365;
-					} else
-						break kiemTraLoi;
 
+					// nếu trùng thì nhập lại
+					goiTap.setMaGoiTap(maGT);
+					goiTap.setTenGoiTap(tenGoiTap.trim());
+					goiTap.setThoiHan(thoiHan);
+					goiTap.setTrangThai(1);// mặc định trạng thái sẽ bằng 1
+					goiTap.setGia(giaGoiTap);
+					goiTap.setLopDV(checkLopDV);
+					goiTapService.save(goiTap);
+					mw.addObject("thongbao", 1);// check JS
 				}
-
-				// check trùng gói tập trong dv
-				GoiTap checkGoiTap = new GoiTap();
-				checkGoiTap = goiTapService.selectByMaGT(maGT);
-				if (checkGoiTap == null)
-					break kiemTraLoi;
-
-				// nếu trùng thì nhập lại
-				goiTap.setMaGoiTap(maGT);
-				goiTap.setTenGoiTap(tenGoiTap.trim());
-				goiTap.setThoiHan(thoiHan);
-				goiTap.setTrangThai(1);// mặc định trạng thái sẽ bằng 1
-				goiTap.setGia(giaGoiTap);
-				goiTap.setLopDV(checkLopDV);
-				goiTapService.save(goiTap);
-				mw.addObject("thongbao", 1);// check JS
+			} catch (Exception e) {
+				mw.addObject("thongbao", 0);
 			}
-		} catch (Exception e) {
 
+			List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop.trim());
+			LopDV lopDV = lopDVService.selectByMaLop(maLop.trim());
+			mw.addObject("lopDV", lopDV);
+			mw.addObject("goiTapServices", goiTapServices);
+			return mw;
 		}
 
-		List<GoiTap> goiTapServices = goiTapService.selectByMaLop(maLop.trim());
-		LopDV lopDV = lopDVService.selectByMaLop(maLop.trim());
-		mw.addObject("lopDV", lopDV);
-		mw.addObject("goiTapServices", goiTapServices);
-		return mw;
-	}
 
 	//
 
@@ -664,18 +666,24 @@ public class MainController {
 	public ModelAndView XoaGoiTap(HttpSession session, HttpServletResponse response, @RequestParam("maGT") String maGT)
 			throws IOException {
 		ModelAndView mw = new ModelAndView("apixoagoitap");
-
+		GoiTap goiTap = goiTapService.selectByMaGT(maGT);
+		List<GoiTap> goiTaps = goiTapService.selectByMaLop(goiTap.getLopDV().getMaLop());
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
 		roleLogin(response,session);
-
-		mw.addObject("thongbaoxoa", 0);
+		
 		List<The> theGT = theService.selectByMaGT(maGT);
 		// Check Trạng Thái GT = KDK ? , khong -> xoa
 		if (theGT.size() == 0) {
-
+			try {
+				mw.addObject("goiTapServices",goiTaps);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			goiTapService.delete(maGT);
+			
 			mw.addObject("thongbaoxoa", 1);// trả về giá trị cho api => return = 1
 		}
+		mw.addObject("thongbaoxoa", 0);
 		return mw;
 	}
 
@@ -1266,6 +1274,7 @@ public class MainController {
 		TaiKhoan taiKhoan = taiKhoanService.selectByUserName(session.getAttribute("username").toString());
 		ModelAndView mw = new ModelAndView("apikhachhangcheckin");// trả về kết quả thongbao = mw
 		DiemDanh diemDanh = new DiemDanh();
+		DiemDanh diemDanh1 = new DiemDanh();
 		KhachHang khachHang = khachHangService.selectByMaKH(maKH);
 		NhanVien nhanVien = new NhanVien();
 		nhanVien = taiKhoan.getNhanVien();
@@ -1283,11 +1292,13 @@ public class MainController {
 		else {
 			diemDanh.setId(1);
 		}
-		
-		diemDanh.setThoiGian(date);
-		diemDanh.setSoLan(diemDanhs.size() + 1);
-		diemDanh.setKhachHangDD(khachHang);
-		diemDanh.setNhanVienDD(nhanVien);
+		diemDanh1 = diemDanhService.selectDiemDanhByMaKHAndTG(maKH, date);
+		if(diemDanh1 == null) {
+			diemDanh.setThoiGian(date);
+			diemDanh.setSoLan(diemDanhs.size() + 1);
+			diemDanh.setKhachHangDD(khachHang);
+			diemDanh.setNhanVienDD(nhanVien);
+		}
 		try {
 			System.out.println("Ngày: " + date);
 			System.out.println("Số Lần checkin: " + (diemDanhs.size() + 1));
@@ -1298,7 +1309,6 @@ public class MainController {
 			System.out.println("NgàyFail: " + date);
 			System.out.println("Số Lần checkin: " + (diemDanhs.size() + 1));
 			System.out.println("Khách Hàng: " + khachHang);
-			diemDanhService.save(diemDanh);
 			mw.addObject("notification", "0");
 		}
 		return mw;
