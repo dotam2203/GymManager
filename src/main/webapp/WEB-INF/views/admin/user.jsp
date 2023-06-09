@@ -14,7 +14,7 @@
 					<div class="col-sm-12">
 						<div class="btn-group btn-group-toggle float-right"
 							data-toggle="buttons">
-							<label class=" tablinks btn btn-sm btn-primary btn-simple active"
+							<label> class=" tablinks btn btn-sm btn-primary btn-simple active" </label>
 								id="0" onclick="user(event, 'profile')"> <input
 								type="radio" name="options" checked> <span
 								class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Thông
@@ -56,7 +56,8 @@
 							<div class="col-md-8 pr-md-1">
 								<div class="form-group">
 									<label>Email</label> <input type="email" class="form-control"
-										placeholder="City" value="${khachhang.email}" name="email">
+										placeholder="City" value="${khachhang.email}" name="email" pattern="[a-zA-Z0-9]+@gmail.com"
+											title="nhập mail hợp lệ theo mẫu : example@gmail.com">
 								</div>
 
 							</div>
@@ -74,7 +75,7 @@
 								<div class="form-group">
 									<label>Giới Tính</label> <select name="gioitinh" id="gioitinh"
 										style="background: #27293d" class="form-control form-select"
-										placeholder="Sex">
+										placeholder="Sex" >
 										<option id="op_Nu">Nữ</option>
 										<option id="op_Nu" hidden="" selected="selected">${khachhang.gioiTinh}</option>
 										<option id="op_Nam">Nam</option>

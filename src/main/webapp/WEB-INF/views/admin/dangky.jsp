@@ -47,7 +47,8 @@
 							<div class="col-md-6 pl-md-1">
 								<div class="form-group">
 									<label>Email</label> <input type="email" class="form-control"
-										placeholder="pipi@gmail.com" name = "email">
+										placeholder="pipi@gmail.com" id="email" name = "email" pattern="[a-zA-Z0-9]+@gmail.com"
+										title="nhập mail hợp lệ theo mẫu : example@gmail.com">
 								</div>
 							</div>
 						</div>
