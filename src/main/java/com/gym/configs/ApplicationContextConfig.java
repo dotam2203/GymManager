@@ -20,7 +20,6 @@ public class ApplicationContextConfig {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-	//xét điều kiện: đăng nhập mới được vào trang chủ, ko thì sẽ out ra home
 	public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new Menu());
     }

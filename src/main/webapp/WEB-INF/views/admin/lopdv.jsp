@@ -1,4 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="/resources/include/sidebar.jsp"%>
 
 <script
@@ -13,7 +14,6 @@
 .modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
-	z-index: 6; /* Sit on top */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -176,7 +176,7 @@ to {
 
 										<th>Tên Dịch Vụ</th>
 										
-										<!-- <th>Trạng Thái</th> -->
+										<th>Trạng Thái</th>
 
 										<th>Chỉnh Sửa</th>
 										
@@ -191,33 +191,20 @@ to {
 											
 											<td>${info.tenLop}</td>
 											
-											<%-- <td id = "td_${info.maLop}" class="text-center">
-												<span id="ttdv_${info.maLop}">	
-					                        		<c:forEach var="goitap" items="${info.goiTap}">
-					                        			${goitap.trangThai},
-					                        		</c:forEach>
-												</span>
+											<td id = "td_${info.maLop}">
 												<script>
+													var goiTapCount = ${fn:length(info.goiTap)};
 													var trangthai = "";
-													var trangthais = document
-															.getElementById("ttdv_${info.maLop}").innerHTML
-															.trim();
-													if (trangthais == "") {
+													if(goiTapCount == 0)
+													{
 														trangthai = "KGT";
-													} else {
-														if (trangthais.search(" Có Gói Tập") > -1){
-															trangthai = trangthai + " CGT";
-														}
-														if (trangthais.search("Không Gói Tập") > -1)
-														{	trangthai = trangthai + " KGT";
-															document.getElementById("tr_${info.maLop}")
-															
-														}
 													}
-													
+													else if(goiTapCount != 0){
+														trangthai = "CGT";
+													}
 													document.getElementById("td_${info.maLop}").innerHTML = trangthai.trim();
 												</script>
-											</td> --%>
+											</td>
 											
 											<td><a href="goitap?id=${info.maLop}" class="tim-icons icon-pencil"></a></td>
 											
@@ -515,4 +502,3 @@ to {
 
 <%@include file="/resources/include/endsidebar.jsp" %>
 </body>
-

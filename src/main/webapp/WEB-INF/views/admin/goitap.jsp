@@ -165,7 +165,7 @@ $(document).ready(function(){
 
 							<div class="col-md-3 pr-md-1">
 								<div class="form-group">
-									<label>Loại Gói Tập</label> <select id="loaigoitap"
+									<label>Gói Tập</label> <select id="goitap"
 										onchange="chonloaigoitap()"
 										placeholder="Hãy chọn loại gói tập"
 										style="background: #27293d" class="form-control form-select">
@@ -180,8 +180,8 @@ $(document).ready(function(){
 							</div>
 							<div class="col-md-2 pr-md-1">
 								<div class="form-group">
-									<label>Tên Gói Tập</label> <select id="optiongoitap"
-										name="tengoitap" style="background: #27293d"
+									<label>Thời hạn</label> <select id="optiongoitap"
+										name="thoihan" style="background: #27293d"
 										class="form-control form-select"></select>
 								</div>
 							</div>
@@ -191,23 +191,23 @@ $(document).ready(function(){
 
 												function layoption(start,end,ten){
 													var options="";
-													for(var  loaigoitap = start ; loaigoitap <=end; loaigoitap++){ 
-														options += "<option>"+loaigoitap+" "+ten +"</option>";
+													for(var  goitap = start ; goitap <=end; goitap++){ 
+														options += "<option>"+goitap+" "+ten +"</option>";
 													}
 													return options;
 												}
 												function  chonloaigoitap(){
 													
-													if(document.getElementById("loaigoitap").value.trim()=="Ngày"){
+													if(document.getElementById("goitap").value.trim()=="Ngày"){
 														
 														document.getElementById("optiongoitap").innerHTML=layoption(1,6,"ngày");
-													}else if(document.getElementById("loaigoitap").value.trim()=="Tháng"){
+													}else if(document.getElementById("goitap").value.trim()=="Tháng"){
 														
 														document.getElementById("optiongoitap").innerHTML=layoption(1,11,"tháng");
-													}else if(document.getElementById("loaigoitap").value.trim()=="Tuần"){
+													}else if(document.getElementById("goitap").value.trim()=="Tuần"){
 													
 														document.getElementById("optiongoitap").innerHTML=layoption(1,3,"tuần");
-													}else if(document.getElementById("loaigoitap").value.trim()=="Năm"){
+													}else if(document.getElementById("goitap").value.trim()=="Năm"){
 														
 														document.getElementById("optiongoitap").innerHTML=layoption(1,10,"năm");
 													}
@@ -384,4 +384,3 @@ $(document).ready(function(){
   </script>
 <%@include file="/resources/include/endsidebar.jsp"%>
 </body>
-

@@ -1,5 +1,6 @@
 package com.gym.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,8 @@ import com.gym.entity.DiemDanh;
 public interface DiemDanhRepository extends JpaRepository<DiemDanh, Integer>{
 	@Query("SELECT c FROM DiemDanh c ORDER BY c.id DESC")
 	public List<DiemDanh> findByIdDesc();
+	@Query("SELECT c FROM DiemDanh c WHERE c.thoiGian = :thoiGian AND c.khachHangDD.maKH = :maKH")
+	public DiemDanh findDiemDanhByMaKHAndTG(@Param("maKH") String maKH, @Param("thoiGian") Date thoiGian);
 	
 	@Query("SELECT c FROM DiemDanh c WHERE c.khachHangDD.maKH = :maKH ORDER BY c.thoiGian DESC")
 	public List<DiemDanh> findDiemDanhByMaKH(@Param("maKH") String maKH);

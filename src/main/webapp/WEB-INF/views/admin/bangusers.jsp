@@ -15,7 +15,6 @@
 .modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
-	z-index: 6; /* Sit on top */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -102,22 +101,22 @@ to {
 <script src="../resources/assets/js/black-dashboard.min.js?v=1.0.0"></script>
 <!-- Black Dashboard DEMO methods, don't include it in your project! -->
 <script src="../resources/assets/demo/demo.js"></script>
+
 <script>
-	$(document).ready(
-			function() {
-				$("#myInput").on(
-						"keyup",
-						function() {
-							var value = $(this).val().toLowerCase();
-							$("#myTable tr").filter(
-									function() {
-										$(this).toggle(
-												$(this).text().toLowerCase()
-														.indexOf(value) > -1)
-									});
-						});
-			});
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
 </script>
+
+<head>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/JNKKKK/MoreToggles.css@0.2.1/output/moretoggles.min.css">
+</head>
 <div class="content">
 	<div class="row">
 		<div class="col-md-12">
@@ -192,9 +191,9 @@ to {
 											<td class="text-center">${info.tenKH}</td>
 											<td class="text-center">${trangthai}</td>
 											<td class="text-center text-danger">
-                         <%-- <a href="#myModal${info.maKH}" data-toggle="modal"> --%><div class="card-footer">
-						<button onclick='ajax_checkin_KH("${info.maKH}")' type="submit" class="btn btn-fill btn-primary" id="checkin_${info.maKH}">Check In</button>
-					    </div><!-- </a> --></td>
+                         <a href="#myModal${info.maKH}" data-toggle="modal"><div class="card-footer">
+						<button type="submit" class="btn btn-fill btn-primary" id="checkin_${info.maKH}">Check In</button>
+					    </div></a></td>
                          
 							<!-- Modal HTML -->
 							<div id="myModal${info.maKH}" class="modal fade">
@@ -216,13 +215,11 @@ to {
 								</div>
 							</div>  
                       </tr>
-                    </c:forEach>
-                    
-                    <script>
+                      <script>
                     var setButton = document.getElementById("button");
                     var currentDate = new Date();
                  // Định dạng ngày giờ theo format dd/MM/yyyy HH:mm
-                    var formattedDate = currentDate.toLocaleString('en-GB', { 
+                    var formattedDate_${info.maKH} = currentDate.toLocaleString('en-GB', { 
                       day: '2-digit',
                       month: '2-digit',
                       year: 'numeric',
@@ -243,18 +240,18 @@ to {
 			                    success : function (result){
 				                    
 			                        if(result=="1"){
-			                        	document.getElementById("button_click").innerHTML = formattedDate;
-			                        	document.getElementById("button_click").disable = true;
+			                        	//document.getElementById("tr_"+maGT).remove();
+			                        	//document.getElementById("thoat${maKH}").click()
+			                        	document.getElementById("checkin_${info.maKH}").innerHTML = formattedDate_${info.maKH};
 			                        	demo.showNotification('top','right','Checkin thành công!','2');
-			                        	//document.getElementById("thoat"+maKH).click()
 			                        	
 			                        	
-				                     }else {demo.showNotification('top','right','Checkin thất bại!','3');}
+				                     }else {demo.showNotification('top','right','<p> Khách hàng <b style="font-weight: bold;">${info.tenKH}</b> đã Checkin</p>','3');}
 			                    	
 			                    }
 			                });
 						}
-						if(displayCheckin.disable){
+						if(document.getElementById("checkin_${info.maKH}").disable){
 							var currentTime = new Date();
                         	//get current h:m
                         	var currentHour = currentTime.getHours();
@@ -267,6 +264,9 @@ to {
                         	}
 						}
                     </script>
+                    </c:forEach>
+                    
+                    
 								</tbody>
 							</table>
 								<div class="ps__rail-x" style="left: 0px; bottom: 0px;">

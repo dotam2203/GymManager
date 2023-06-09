@@ -4,9 +4,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/resources/include/navbarmn.jsp"%>
 
-
-<!- -->
-
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"
 	rel="stylesheet">
 <link rel="stylesheet"
@@ -1287,7 +1284,7 @@ rotate
 										<td class="text-center"><span
 											style="display: block; text-overflow: ellipsis; width: 400px; overflow: hidden; white-space: nowrap;">
 												${info.noiDung} </span></td>
-										<td class="text-center">${info.ngayTao}</td>
+										<td id="fomatDate_${info.ngayTao}" class="text-center" >${info.ngayTao}</td>
 
 										<!-- Chỉnh Sửa -->
 										<td class="text-center text-success"><a
@@ -1303,6 +1300,12 @@ rotate
 
 
 									</tr>
+									<script>
+									var date  = "${info.ngayTao}";
+			                        var msg  = date .split("-");
+			                        var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+			                        document.getElementById("fomatDate_${info.ngayTao}").innerHTML = dateFormat;
+									</script>
 								</c:forEach>
 
 								<script>
@@ -1312,14 +1315,14 @@ rotate
 														'top',
 														'right',
 														'Thêm bài viết thất bại!',
-														'2');
+														'3');
 									else if ("${thongbao}".trim() == "1")
 										demo
 												.showNotification(
 														'top',
 														'right',
 														'Thêm bài viết thành công!',
-														'3');
+														'2');
 									
 								</script>
 							</tbody>

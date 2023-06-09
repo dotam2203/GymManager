@@ -214,8 +214,8 @@ to {
 							<div class="col-md-4 pr-md-1">
 								<div class="form-group">
 									<label>Mã Tin Tức</label> <input type="text"
-										class="form-control" placeholder="Xuất xứ" readonly="readonly"
-										value="${tinTuc.maTinTuc}" name="matin">
+										class="form-control" placeholder="Xuất xứ" readonly="readonly" name="matin"
+										value="${tinTuc.maTinTuc}">
 								</div>
 
 							</div>
@@ -228,23 +228,33 @@ to {
 								</div>
 							</div>
 						</div>
-						<div class="row">
-									<div class="col-md-4 pr-md-1">
-										<div>
-											<label>Ngày Tạo</label><input type="text" value="${tinTuc.ngayTao}" disabled="disabled"
-												name="ngaytao" class="form-control" />
-										</div>
-									</div>
-									<div class="col-md-8 pl-md-1">
-										<div class="form-group">
-											<label>Hình Ảnh</label><span hidden>${hinhanh}</span><input type="file" id="myFile" 
-												name="hinhanh" class="form-control" />
-												<img
+				<div class="row">
+							<div class="col-md-4 pr-md-1">
+								<div class="form-group">
+									<label>Nhân Viên Tạo Bài Viết </label> 
+									 <input type="text"
+										disabled="disabled" class="form-control" name="manv"
+										placeholder="Mã nhân viên" value="${tinTuc.nhanVien.tenNV}"
+										>
+								</div>
+							</div>
+							<div class="col-md-4 px-md-1">
+								<div class="form-group">
+									<label>Ngày Tạo</label> <input type="text" readonly="readonly"
+										class="form-control" placeholder="Ngày tạo" id="ngaytao"
+										value="${tinTuc.ngayTao}">
+								</div>
+							</div>
+							<div class="col-md-4 pl-md-1">
+								<div >
+									<label>Hình Ảnh</label> <span hidden>${hinhanh}</span>  <input type="file"
+										class="form-control" placeholder="Link ảnh" name="hinhanh">
+									<img
 										src="http://localhost:8080/GymManager/resources/img/${tinTuc.hinhAnh}"
 										alt="Ảnh thiết bị" style="width: 100px; height: 100px" >
-										</div>
-									</div>
 								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -261,11 +271,10 @@ to {
 
 				</div>
 				<script>
-         const formatter = new Intl.NumberFormat('en-US', {
-         	style : 'currency',
-         	currency : 'VND',
-         	minimumFractionDigits : 2
-         })
+				var date  = "${tinTuc.ngayTao}";
+                var msg  = date .split("-");
+                var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+                document.getElementById("ngaytao").value = dateFormat;
          
          function layloaithietbi() {
          	//alert(document.getElementById("lopdvss").value);
@@ -305,10 +314,19 @@ to {
 	</div>
 </div>
 <!--       ==========================end========================== -->
+<script>
+var date  = "${tinTuc.ngayTao}";
+var msg  = date .split("-");
+var dateFormat = msg[2]+"/"+msg[1]+"/"+msg[0];
+document.getElementById("ngaytao").innerHTML = dateFormat;
+if(${thongbao} == "1"){
+	demo.showNotification('top','right','Thay Đổi Thành Công!','2');
+}
+else if(${thongbao} == "0"){
+	demo.showNotification('top','right','Thay Đổi Thất Bại!','3');
+}
 
-
-</div>
-</div>
+</script>
 
 <script>
 var url_string = window.location.href;

@@ -8,19 +8,20 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="col-sm-6 text-left">
-						<h5 class="title">Khách hàng</h5>
+						<h3 class="title">Khách hàng</h3>
 					</div>
 
 					<div class="col-sm-12">
 						<div class="btn-group btn-group-toggle float-right"
 							data-toggle="buttons">
-							<label> class=" tablinks btn btn-sm btn-primary btn-simple active" </label>
-								id="0" onclick="user(event, 'profile')"> <input
+							<label class=" tablinks btn btn-sm btn-primary btn-simple active"> 
+								<input id="0" onclick="user(event, 'profile')"
 								type="radio" name="options" checked> <span
 								class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Thông
 									tin khách hàng</span> <span class="d-block d-sm-none"> <i
 									class="tim-icons icon-single-02"></i>
 							</span>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -31,7 +32,7 @@
 						<div class="row">
 							<div class="col-md-5 pr-md-1">
 								<div class="form-group">
-									<label>Mã Khách Hàng </label> <input type="text"
+									<label>Mã Khách Hàng </label> <input type="text" style="text-align: center; color: white"
 										class="form-control" readonly="true" placeholder="ID"
 										value="${khachhang.maKH}" name="makh">
 								</div>

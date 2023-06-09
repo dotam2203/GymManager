@@ -818,20 +818,20 @@ rotate
 										<div class="form-group">
 											<label>Tên thiết bị</label> <input type="text"
 												class="form-control" placeholder="Tên thiết bị" required
-												pattern="\S+.*" name="tentb" />
+												pattern="^[a-zA-Z]*$" name="tentb" />
 										</div>
 									</div>
 									<div class="col-md-6 pl-md-1">
 										<div class="form-group">
 											<label>Xuất xứ</label> <input type="text" required
-												class="form-control" placeholder="Xuất xứ" name="xuatxu" />
+												class="form-control" placeholder="Xuất xứ" name="xuatxu" pattern="^[a-zA-Z]*$" />
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6 pr-md-1">
 										<div class="form-group">
-											<label>Tình trạng</label> <input type="text" required
+											<label>Tình trạng</label> <input type="text" required pattern="^[a-zA-Z]*$"
 												class="form-control" placeholder="Tình trạng thiết bị"
 												name="tinhtrang" />
 										</div>
@@ -1006,13 +1006,13 @@ rotate
 												.getElementById("userdate").value;
 										var ToDate = new Date();
 
-										if (new Date(UserDate).getTime() > ToDate
+										if (new Date(UserDate).getTime() >= ToDate
 												.getTime()) {
 											demo
 													.showNotification(
 															'top',
 															'right',
-															'Ngày nhập bé hơn ngày hiện tại!',
+															'Ngày nhập bé hơn hoặc bằng ngày hiện tại!',
 															'3');
 											document.getElementById("userdate").value = "";
 										}
