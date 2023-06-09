@@ -1,5 +1,6 @@
 package com.gym.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,9 @@ public class DiemDanhService{
 	}
 	public List<DiemDanh> selectByIdDesc() {
 		return repo.findByIdDesc();
+	}
+	public DiemDanh selectDiemDanhByMaKHAndTG(String maKH, Date thoiGian){
+		return repo.findDiemDanhByMaKHAndTG(maKH,thoiGian);
 	}
 	public List<DiemDanh> selectDiemDanhByMaKH(String maKH){
 		return repo.findDiemDanhByMaKH(maKH);

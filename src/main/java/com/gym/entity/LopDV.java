@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,7 +22,7 @@ public class LopDV {
 	@Column(name = "TrangThai")
 	private Integer trangThai;
 	
-	@OneToMany(mappedBy = "lopDV")
+	@OneToMany(mappedBy = "lopDV",fetch = FetchType.EAGER)
 	private Collection<GoiTap> goiTap;
 
 	public String getMaLop() {
