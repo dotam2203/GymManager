@@ -5,17 +5,11 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<style type="text/css">
 
-/* The Modal (background) */
+<style type="text/css">
 .modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
-	z-index: 6; /* Sit on top */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -26,16 +20,13 @@
 	padding-top: 60px;
 }
 
-/* Modal Content/Box */
 .modal-content {
 	background-color: #fefefe;
-	margin: 5% auto 15% auto;
+	margin: 1% auto 15% auto;
 	/* 5% from the top, 15% from the bottom and centered */
 	border: 1px solid #888;
 	width: 80%; /* Could be more or less, depending on screen size */
 }
-
-/* The Close Button (x) */
 .close {
 	position: absolute;
 	right: 25px;
@@ -49,75 +40,104 @@
 	color: red;
 	cursor: pointer;
 }
+/* The switch - the box around the slider */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 48px;
+	height: 24px;
+}
 
-/* Add Zoom Animation */
+/* Hide default HTML checkbox */
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* The slider */
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 16px;
+	width: 16px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
 .animate {
 	-webkit-animation: animatezoom 0.6s;
 	animation: animatezoom 0.6s
 }
 
-@
--webkit-keyframes animatezoom {
-	from {-webkit-transform: scale(0)
+input:checked+.slider {
+	background-color: #2196F3;
 }
 
-to {
-	-webkit-transform: scale(1)
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
 }
 
-}
-@
-keyframes animatezoom {
-	from {transform: scale(0)
-}
-
-to {
-	transform: scale(1)
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
 }
 
+.slider.round {
+	border-radius: 24px;
 }
 
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-	span.psw {
-		display: block;
-		float: none;
-	}
+.slider.round:before {
+	border-radius: 50%;
 }
 </style>
-<!--   Core JS Files   -->
-<script src="../resources/assets/js/core/jquery.min.js"></script>
-<script src="../resources/assets/js/core/popper.min.js"></script>
-<script src="../resources/assets/js/core/bootstrap.min.js"></script>
-<script
-	src="../resources/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<!--  Google Maps Plugin    -->
-<!-- Place this tag in your head or just before your close body tag. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!-- Chart JS -->
-<script src="../resources/assets/js/plugins/chartjs.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="../resources/assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="../resources/assets/js/black-dashboard.min.js?v=1.0.0"></script>
-<!-- Black Dashboard DEMO methods, don't include it in your project! -->
-<script src="../resources/assets/demo/demo.js"></script>
+
 <script>
-	$(document).ready(
-			function() {
-				$("#myInput").on(
-						"keyup",
-						function() {
-							var value = $(this).val().toLowerCase();
-							$("#myTable tr").filter(
-									function() {
-										$(this).toggle(
-												$(this).text().toLowerCase()
-														.indexOf(value) > -1)
-									});
-						});
-			});
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+$(document).ready(function(){
+	  $("#myInput1").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable1 tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
+$(document).ready(function(){
+	  $("#myInput2").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable2 tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
 </script>
+
+<head>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/JNKKKK/MoreToggles.css@0.2.1/output/moretoggles.min.css">
+</head>
 <div class="content">
 	<div class="row">
 		<div class="col-md-12">
@@ -192,9 +212,9 @@ to {
 											<td class="text-center">${info.tenKH}</td>
 											<td class="text-center">${trangthai}</td>
 											<td class="text-center text-danger">
-                         <%-- <a href="#myModal${info.maKH}" data-toggle="modal"> --%><div class="card-footer">
-						<button onclick='ajax_checkin_KH("${info.maKH}")' type="submit" class="btn btn-fill btn-primary" id="checkin_${info.maKH}">Check In</button>
-					    </div><!-- </a> --></td>
+                         <a href="#myModal${info.maKH}" data-toggle="modal"><div class="card-footer">
+						<button type="submit" class="btn btn-fill btn-primary" id="checkin_${info.maKH}">Check In</button>
+					    </div></a></td>
                          
 							<!-- Modal HTML -->
 							<div id="myModal${info.maKH}" class="modal fade">
@@ -243,10 +263,10 @@ to {
 			                    success : function (result){
 				                    
 			                        if(result=="1"){
+			                        	document.getElementById("thoat"+maKH).click()
 			                        	document.getElementById("button_click").innerHTML = formattedDate;
 			                        	document.getElementById("button_click").disable = true;
 			                        	demo.showNotification('top','right','Checkin thành công!','2');
-			                        	//document.getElementById("thoat"+maKH).click()
 			                        	
 			                        	
 				                     }else {demo.showNotification('top','right','Checkin thất bại!','3');}
