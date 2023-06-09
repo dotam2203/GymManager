@@ -209,7 +209,7 @@ $(document).ready(function(){
 										</div>
 										<div class="modal-footer">
 											<button id="thoat${info.maKH}" style="margin-right: 100px" type="button" class="btn btn-info" data-dismiss="modal">Hủy</button>
-											<button onclick='ajax_checkin_KH("${info.maKH}")' id = "button_click" style="margin-left: 100px" type="button" class="btn btn-danger">Đồng ý</button>
+											<button onclick='ajax_checkin_KH("${info.maKH}","${info.tenKH}")' id = "button_click" style="margin-left: 100px" type="button" class="btn btn-danger">Đồng ý</button>
 										</div>
 									</div>
 								</div>
@@ -226,7 +226,7 @@ $(document).ready(function(){
                       hour: '2-digit',
                       minute: '2-digit'
                     });
-						function ajax_checkin_KH(maKH){
+						function ajax_checkin_KH(maKH,tenKH){
 							
 							$.ajax({
 			                    url : "usercheckin",
@@ -234,24 +234,22 @@ $(document).ready(function(){
 			                    dataType:"text",
 			                    data : {
 			                         "maKH": maKH,
-			                        // "thoiGian": document.getElementById("button").value;
+			                         "tenKH": tenKH
 			                         
 			                    },
 			                    success : function (result){
 				                    
 			                        if(result=="1"){
-			                        	//document.getElementById("tr_"+maGT).remove();
-			                        	//document.getElementById("thoat${maKH}").click()
-			                        	document.getElementById("checkin_${info.maKH}").innerHTML = formattedDate_${info.maKH};
-			                        	demo.showNotification('top','right','Checkin thành công!','2');
+			                        	//document.getElementById("checkin_${info.maKH}").innerHTML = formattedDate_${info.maKH};
+			                        	demo.showNotification('top','right','<p> Khách hàng <b style="font-weight: bold;">'+tenKH+'</b> Checkin thành công!','2');
 			                        	
 			                        	
-				                     }else {demo.showNotification('top','right','<p> Khách hàng <b style="font-weight: bold;">${info.tenKH}</b> đã Checkin</p>','3');}
+				                     }else {demo.showNotification('top','right','<p> Khách hàng <b style="font-weight: bold;">'+tenKH+'</b> đã Checkin</p>','3');}
 			                    	
 			                    }
 			                });
 						}
-						if(document.getElementById("checkin_${info.maKH}").disable){
+						/* if(document.getElementById("checkin_${info.maKH}").disable){
 							var currentTime = new Date();
                         	//get current h:m
                         	var currentHour = currentTime.getHours();
@@ -262,7 +260,7 @@ $(document).ready(function(){
                         	if(currentTimeDecimal > resetHour){
                         		displayCheckin.disable = false;
                         	}
-						}
+						} */
                     </script>
                     </c:forEach>
                     
