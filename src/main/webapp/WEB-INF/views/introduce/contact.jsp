@@ -51,7 +51,9 @@
                                     <p class="help-block text-danger"></p>
                                 </div>
                                 <div class="control-group">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
+                                    <input type="email" class="form-control" id="email" placeholder="Your Email" name="email" pattern="[a-zA-Z0-9]+@gmail.com" 
+                                    title="nhập mail hợp lệ theo mẫu : example@gmail.com"
+                                    required="required" data-validation-required-message="Please enter your email" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                                 <div class="control-group">
