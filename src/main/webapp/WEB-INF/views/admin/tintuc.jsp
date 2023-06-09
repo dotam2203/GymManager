@@ -1223,14 +1223,14 @@ rotate
 									<div class="row">
 										<div class="col-md-7 pr-md-1">
 											<div class="form-group">
-												<label>Tiêu Đề Bài Viết</label> <input type="text"
+												<label>Tiêu Đề Bài Viết</label> <input type="text" required="required"
 													class="form-control" name="tieuDe" />
 											</div>
 										</div>
 										<div class="col-md-5 pl-md-1">
 
 											<div>
-												<label>Hình Ảnh</label><input type="file" id="myFile"
+												<label>Hình Ảnh</label><input type="file" id="myFile" required="required"
 													name="hinhAnh" class="form-control" />
 											</div>
 										</div>
@@ -1239,7 +1239,7 @@ rotate
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Nội dung bài viết</label>
-												<textarea name="noiDung" class="form-control"
+												<textarea name="noiDung" class="form-control" required="required"
 													placeholder="Nội dung bài viết"> </textarea>
 											</div>
 										</div>

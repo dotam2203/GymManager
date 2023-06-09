@@ -818,20 +818,20 @@ rotate
 										<div class="form-group">
 											<label>Tên thiết bị</label> <input type="text"
 												class="form-control" placeholder="Tên thiết bị" required
-												pattern="^[a-zA-Z]*$" name="tentb" />
+												pattern="\S+.*" name="tentb" />
 										</div>
 									</div>
 									<div class="col-md-6 pl-md-1">
 										<div class="form-group">
 											<label>Xuất xứ</label> <input type="text" required
-												class="form-control" placeholder="Xuất xứ" name="xuatxu" pattern="^[a-zA-Z]*$" />
+												class="form-control" placeholder="Xuất xứ" name="xuatxu" pattern="\S+.*" />
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6 pr-md-1">
 										<div class="form-group">
-											<label>Tình trạng</label> <input type="text" required pattern="^[a-zA-Z]*$"
+											<label>Tình trạng</label> <input type="text" required pattern="\S+.*"
 												class="form-control" placeholder="Tình trạng thiết bị"
 												name="tinhtrang" />
 										</div>
@@ -854,7 +854,7 @@ rotate
 								<div class="row">
 									<div class="col-md-6 pr-md-1">
 										<div>
-											<label>Hình Ảnh</label><input type="file" id="myFile" 
+											<label>Hình Ảnh</label><input type="file" id="myFile" required="required"
 												name="hinhanh" class="form-control" />
 										</div>
 									</div>

@@ -31,7 +31,7 @@ public interface TheRepository extends CrudRepository<The, String> {
 	@Query("SELECT c FROM The c WHERE ( c.ngayDK BETWEEN :namBD AND :namKT ) AND c.goiTap.lopDV.tenLop =:tenLopDV  ")
 	public List<The> findBetweenNgayDKTenLop(@Param("namBD") Date namBD,@Param("namKT") Date namKT,@Param("tenLopDV") String tenMaLop);
 	
-	@Query("SELECT c FROM The c WHERE ( c.ngayDK BETWEEN :namBD AND :namKT)  AND c.khachHang.tenKH = :tenKH")
+	@Query("SELECT c FROM The c WHERE ( c.ngayDK BETWEEN :namBD AND :namKT)  AND c.khachHang.tenKH LIKE %:tenKH%")
 	public List<The> findBetweenNgayDKTenKH(@Param("namBD") Date namBD,@Param("namKT") Date namKT, @Param("tenKH") String tenKH);
 	
 	@Query("SELECT c FROM The c WHERE c.ngayKT < :ngayHT  ")
