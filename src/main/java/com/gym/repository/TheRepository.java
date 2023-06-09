@@ -48,11 +48,14 @@ public interface TheRepository extends CrudRepository<The, String> {
 	
 	@Query("SELECT c FROM The c WHERE c.trangThai = :trangThai AND c.khachHang.maKH = :makh")
 	public List<The> findByTrangThaiKhachHang(@Param("trangThai") String trangThai,@Param("makh") String maKH);
-	
 	@Transactional
 	@Modifying
 	@Query("UPDATE The c SET c.trangThai= :trangthai WHERE c.maThe= :mathe")
-	public int updateByMaThe(@Param("trangthai") String trangThai, @Param("mathe") String maThe) ;
+	public int updateTtByMaThe(@Param("trangthai") String trangThai,@Param("mathe") String maThe) ;
+	@Transactional
+	@Modifying
+	@Query("UPDATE The c SET c.trangThai= :trangthai, c.ngayBD =:ngayBD WHERE c.maThe= :mathe")
+	public int updateTtNgayBdByMaThe(@Param("trangthai") String trangThai,@Param("ngayBD") Date ngayBD, @Param("mathe") String maThe) ;
 	@Temporal(TemporalType.DATE)
 	@Query("UPDATE The c SET c.ngayBD= :ngayBD  WHERE c.maThe= :mathe")
 	public int updateNgayBDByMaThe(@Param("ngayBD") Date ngayBD ,@Param("mathe") String maThe ) ;
