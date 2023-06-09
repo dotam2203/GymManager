@@ -900,7 +900,11 @@ public class MainController {
 		// System.out.println("MA KHACH HANG NE= "+maKHDV);
 
 		hoaDon.setMaSoHD(maHDMail);
-		hoaDonService.save(hoaDon);
+		try {
+			hoaDonService.save(hoaDon);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		boolean updateTT = theService.updateByMaThe("Hoạt Động", maThe);
 
 		// Gửi mail thông báo Thanh Toán Hóa Đơn
@@ -1284,6 +1288,7 @@ public class MainController {
 		The the = new The();
 		List<DiemDanh> diemDanhss = diemDanhService.selectByIdDesc();
 		List<DiemDanh> diemDanhs = new ArrayList<>();
+		List<DiemDanh> soLanCheckin = new ArrayList<>();
 		Date date = new Date();
 		diemDanhs = diemDanhss;
 		if(diemDanhs.size() > 0) {
@@ -1293,9 +1298,10 @@ public class MainController {
 			diemDanh.setId(1);
 		}
 		diemDanh1 = diemDanhService.selectDiemDanhByMaKHAndTG(maKH, date);
+		soLanCheckin = diemDanhService.selectDiemDanhByMaKH(maKH);
 		if(diemDanh1 == null) {
 			diemDanh.setThoiGian(date);
-			diemDanh.setSoLan(diemDanhs.size() + 1);
+			diemDanh.setSoLan(soLanCheckin.size() + 1);
 			diemDanh.setKhachHangDD(khachHang);
 			diemDanh.setNhanVienDD(nhanVien);
 		}

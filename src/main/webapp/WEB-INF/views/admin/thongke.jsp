@@ -2,6 +2,7 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!- -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/number-format-i18n@2.1.4/dist/format.min.js"></script>
 <script>
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
@@ -153,7 +154,7 @@ $(document).ready(function(){
                           Gói Tập
                         </th>
                         <th>
-                          Ngày Đăng Ký <br>(YYYY/MM/DD)
+                          Ngày Đăng Ký
                         </th>
                         <th class="text-center">
                           Giá Tiền
@@ -175,13 +176,31 @@ $(document).ready(function(){
                         <td>
                           1 ${info.goiTap.tenGoiTap}
                         </td>
-                        <td>
+                        <td id="fomatDate_${info.ngayDK}">
                           ${info.ngayDK}
                         </td>
-                        <td class="text-center">
-                          ${info.goiTap.gia} VNĐ
+                        <td id="formatMoney_${info.goiTap.gia}" class="text-center">
+                          ${info.goiTap.gia}
                         </td>
                       </tr>
+                      <script>
+                         
+                         window.onload = function() {
+                             var thongKes = document.querySelectorAll("[id^='fomatDate_']");
+                             thongKes.forEach(function(element) {
+                                 var date = element.innerText;
+                                 var msg = date.split("-");
+                                 var dateFormat = msg[2] + "/" + msg[1] + "/" + msg[0];
+                                 element.innerHTML = dateFormat;
+                                 });
+                             };
+                         const formatter_${info.maThe} = new Intl.NumberFormat('vi-VN', {
+           				  style: 'currency',
+           				  currency: 'VND',
+           				  minimumFractionDigits: 0
+           				})
+           				document.getElementById("formatMoney_${info.goiTap.gia}").innerHTML = formatter_${info.maThe}.format(${info.goiTap.gia});                         
+                         </script>
                       </c:forEach>
                     </tbody>
                   </table>
@@ -536,10 +555,10 @@ $(document).ready(function(){
                       <p id="tongtienlon" style="color:white;font-size: 40px"></p>
                       <h5 class="title"></h5>
                       <script>
-	                        const formatter = new Intl.NumberFormat('en-US', {
+	                        const formatter = new Intl.NumberFormat('vi-VN', {
 	          				  style: 'currency',
 	          				  currency: 'VND',
-	          				  minimumFractionDigits: 2
+	          				  minimumFractionDigits: 0
 	          				})
 	          				if("${tongTien}".trim()!="") {
 	                        	document.getElementById("tongtien").value= formatter.format(${tongTien});
