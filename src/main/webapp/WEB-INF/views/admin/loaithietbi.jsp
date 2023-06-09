@@ -426,9 +426,16 @@ $(document).ready(function(){
 						else if ("${thongbao}".trim()=="0") {
 							demo.showNotification('top','right','Thêm thiết bị thất bại','3');
 						}else if("${thongbao}".trim()=="2"){
-							demo.showNotification('top','right','Thêm thiết bị thất bại(tên loại thiết bị không được trùng)!','4');
+							demo.showNotification('top','right','Thêm thiết bị thất bại(tên loại thiết bị không được trùng)!','3');
 
-						}
+						}else if ("${thongbao}".trim() == "3")
+							demo.showNotification('top', 'right',
+									'Xóa Loại Thiết Bị thành công!',
+									'2');
+						else if ("${thongbao}".trim() == "4")
+							demo.showNotification('top', 'right',
+									'Xóa Loại Thiết Bị thất bại!',
+									'3');
 						//else if("${thongbao}".trim()=="1")demo.showNotification('top','right','Username hoặc Email trùng nhau!','3');
 						//else if("${thongbao}".trim()=="2")demo.showNotification('top','right','Password và Xác nhận Password không đúng!','3');
 						

@@ -1323,6 +1323,14 @@ rotate
 														'right',
 														'Thêm bài viết thành công!',
 														'2');
+									else if ("${thongbao}".trim() == "2")
+										demo.showNotification('top', 'right',
+												'Xóa Tin Tức thành công!',
+												'2');
+									else if ("${thongbao}".trim() == "3")
+										demo.showNotification('top', 'right',
+												'Xóa Tin Tức thất bại!',
+												'3');
 									
 								</script>
 							</tbody>
