@@ -290,7 +290,7 @@ to {
 								<div class="form-group">
 									<label>Mô tả</label>
 									<textarea name="mota" class="form-control" placeholder="Mô tả"
-										value="${thietBi.moTa}">${thietBi.moTa} </textarea>
+										>${thietBi.moTa} </textarea>
 								</div>
 							</div>
 						</div>

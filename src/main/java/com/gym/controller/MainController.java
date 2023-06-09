@@ -1663,15 +1663,20 @@ public class MainController {
 	public ModelAndView thongkeKH(HttpServletResponse response, HttpSession session,
 			@RequestParam("ngayBD") String ngayBD, @RequestParam("ngayKT") String ngayKT,
 			@RequestParam("tenKH") String tenKH) throws ParseException, IOException {
-		ModelAndView mw = new ModelAndView("thongke");
+		ModelAndView mw = new ModelAndView("admin/thongke");
 
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
 		roleLogin(response,session);
 		
 		Date dateBD = new SimpleDateFormat("yyyy/MM/dd").parse(ngayBD.replace("-", "/"));
 		Date dateKT = new SimpleDateFormat("yyyy/MM/dd").parse(ngayKT.replace("-", "/"));
+		List<The> theServices = new ArrayList<The>();
+		if(tenKH.isEmpty()) {
+			theServices = theService.findBetweenNgayDK(dateBD, dateKT);
+		}else {
+			theServices = theService.findBetweenNgayDKTenKH(dateBD, dateKT, tenKH);
 
-		List<The> theServices = theService.findBetweenNgayDKTenKH(dateBD, dateKT, tenKH);
+		}
 		List<LopDV> lopDVs = lopDVService.listAll();
 
 		mw.addObject("lopDVs", lopDVs);
@@ -1952,8 +1957,11 @@ public class MainController {
 		
 		ModelAndView mw = new ModelAndView("admin/thietbi");
 		thietBiService.delete(maTB);
+		List<LoaiThietBi> listCategory = loaiTBService.listAll();
 		List<ThietBi> listTB = thietBiService.listAll();
 		mw.addObject("listTB", listTB);
+		mw.addObject("loai", listCategory);
+
 		return mw;
 	}
 
@@ -2017,9 +2025,12 @@ public class MainController {
 		} catch (Exception e) {
 			mw.addObject("thongbao", "0");// Thêm tb thất bại
 		}
-		Thread.sleep(5000);
+		Thread.sleep(4000);
+		List<LoaiThietBi> listCategory = loaiTBService.listAll();
 		List<ThietBi> listTB = thietBiService.listAll();
 		mw.addObject("listTB", listTB);
+		mw.addObject("loai", listCategory);
+
 		return mw;
 	}
 
