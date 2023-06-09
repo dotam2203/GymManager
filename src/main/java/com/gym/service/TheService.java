@@ -50,7 +50,10 @@ public class TheService {
 		return repo.findByTrangThaiKhachHang(trangThai, maKH);
 	}
 	public boolean updateByMaThe(String trangThai,String maThe) {
-		return repo.updateByMaThe(trangThai, maThe)>0;
+		return repo.updateTtByMaThe(trangThai, maThe)>0;
+	}
+	public boolean updateTtNgayBdByMaThe(String trangThai,Date ngayBD,String maThe) {
+		return repo.updateTtNgayBdByMaThe(trangThai,ngayBD, maThe)>0;
 	}
 	public boolean updateNgayBDByMaThe(Date ngayBD,String maThe) {
 		return repo.updateNgayBDByMaThe(ngayBD, maThe)>0;

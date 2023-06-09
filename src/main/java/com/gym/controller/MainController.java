@@ -905,7 +905,7 @@ public class MainController {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		boolean updateTT = theService.updateByMaThe("Hoạt Động", maThe);
+		boolean updateTT = theService.updateTtNgayBdByMaThe("Hoạt Động",date, maThe);
 
 		// Gửi mail thông báo Thanh Toán Hóa Đơn
 //		The thesMail = theService.selectByMaThe(maThe);

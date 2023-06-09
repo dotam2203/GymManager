@@ -301,14 +301,25 @@ $(document).ready(function(){
 
 												</div>
 											</div>
-											<div class="col-md-3 px-md-1">
-												<div class="form-group">
-													<label>Lớp</label> <input style="color: white"
-														disabled="disabled" type="text" class="form-control"
-														placeholder="Class" value="${the.goiTap.lopDV.tenLop}">
+											<div class="col-md-5 pr-md-1">
+												<div id="thee" class="form-group">
+													<label>Trạng thái</label> <input style="color: white"
+														type="text" class="form-control" disabled=""
+														placeholder="ID thẻ" value="${the.trangThai}">
+
 												</div>
 											</div>
-											<div class="col-md-4 pl-md-1">
+										</div>
+										<div class="row">
+											<div class="col-md-5 pr-md-1">
+												<div class="form-group">
+													<label>Thời gian bắt đầu</label> <input type="date"
+														style="color: white" class="form-control"
+														placeholder="date" value="${the.ngayBD}"
+														disabled="disabled">
+												</div>
+											</div>
+											<div class="col-md-5 pr-md-1">
 												<div class="form-group">
 													<label>Thời gian kết thúc</label> <input type="date"
 														style="color: white" class="form-control"
@@ -318,16 +329,11 @@ $(document).ready(function(){
 											</div>
 										</div>
 										<div class="row">
-
-
-
-
 											<div class="col-md-5 pr-md-1">
-												<div id="thee" class="form-group">
-													<label>Trạng thái</label> <input style="color: white"
-														type="text" class="form-control" disabled=""
-														placeholder="ID thẻ" value="${the.trangThai}">
-
+												<div class="form-group">
+													<label>Lớp</label> <input style="color: white"
+														disabled="disabled" type="text" class="form-control"
+														placeholder="Class" value="${the.goiTap.lopDV.tenLop}">
 												</div>
 											</div>
 											<div class="col-md-5 pr-md-1">
