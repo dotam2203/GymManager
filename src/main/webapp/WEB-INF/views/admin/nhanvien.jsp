@@ -236,8 +236,8 @@ $(document).ready(function(){
 							<div class="col-md-6 pl-md-1">
 								<div class="form-group">
 									<label>Email</label> 
-									<input type="email" class="form-control" placeholder="pipi@email.com" name="email">
-									
+									<input onchange="EmailVali()" type="email" class="form-control" placeholder="pipi@email.com" value="${nhanvien.email}" name="email" id="email"pattern="[a-zA-Z0-9]+@gmail.com"
+											title="nhập mail hợp lệ theo mẫu : example@gmail.com">									
 								</div>
 							</div>
 						</div>

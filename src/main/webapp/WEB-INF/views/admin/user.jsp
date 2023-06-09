@@ -8,19 +8,20 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="col-sm-6 text-left">
-						<h5 class="title">Khách hàng</h5>
+						<h3 class="title">Khách hàng</h3>
 					</div>
 
 					<div class="col-sm-12">
 						<div class="btn-group btn-group-toggle float-right"
 							data-toggle="buttons">
-							<label class=" tablinks btn btn-sm btn-primary btn-simple active"
-								id="0" onclick="user(event, 'profile')"> <input
+							<label class=" tablinks btn btn-sm btn-primary btn-simple active"> 
+								<input id="0" onclick="user(event, 'profile')"
 								type="radio" name="options" checked> <span
 								class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Thông
 									tin khách hàng</span> <span class="d-block d-sm-none"> <i
 									class="tim-icons icon-single-02"></i>
 							</span>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -56,7 +57,8 @@
 							<div class="col-md-8 pr-md-1">
 								<div class="form-group">
 									<label>Email</label> <input type="email" class="form-control"
-										placeholder="City" value="${khachhang.email}" name="email">
+										placeholder="City" value="${khachhang.email}" name="email" pattern="[a-zA-Z0-9]+@gmail.com"
+											title="nhập mail hợp lệ theo mẫu : example@gmail.com">
 								</div>
 
 							</div>
@@ -74,7 +76,7 @@
 								<div class="form-group">
 									<label>Giới Tính</label> <select name="gioitinh" id="gioitinh"
 										style="background: #27293d" class="form-control form-select"
-										placeholder="Sex">
+										placeholder="Sex" >
 										<option id="op_Nu">Nữ</option>
 										<option id="op_Nu" hidden="" selected="selected">${khachhang.gioiTinh}</option>
 										<option id="op_Nam">Nam</option>
