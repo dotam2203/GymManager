@@ -1956,7 +1956,13 @@ public class MainController {
 				roleLogin(response,session);
 		
 		ModelAndView mw = new ModelAndView("admin/thietbi");
-		thietBiService.delete(maTB);
+		try {
+			thietBiService.delete(maTB);
+			mw.addObject("thongbao", "2");// Xóa tb thành công
+		}catch (Exception e) {
+			mw.addObject("thongbao", "3");// Xóa tb thành công
+			// TODO: handle exception
+		}
 		List<LoaiThietBi> listCategory = loaiTBService.listAll();
 		List<ThietBi> listTB = thietBiService.listAll();
 		mw.addObject("listTB", listTB);
@@ -2202,7 +2208,14 @@ public class MainController {
 				roleLogin(response,session);
 		
 		ModelAndView mw = new ModelAndView("admin/loaithietbi");
-		loaiTBService.delete(maLoai);
+		try {
+			loaiTBService.delete(maLoai);
+
+			mw.addObject("thongbao", "3");// thêm thành công
+		} catch (Exception e) {
+			mw.addObject("thongbao", "4");// thêm thất bại
+			e.printStackTrace();
+		}
 		List<LoaiThietBi> loai = loaiTBService.listAll();
 		mw.addObject("loaiTBs", loai);
 		return mw;
@@ -2223,7 +2236,13 @@ public class MainController {
 		// check : Phân Quyền 0: Quản Lý, 1:Nhân Viên. Chặn Nhân Viên Thấy
 		roleLogin(response,session);
 		ModelAndView mw = new ModelAndView("admin/tintuc");
-		tinTucService.delete(maTinTuc);
+		try {
+			tinTucService.delete(maTinTuc);
+			mw.addObject("thongbao", "2");// thêm thành công
+		} catch (Exception e) {
+			mw.addObject("thongbao", "3");// thêm thất bại
+			e.printStackTrace();
+		}
 		List<TinTuc> listTinTuc = tinTucService.listAll();
 		mw.addObject("listTinTuc", listTinTuc);
 		return mw;

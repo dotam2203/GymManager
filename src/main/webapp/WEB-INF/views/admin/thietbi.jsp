@@ -986,6 +986,14 @@ rotate
 										demo.showNotification('top', 'right',
 												'Thêm Thiết Bị thất bại!',
 												'3');
+									else if ("${thongbao}".trim() == "2")
+										demo.showNotification('top', 'right',
+												'Xóa Thiết Bị thành công!',
+												'2');
+									else if ("${thongbao}".trim() == "3")
+										demo.showNotification('top', 'right',
+												'Xóa Thiết Bị thất bại!',
+												'3');
 									/* else if ("${thongbao}".trim() == "1")
 										demo
 												.showNotification(
