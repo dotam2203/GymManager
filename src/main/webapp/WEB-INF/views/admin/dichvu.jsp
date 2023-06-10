@@ -345,6 +345,39 @@ $(document).ready(function(){
 												</div>
 											</div>
 										</div>
+										<div class="row">
+											<div class="col-md-5 pr-md-1">
+												<div class="form-group">
+													<label>Hướng dẫn viên</label> <input style="color: white"
+														disabled="disabled" type="text" class="form-control"
+														placeholder="Class" value="${the.goiTap.goitapGV.tenGV}">
+												</div>
+											</div>
+											<div class="col-md-5 pr-md-1">
+												<div id="thee" class="form-group">
+													<label>Phòng Tập</label> <input style="color: white"
+														type="text" class="form-control" disabled=""
+														placeholder="ID thẻ" value="${the.goiTap.goitapGV.phongtapGV.tenPhong}">
+
+												</div>
+											</div>
+											<div class="col-md-5 pr-md-1">
+												<div id="thee" class="form-group">
+													<label>Thời gian tập</label> <input style="color: white"
+														type="text" class="form-control" disabled=""
+														placeholder="ID thẻ" value="${the.goiTap.goitapGV.phongtapGV.ngaySD}">
+
+												</div>
+											</div>
+											<div class="col-md-5 pr-md-1">
+												<div id="thee" class="form-group">
+													<label>Lịch tập</label> <input style="color: white"
+														type="text" class="form-control" disabled=""
+														placeholder="ID thẻ" value="${the.goiTap.goitapGV.phongtapGV.moTa}">
+
+												</div>
+											</div>
+										</div>
 
 									</form>
 

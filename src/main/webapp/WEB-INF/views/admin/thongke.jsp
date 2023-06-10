@@ -63,11 +63,13 @@ $(document).ready(function(){
                       <!-- Khách Hàng -->
                        <label name="flagKH" class="tablinks btn btn-sm btn-primary btn-simple flagKH" id="1" onclick="dangky(event, 'khachhang')">
                         <input type="radio" class="d-none d-sm-none" name="options">
-                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Khách Hàng</span>
+                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Giảng Viên</span>
                         <span class="d-block d-sm-none">
                           <i class="tim-icons icon-gift-2"></i>
                         </span>
                       </label>
+                      
+                      
                       
                     </div>
                   </div>
@@ -439,47 +441,39 @@ $(document).ready(function(){
                   <table class="table tablesorter " id="">
                     <thead class=" text-primary">
                       <tr>
+                       
                         <th>
-                          Mã Thẻ Tập
-                        </th>
-                        <th>
-                        Mã Khách Hàng
+                        	Tên PT
                           
                         </th>
+                        
                         <th>
-                          Họ & Tên
-                        </th>
-                        <th >
-                          Email
-                        </th>
-                        <th>
-                          Gói Tập
+                          Lương
                         </th>
                         
                         
                       </tr>
                     </thead>
                     <tbody id="myTable2">
-                    <c:forEach var="info" items="${theServiceKH}">
+                    <c:forEach var="info" items="${giangVienService}">
                    
                       <tr>
+                       
                         <td>
-                        	${info.maThe}
-                          
+                          ${info.tenGV}
                         </td>
-                        <td>
-                          ${info.khachHang.maKH}
+                        <td id="format_Money">
+                         ${info.luong}
                         </td>
-                        <td>
-                         ${info.khachHang.tenKH}
-                        </td>
-                        <td >
-                         ${info.khachHang.email}
-                        </td>
-                        <td>
-                          ${info.goiTap.lopDV.tenLop}
-                        </td>
-                        
+                        <script>
+                        const formatter	 = new Intl.NumberFormat('vi-VN', {
+							style : 'currency',
+							currency : 'VND',
+							minimumFractionDigits : 0
+						})
+						document.getElementById("format_Money").innerHTML = formatter.format("${info.luong}");
+						
+                        </script>
                       </tr>
                       </c:forEach>
                       
@@ -490,8 +484,8 @@ $(document).ready(function(){
               <div class="row">
                     <div style="text-align: center" class="col-md-12 pr-md-3">
                       <div class="form-group">
-                        <label>Số Lượng Khách Hàng Đăng Kí</label>
-                        <input style="text-align: center;font-size: 20px;color:pink" type="text" class="form-control" disabled="" placeholder="Số lượng khách hàng" value="${slTheKH}">
+                        <label>Tổng lương</label>
+                        <input style="text-align: center;font-size: 20px;color:pink" type="text" class="form-control" disabled="" placeholder="Số lượng khách hàng" value="${luong}">
                       </div>
                     </div>
                     
