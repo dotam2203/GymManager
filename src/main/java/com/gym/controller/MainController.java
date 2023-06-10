@@ -47,6 +47,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gym.entity.DiemDanh;
+import com.gym.entity.GiangVien;
 import com.gym.entity.GoiTap;
 import com.gym.entity.HoaDon;
 import com.gym.entity.KhachHang;
@@ -61,6 +62,7 @@ import com.gym.entity.TinTuc;
 import com.gym.service.KhachHangService;
 import com.gym.service.LoaiThietBiService;
 import com.gym.service.DiemDanhService;
+import com.gym.service.GiangVienService;
 import com.gym.service.GoiTapService;
 import com.gym.service.HoaDonService;
 import com.gym.service.LopDVService;
@@ -102,6 +104,8 @@ public class MainController {
 	TinTucService tinTucService;
 	@Autowired
 	DiemDanhService diemDanhService;
+	@Autowired 
+	GiangVienService giangVienService;
 
 	/*
 	 * ==================================================== CẤP QUYỀN: Nhân Viên chỉ
@@ -316,6 +320,8 @@ public class MainController {
 			}
 		} catch (Exception e) {
 		}
+		//==========
+		TaiKhoan taiKhoan = taiKhoanService.selectByUserName(session.getAttribute("username").toString());
 		// ============================ Lấy dữ liệu vào file trangchu.jsp
 		mw.addObject("thes_ctt", thes);
 		mw.addObject("danhThuN", Arrays.toString(danhThuT));
@@ -327,7 +333,7 @@ public class MainController {
 		mw.addObject("maxDT", maxDT);
 		mw.addObject("tongDV", tongDV);
 		mw.addObject("top5KHTiemNang", top5KHTiemNang);
-		//mw.addObject("tenNV",session.getAttribute("tennv").toString());
+		mw.addObject("tenNV",taiKhoan.getNhanVien().getTenNV());
 		mw.addObject("thongbao","1");
 
 		return mw;
@@ -1164,6 +1170,8 @@ public class MainController {
 		List<DiemDanh> diemDanhss = diemDanhService.selectDiemDanhByMaKH(maKH);
 		diemDanhs = diemDanhss;
 		//=============================================================
+		
+		//=========================
 		ModelAndView mw = new ModelAndView("admin/dichvu");
 		mw.addObject("maTDV", maTDV);
 		mw.addObject("maKH", maKH);
@@ -1686,12 +1694,18 @@ public class MainController {
 
 		}
 		List<LopDV> lopDVs = lopDVService.listAll();
-
+		List<GiangVien> giangVien = giangVienService.listAll();
+		float luong = 0;
+		for(GiangVien gv:giangVien) {
+			luong +=  gv.getLuong();
+		}
 		mw.addObject("lopDVs", lopDVs);
 		mw.addObject("theServiceKH", theServices);
+		mw.addObject("giangVienService",giangVien);
 		mw.addObject("flag", "kh");
 		mw.addObject("slTheKH", "" + theServices.size());
 		mw.addObject("tenKH", tenKH);
+		mw.addObject("luong",luong);
 		mw.addObject("namBDDV", ngayBD);
 		mw.addObject("namKTDV", ngayKT);
 

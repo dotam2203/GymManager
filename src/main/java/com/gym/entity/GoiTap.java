@@ -36,6 +36,20 @@ public class GoiTap {
 	
 	@OneToMany(mappedBy = "goiTap",fetch = FetchType.EAGER)
 	private Collection<The> the;
+	
+	@ManyToOne
+	@JoinColumn(name="maGV")
+	private GiangVien goitapGV;
+
+	
+
+	public GiangVien getGoitapGV() {
+		return goitapGV;
+	}
+
+	public void setGoitapGV(GiangVien goitapGV) {
+		this.goitapGV = goitapGV;
+	}
 
 	public String getMaGoiTap() {
 		return maGoiTap;
