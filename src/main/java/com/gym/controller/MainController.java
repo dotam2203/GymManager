@@ -327,6 +327,8 @@ public class MainController {
 		mw.addObject("maxDT", maxDT);
 		mw.addObject("tongDV", tongDV);
 		mw.addObject("top5KHTiemNang", top5KHTiemNang);
+		//mw.addObject("tenNV",session.getAttribute("tennv").toString());
+		mw.addObject("thongbao","1");
 
 		return mw;
 	}
