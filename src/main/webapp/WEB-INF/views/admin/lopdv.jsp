@@ -376,7 +376,7 @@ to {
 													<div id="removengay" hidden class="col-md-7"
 														style="width: 200px" class="form-group">
 														<input type="number" class="form-control"
-															placeholder="gia" name="giangay">
+															placeholder="gia" name="giangay" value=0 min="0" oninput="this.value = Math.abs(this.value)">
 													</div>
 												</div>
 
@@ -402,7 +402,7 @@ to {
 													<div id="removetuan" hidden class="col-md-7"
 														style="width: 200px" class="form-group">
 														<input type="number" class="form-control"
-															placeholder="gia" name="giatuan">
+															placeholder="gia" name="giatuan" value=0 min="0" oninput="this.value = Math.abs(this.value)">
 													</div>
 												</div>
 											</li>
@@ -426,7 +426,7 @@ to {
 													<div id="removethang" hidden class="col-md-7"
 														style="width: 200px" class="form-group">
 														<input type="number" class="form-control"
-															placeholder="gia" name="giathang">
+															placeholder="gia" name="giathang" value=0 min="0" oninput="this.value = Math.abs(this.value)">
 													</div>
 												</div>
 											</li>
@@ -450,7 +450,7 @@ to {
 													<div id="removenam" hidden class="col-md-7"
 														style="width: 200px" class="form-group">
 														<input type="number" class="form-control"
-															placeholder="gia" name="gianam">
+															placeholder="gia" name="gianam" value=0 min="0" oninput="this.value = Math.abs(this.value)">
 													</div>
 												</div>
 											</li>

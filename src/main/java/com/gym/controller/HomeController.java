@@ -89,8 +89,9 @@ public class HomeController {
 				session.setAttribute("maQuyen", ""+item.getPhanQuyen().getMaQuyen());
 				return "redirect:manager/home";
 			}
+			
 	    }
-		
+		session.setAttribute("thongbao","0"); 
 		modelMap.addAttribute("error", "Sai Username hoặc Password!");
 		return "introduce/login";
 		

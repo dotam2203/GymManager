@@ -38,8 +38,7 @@
 				<div class="signin-form">
 					
 					<h2 class="form-title" style="text-align: center;">Đăng Nhập</h2>
-					<form action="login" method="POST" class="register-form"
-						id="login-form">
+					<form action="login" method="POST" class="register-form" id="login-form">
 
 						<div class="form-group">
 							<label for="your_name"><i
@@ -64,6 +63,11 @@
 								class="form-submit" value="Log in" />
 						</div>
 					</form>
+					 <script>
+      if("${thongbao}"=="0"){
+    	  demo.showNotification('top','right',' Login thất bại! ','3');
+      }
+      </script>
 					<br>
 					<form action="home">
 						<a href="#" class="signup-image-link">

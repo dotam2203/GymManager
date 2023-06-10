@@ -4,6 +4,9 @@
 
 
       <%@ include file="/resources/include/navbarmn.jsp" %>
+      <script>
+      		demo.showNotification('top','right',' Nhân viên login thành công!','2')
+      </script>
    <c:forEach var="the_ctt" items="${thes_ctt}"> 
       <script>
       	var mathe="${the_ctt.maThe}";
